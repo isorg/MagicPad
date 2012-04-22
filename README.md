@@ -1,4 +1,4 @@
 MagicPad
 ========
 
-MagicPad (PC version)
+MagicPad (PC version) demonstration software.
