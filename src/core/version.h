@@ -1,0 +1,9 @@
+#ifndef VERSION_H
+#define VERSION_H
+ 
+#define MAGICPAD_VERSION_MAJOR "0"
+#define MAGICPAD_VERSION_MINOR "1"
+#define MAGICPAD_VERSION_PATCH "7"
+#define MAGICPAD_VERSION_STR "0.1.7"
+ 
+#endif // VERSION_H

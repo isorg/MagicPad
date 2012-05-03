@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<text>
+        <applet name="alphabet">
+                <description>Place a letter on top of the MagicPad and this applet will recognizes it! Any orientation will work as long as the whole letter is over the sensor. Slowly moving the letter over the sensor increase the overall performance.</description>
+                <marketing> Typical application include but are not limited to: gaming device, document imaging, medical imaging and industrial process control. ISORG imaging sensors are thin and flexible allowing them to be included in a broad range of application.</marketing>
+                <technical>This specific algorithm compares images from the MagicPad against a known set of classified objects and find the closest one. Surface up to 380x320mm. Pitch down to 0.5mm. Area coverage of 25%.</technical>
+        </applet>
+		
+        <applet name="backlight">
+                <description>This applet will automatically adjusts the picture back-light intensity to match the light intensity over the MagicPad.</description>
+                <marketing>Embedding ISORG light detectors in displays enables automatic local backlight adjustments, saving battery life and increasing eye comfort. ISORG light detectors are transparent.</marketing>
+                <technical>ISORG organic photodiodes have a large signal dynamic range of 4 decades making them suitable for 1-to-100000 lux applications.</technical>
+        </applet>
+		
+        <applet name="bargraph">
+                <description>This is the bargraph description text. The description text briefly descibes the applets and how to use it.</description>
+                <marketing>This is the marketing text bargraph. The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
+                <technical>This is the technical text bargraph. The technical text explain some details about the applet and usefull information about the sensors.</technical>
+        </applet>
+
+        <applet name="bulb">
+                <description>This is the bulb description text. The description text briefly descibes the applets and how to use it.</description>
+                <marketing>This is the marketing text bulb. The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
+                <technical>This is the technical text bulb. The technical text explain some details about the applet and usefull information about the sensors.</technical>
+        </applet>
+		
+        <applet name="cooktop">
+                <description>This is the cooktop description text. The description text briefly descibes the applets and how to use it.</description>
+                <marketing>This is the marketing text bargraph. The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
+                <technical>This is the technical text bargraph. The technical text explain some details about the applet and usefull information about the sensors.</technical>
+        </applet>
+        
+        <applet name="dj">
+                <description>Use the tip of your hand to spin the disk. Quisque tincidunt diam ut mauris tincidunt auctor venenatis dolor venenatis. Vestibulum et molestie sapien. </description>
+                <marketing>ISORG sensors provides natural gestures recognition for intuitives user interface. Nunc volutpat gravida libero, nec tincidunt ipsum gravida at. Curabitur nec nisi sit amet ipsum interdum consectetur. Proin eget purus eget eros venenatis sollicitudin. </marketing>
+                <technical>Motion calculation is based on Farneback dense optical flow algorithm. MagicPad sensor is a 10-by-10 sensor matrix. The pitch (distance between two pixels) is 8mm but can be reduced to fit desired application.</technical>
+        </applet>
+
+        <applet name="gesture">
+                <description>Draw shapes using the tip of your finger. Pre-registered shapes can be detected demonstrating the gesture recognition capabilities of the MagicPad.</description>
+                <marketing>Typical application includes innovative user interfaces, security systems, ...</marketing>
+                <technical>Motion calculation is based on Farneback dense optical flow algorithm. Motion direction is sampled and compared against a dictionary.</technical>
+        </applet>
+		
+        <applet name="imagedisplay">
+                <description>Display raw image from the sensor. Every single sensors of the MagicPad are mapped to a pixel of this image. Bright pixels means that sensor receive more light.</description>
+                <marketing>This is the marketing text imagedisplay. The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
+                <technical>ISORG organic photodiodes are light sensitive from 400nm (blue) to 850nm (near infrared). Sensor framerate is fixed at 20 frames per second but can go as high as 1000fps for specific application. The organic photodiode rise time is less than 1µs.</technical>
+        </applet>
+		
+        <applet name="maps">
+                <description>Pan the map using your hand as a joystick.</description>
+                <marketing>By using the body as the controller, ISORG sensors provides intuitive user interface for a broad range of applications. No need to carry special gloves or markers. Any body part or object can be used as the controller. </marketing>
+                <technical>The MagicPad can detect hand position up to 15cm from the sensor. Motion resolution depends on ambiant light conditions. </technical>
+        </applet>
+
+        <applet name="music">
+                <description>Contol the volume.</description>
+                <marketing>Marketing text placeholder.</marketing>
+                <technical>Technical text placeholder.</technical>
+        </applet>
+
+        <applet name="opd">
+                <description>Display raw data from sensor. This applet is provided solely for debugging purposes.</description>
+                <marketing>By encouraging open design, ISORG makes it easy for developers to access sensor information and use existing code base to increase productivity and promotes innovative products.</marketing>
+                <technical>Framerate: 20 frames per second. Pixel depth: 8bits. Data is sent through a virtual COM port over USB or Bluetooth.</technical>
+        </applet>
+        
+        <applet name="panda">
+                <description>Play with Magic Panda! Swap to move the panda left or right. Change hand elevation to make the Panda lean back and forth. Spin the hand to twist the Panda.</description>
+                <marketing>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel orci diam. Nulla accumsan elit at felis mollis sodales.</marketing>
+                <technical>Complex user interaction can be made more robust by coupling the optical sensor with an infrared emitter.</technical>
+        </applet>
+
+        <applet name="pictureflow">
+                <description>Control iTunes coverflow interface through MagicPad. Browse iTunes album by swaping left or right.</description>
+                <marketing> ISORG sensors integrate nicely with existing application, providing a natural user interface.</marketing>
+                <technical>Such applications may require only a few photodiode instead of a complete  10 by 10 optical sensor.</technical>
+        </applet>
+
+        <applet name="purple">
+                <description> Use the MagicPad as a virtual 3D joystick. Your hand is the device.</description>
+                <marketing>Natural 3D touchless interfaces. By sensing the userâ€™s hand position over the device, ISORG optical sensor can be used to control motion in a 3D environment for example.</marketing>
+                <technical>Different algorithms can be used to enhance sensitivity, responsivity and precision. Vivamus justo justo, elementum sit amet tristique in, euismod vitae ligula.</technical>
+        </applet>
+		
+        <applet name="rollingball">
+                <description>Catch the fullerene molecule (C_60) with the magic ball. Tilt the plateform by positioning your hand on the left or right side of the MagicPad. The time allowed to catch the target is limited.</description>
+                <marketing>ISORG organic photodiode form factor and unique properties ...</marketing>
+                <technical>Such applications may require only a few photodiode instead of a complete  10 by 10 optical sensor.</technical>
+        </applet>
+		
+        <applet name="slideshow">
+                <description>Switch to the next slide using left-right swap motion across the MagicPad. The description text briefly descibes the applets and how to use it.</description>
+                <marketing>This is the marketing text slideshow. The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
+                <technical>Such applications may require only a few photodiode instead of a complete  10 by 10 optical sensor.</technical>
+        </applet>
+        
+        <applet name="surface">
+                <description>This applet plots a 3D surface representing the light intensity over the MagicPad. Use your fingers to carve the volume.</description>
+                <marketing> ISORG optical sensor enables a broad new range of 3D interactive user interfaces by adding a 3rd dimension. MagicPad sensor provides unique interface for gaming, automotive and consumer electronic.</marketing>
+                <technical>Surface resolution is increased using cubic interpolation. The sensor can use ambiant light or can be coupled with an infrared emitter to increase robusteness. </technical>
+        </applet>
+        
+        <applet name="switch">
+                <description>This applet demonstrate the use of optical sensor as a touchless switch.</description>
+                <marketing>Only one sensor is nessessary for the 'switch' function. ISORG sensors unique physical properties makes for easy integration into existing products and new innovative designs.</marketing>
+                <technical>Such applications may require only a few photodiode instead of a complete  10 by 10 optical sensor. Sensors are deposited on a flexible, semi-transparent substrate. The whole stack thickness is less that 1mm.</technical>
+        </applet>
+                
+        <applet name="templateapplet">
+                <description>This is the templateapplet description text. The description text briefly descibes the applets and how to use it.</description>
+                <marketing>This is the marketing text. The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
+                <technical>This is the technical text. The technical text explain some details about the applet and usefull information about the sensors.</technical>
+        </applet>
+		
+        <applet name="twist">
+                <description>This applet shows a virtual button that can be twisted like a real one.</description>
+                <marketing>This is the marketing text. twist The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
+                <technical>The three representations (Knob, Oven timer and Optical Flow) are based on the same algorithm: the Farneback dense optical flow. Local (dense) vector motion is computed for every pixel to obtain a two-dimentional vector field. Global field motion can be translated into a rotation measurement.</technical>
+        </applet>
+		
+        <applet name="tyuu">
+                <description>Innosens has developed this revamped version of the much beloved classic Pong game. Balls have been replaced by light rays and Snell-Descartes optical law has been mixed in. Hand elevation controls the racket position.</description>
+                <marketing>???????????????????????????????????????????????????????????? ????????????????????????????????????????????????????????????</marketing>
+                <technical>Such applications may require only a few photodiode instead of a complete  10 by 10 optical sensor.</technical>
+        </applet>
+		
+        <applet name="vumeter">
+                <description>Control the volume indicator using the MagicPad as a proximity sensor. The indicator level measures the hand proximity to the sensor.</description>
+                <marketing>Touchless volume/intensity control. Typical application include but are not limited to: home appliances, consumer electronic, robust user interface.</marketing>
+                <technical>Can use ambiant light or infrared-light for sensitive application. Can detect up to 2m (natural light) or 30cm (infrared light). Such applications may require only a few photodiode instead of a complete 10 by 10 optical sensor.</technical>
+        </applet>
+</text>
