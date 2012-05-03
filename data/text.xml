@@ -23,12 +23,6 @@
                 <marketing>This is the marketing text bulb. The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
                 <technical>This is the technical text bulb. The technical text explain some details about the applet and usefull information about the sensors.</technical>
         </applet>
-		
-        <applet name="cooktop">
-                <description>This is the cooktop description text. The description text briefly descibes the applets and how to use it.</description>
-                <marketing>This is the marketing text bargraph. The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
-                <technical>This is the technical text bargraph. The technical text explain some details about the applet and usefull information about the sensors.</technical>
-        </applet>
         
         <applet name="dj">
                 <description>Use the tip of your hand to spin the disk. Quisque tincidunt diam ut mauris tincidunt auctor venenatis dolor venenatis. Vestibulum et molestie sapien. </description>
