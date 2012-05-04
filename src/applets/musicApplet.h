@@ -44,7 +44,7 @@ protected:
     void hideEvent(QHideEvent *e) {
         if( m_mediaObject ) {
             m_mediaObject->pause();
-            setStoppingButton();
+            setPlayingButton();
         }
         Applet::hideEvent(e);
     }
@@ -52,7 +52,7 @@ protected:
     void showEvent(QShowEvent *e) {
         if( m_mediaObject ) {
             m_mediaObject->play();
-            setPlayingButton();
+            setStoppingButton();
         }
         Applet::showEvent(e);
     }
