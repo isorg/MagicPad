@@ -76,6 +76,7 @@ magicpad_install_files("${PROJECT_SOURCE_DIR}/3rdparty/qwt3d/lib/qwtplot3d.dll" 
 #
 # Plugins
 #
+magicpad_install_files("${PROJECT_SOURCE_DIR}/data/.placeholder" "plugins/.")
 set(PLUGIN_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/plugins")
 
 add_subdirectory(src)
