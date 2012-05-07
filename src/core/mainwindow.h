@@ -1,8 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtGui>
-#include <QtCore>
+#include <QGraphicsView>
+#include <QMainWindow>
+#include <QSettings>
+#include <QWidget>
 
 #include "version.h"
 

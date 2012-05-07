@@ -1,7 +1,7 @@
 #ifndef APPLETINTERFACE_H
 #define APPLETINTERFACE_H
 
-#include <QtGui>
+#include <QWidget>
 #include <opencv2/opencv.hpp>
 
 /**

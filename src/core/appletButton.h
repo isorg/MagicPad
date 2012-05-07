@@ -1,10 +1,12 @@
 #ifndef APPLETBUTTON_H
 #define APPLETBUTTON_H
 
-#include <QtGui>
-#include <QtCore>
+#include <QGraphicsDropShadowEffect>
+#include <QGraphicsWidget>
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
 
-#include "applets/applet.h"
+#include "applets/appletInterface.h"
 
 #define APPLETSHADOW_BLUR_RADIUS 15.0
 #define APPLETSHADOW_X_OFFSET 8.0

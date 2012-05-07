@@ -1,10 +1,11 @@
 #ifndef SWITCHAPPLET_H
 #define SWITCHAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
+
+#include <QPainter>
+#include <QSound>
+#include <QPropertyAnimation>
 
 #include "filters/calibrationFilter.h"
 #include "filters/switchFilter.h"

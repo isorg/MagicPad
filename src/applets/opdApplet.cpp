@@ -23,7 +23,7 @@ OpdApplet::OpdApplet(QWidget *parent) : Applet(parent)
 /**
  *
  */
-void OpdApplet::mousePressEvent( QGraphicsSceneMouseEvent *event )
+void OpdApplet::mousePressEvent( QMouseEvent * event )
 {
     if( (event->button() & Qt::LeftButton) || (event->button() & Qt::MiddleButton) )
     {

@@ -1,10 +1,14 @@
 #ifndef ROLLINGBALLAPPLET_H
 #define ROLLINGBALLAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
+
+#include <QPainter>
+#include <QLCDNumber>
+#include <QHBoxLayout>
+#include <QTimer>
+#include <QTime>
+#include <QSound>
 
 #include "filters/calibrationFilter.h"
 

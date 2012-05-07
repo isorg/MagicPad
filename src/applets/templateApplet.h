@@ -1,9 +1,6 @@
 #ifndef TEMPLATEAPPLET_H
 #define TEMPLATEAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
 
 #define TEMPLATEAPPLET_NAME "templateapplet"

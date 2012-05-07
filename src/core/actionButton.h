@@ -1,8 +1,10 @@
 #ifndef ACTIONBUTTON_H
 #define ACTIONBUTTON_H
 
-#include <QtGui>
-#include <QtCore>
+#include <QStyleOptionGraphicsItem>
+#include <QGraphicsDropShadowEffect>
+#include <QGraphicsWidget>
+#include <QPainter>
 
 class ButtonShadowEffect : public QGraphicsDropShadowEffect
 {

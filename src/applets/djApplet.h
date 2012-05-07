@@ -1,10 +1,9 @@
 #ifndef DJAPPLET_H
 #define DJAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
+
+#include <QPainter>
 
 #include "filters/calibrationFilter.h"
 #include "filters/rotationFilter.h"

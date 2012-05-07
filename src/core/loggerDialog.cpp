@@ -55,7 +55,7 @@ void LoggerDialog::refreshText()
 {
     //QLOG_TRACE() << "refreshing log text...";
     // TODO: log file should be DEFINED or set via logger->setLogfile(const QString& file)
-    QFile file("log.txt");
+    QFile file(qApp->applicationDirPath() + "/log.txt");
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
          return;

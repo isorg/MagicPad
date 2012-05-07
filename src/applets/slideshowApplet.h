@@ -1,13 +1,16 @@
 #ifndef SLIDESHOWAPPLET_H
 #define SLIDESHOWAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include <windows.h>
 #include <WinAble.h>
 
 #include "applet.h"
+
+#include <QDesktopServices>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QUrl>
 
 #include "filters/calibrationFilter.h"
 #include "filters/swapFilter.h"

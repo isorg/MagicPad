@@ -3,6 +3,12 @@
 
 #include "applet.h"
 
+#include <QPainter>
+#include <QLabel>
+#include <QPushButton>
+#include <QSlider>
+#include <QGridLayout>
+
 #include "filters/calibrationFilter.h"
 
 #define BULB_NAME "bulb"

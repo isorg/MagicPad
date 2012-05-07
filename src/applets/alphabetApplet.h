@@ -3,6 +3,17 @@
 
 #include "applet.h"
 
+#include <QTimer>
+#include <QSignalTransition>
+#include <QAbstractTransition>
+#include <QParallelAnimationGroup>
+#include <QPropertyAnimation>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsView>
+#include <QStateMachine>
+#include <QTime>
+#include <QVBoxLayout>
+
 #include "filters/calibrationFilter.h"
 #include "filters/alphabetFilter.h"
 

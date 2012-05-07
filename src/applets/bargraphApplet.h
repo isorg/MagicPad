@@ -1,9 +1,6 @@
 #ifndef BARGRAPHAPPLET_H
 #define BARGRAPHAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
 
 #include "filters/calibrationFilter.h"

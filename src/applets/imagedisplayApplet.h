@@ -1,10 +1,9 @@
 #ifndef IMAGEDISPLAY_H
 #define IMAGEDISPLAY_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
+
+#include <QPainter>
 
 #include "filters/calibrationFilter.h"
 

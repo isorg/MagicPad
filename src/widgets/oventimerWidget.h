@@ -1,7 +1,12 @@
 #ifndef OVENTIMER_H
 #define OVENTIMER_H
 
-#include <QtGui>
+#include <QtCore/qmath.h>
+#include <QDateTime>
+#include <QMouseEvent>
+#include <QPainter>
+#include <QTimer>
+#include <QWidget>
 
 #define OVENTIMER_DEGREE_PER_MINUTE 7.0
 #define OVENTIMER_DEGREE_PER_SECOND (OVENTIMER_DEGREE_PER_MINUTE / 60.0)

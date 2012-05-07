@@ -1,10 +1,11 @@
 #ifndef TWISTAPPLET_H
 #define TWISTAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
+
+#include <QDial>
+#include <QGridLayout>
+#include <QPushButton>
 
 #include "filters/calibrationFilter.h"
 #include "filters/delayFilter.h"

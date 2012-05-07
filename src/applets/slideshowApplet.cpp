@@ -47,14 +47,14 @@ void SlideshowApplet::openFile()
         QDir::currentPath(),
         tr("Microsoft PowerPoint, Adobe PDF(*.ppt *.pdf)") );
 
-    if(fileName.isNull())
+    if( fileName.isNull() )
     {
         return;
     }
 
     // Run external viewer
-    QUrl url = QUrl::fromLocalFile(fileName);
-    if(!QDesktopServices::openUrl(url))
+    QUrl url = QUrl::fromLocalFile( fileName );
+    if( !QDesktopServices::openUrl( url ) )
     {
         QMessageBox msgBox;
         msgBox.setText(QString("Unable to open %1").arg(url.toString()));

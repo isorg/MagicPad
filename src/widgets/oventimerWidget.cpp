@@ -66,7 +66,7 @@ void OvenTimerWidget::mousePressEvent(QMouseEvent *event)
 {
     return;
     QPointF point = event->pos() - rect().center();
-    double theta = atan2(-point.x(), -point.y()) * 180 / 3.14159265359;
+    double theta =  qAtan2(-point.x(), -point.y()) * 180 / 3.14159265359;
     setDuration(duration() + int(theta / OVENTIMER_DEGREE_PER_SECOND));
     update();
 }

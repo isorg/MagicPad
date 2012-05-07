@@ -2,7 +2,8 @@
 #ifndef EXAMPLEPLUGINAPPLET_H
 #define EXAMPLEPLUGINAPPLET_H
 
-#include <QtGui>
+#include <QLabel>
+#include <QWidget>
 
 #include "applets/appletInterface.h"
 

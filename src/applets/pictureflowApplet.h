@@ -1,10 +1,12 @@
 #ifndef PICTUREFLOWAPPLET_H
 #define PICTUREFLOWAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
+
+#include <QApplication>
+#include <QDir>
+#include <QPainter>
+#include <QResizeEvent>
 
 #include "filters/calibrationFilter.h"
 #include "filters/swapFilter.h"

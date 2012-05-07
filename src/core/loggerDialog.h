@@ -1,8 +1,15 @@
 #ifndef LOGGERDIALOG_H
 #define LOGGERDIALOG_H
 
-#include <QtGui>
-#include <QtCore>
+#include <QApplication>
+#include <QDialog>
+#include <QPlainTextEdit>
+#include <QPushButton>
+#include <QScrollBar>
+#include <QSyntaxHighlighter>
+#include <QTimer>
+#include <QVBoxLayout>
+
 
 // Debug
 #include "QsLog.h"

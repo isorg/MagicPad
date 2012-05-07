@@ -1,15 +1,19 @@
 #ifndef MUSICAPPLET_H
 #define MUSICAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
+#include "applet.h"
 
+#include <QApplication>
+#include <QSlider>
+#include <QPushButton>
+#include <QLabel>
+#include <QGridLayout>
+#include <QTime>
+#include <QCloseEvent>
 #include <phonon/audiooutput.h>
 #include <phonon/seekslider.h>
 #include <phonon/mediaobject.h>
 #include <phonon/backendcapabilities.h>
-
-#include "applet.h"
 
 #include "filters/calibrationFilter.h"
 #include "filters/meanFilter.h"
@@ -39,7 +43,7 @@ public:
 
 protected:
 
-    void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent * event);
 
     void hideEvent(QHideEvent *e) {
         if( m_mediaObject ) {

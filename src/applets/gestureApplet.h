@@ -1,10 +1,9 @@
 #ifndef GESTUREAPPLET_H
 #define GESTUREAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
+
+#include <QPainter>
 
 #include "filters/calibrationFilter.h"
 #include "filters/objectDetectionFilter.h"

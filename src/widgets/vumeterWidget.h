@@ -1,8 +1,9 @@
 #ifndef VUMETER_H
 #define VUMETER_H
 
-#include <QtGui>
 #include <QWidget>
+#include <QPainter>
+#include <QVector>
 
 class VuMeterWidget : public QWidget
 {

@@ -1,11 +1,10 @@
 #ifndef MAPSAPPLET_H
 #define MAPSAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-#include <QtWebKit/QtWebKit>
-
 #include "applet.h"
+
+#include <QtWebKit/QtWebKit>
+#include <QHBoxLayout>
 
 #include "filters/calibrationFilter.h"
 #include "filters/joystickFilter.h"

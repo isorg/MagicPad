@@ -19,7 +19,7 @@
         </applet>
 
         <applet name="bulb">
-                <description>This is the bulb description text. The description text briefly descibes the applets and how to use it.</description>
+                <description>Control the light intensity.</description>
                 <marketing>This is the marketing text bulb. The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
                 <technical>This is the technical text bulb. The technical text explain some details about the applet and usefull information about the sensors.</technical>
         </applet>

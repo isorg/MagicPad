@@ -1,7 +1,7 @@
 #ifndef FILTER_H
 #define FILTER_H
 
-#include <QtCore>
+#include <QObject>
 #include "QsLog.h"
 
 #include <opencv2/opencv.hpp>

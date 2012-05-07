@@ -1,7 +1,8 @@
 #ifndef OPTICALFLOWWIDGET_H
 #define OPTICALFLOWWIDGET_H
 
-#include <QtGui>
+#include <QWidget>
+#include <QPainter>
 
 #include <opencv2/opencv.hpp>
 

@@ -1,6 +1,9 @@
-#include <QtGui>
-#include <QtCore>
-#include <opencv2/opencv.hpp>
+
+#include <QApplication>
+#include <QMessageBox>
+#include <QPixmap>
+#include <QSplashScreen>
+#include <QFile>
 
 #include "QsLog.h"
 #include "QsLogDest.h"
@@ -9,11 +12,19 @@
 #include "version.h"
 
 // Log file
-#define APPLICATION_LOG_FILE "log.txt"
+#define APPLICATION_LOG_FILE "/log.txt"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    QFile file(qApp->applicationDirPath() + "/log.txt");
+
+    if(!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+        QMessageBox m;
+        m.setText( "Error opening " + file.fileName() + " with error #" + QString::number( file.error() ) );
+        m.exec();
+    }
 
     // Splashscreen
     QPixmap pixmap(":/image/isorg.jpg");
@@ -26,7 +37,7 @@ int main(int argc, char *argv[])
 
     logger.setLoggingLevel(QsLogging::TraceLevel);
 
-    const QString sLogPath(QDir(qApp->applicationDirPath()).filePath( APPLICATION_LOG_FILE ));
+    const QString sLogPath( qApp->applicationDirPath() + APPLICATION_LOG_FILE );
 
     QsLogging::DestinationPtr fileDestination(
         QsLogging::DestinationFactory::MakeFileDestination(sLogPath) );

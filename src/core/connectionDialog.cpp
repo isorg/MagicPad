@@ -121,5 +121,5 @@ void ConnectionDialog::refreshList()
  */
 void ConnectionDialog::setSelectedDevice(QString& device)
 {
-    qDebug() << "Selecting device:" << device;
+    //qDebug() << "Selecting device:" << device;
 }

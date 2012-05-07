@@ -3,6 +3,8 @@
 
 #include "applet.h"
 
+#include <QPainter>
+
 #include "filters/calibrationFilter.h"
 #include "filters/meanFilter.h"
 

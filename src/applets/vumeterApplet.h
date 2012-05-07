@@ -1,10 +1,10 @@
 #ifndef VUMETERAPPLET_H
 #define VUMETERAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
+
+#include <QHBoxLayout>
+#include <QList>
 
 #include "filters/calibrationFilter.h"
 #include "filters/meanFilter.h"

@@ -1,8 +1,9 @@
 #ifndef ACTIONBAR_H
 #define ACTIONBAR_H
 
-#include <QtCore>
-#include <QtGui>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QWidget>
 
 #include "QsLog.h"
 

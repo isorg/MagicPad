@@ -1,10 +1,9 @@
 #ifndef PURPLEAPPLET_H
 #define PURPLEAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
+
+#include <QPainter>
 
 #include "filters/calibrationFilter.h"
 #include "filters/joystickFilter.h"

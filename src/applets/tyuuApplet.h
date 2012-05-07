@@ -1,9 +1,6 @@
 #ifndef TYUUAPPLET_H
 #define TYUUAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
 
 #define TYUU_NAME "tyuu"

@@ -1,8 +1,11 @@
 #ifndef ARROWHINTWIDGET_H
 #define ARROWHINTWIDGET_H
 
-#include <QtGui>
-#include <QtCore>
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QPainter>
+#include <QTimer>
+#include <QWidget>
 
 #include "QsLog.h"
 

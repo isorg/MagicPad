@@ -1,8 +1,7 @@
 #ifndef APPLET_H
 #define APPLET_H
 
-#include <QtGui>
-#include <QtXml>
+#include <QWidget>
 #include "QsLog.h"
 
 #include <opencv2/opencv.hpp>

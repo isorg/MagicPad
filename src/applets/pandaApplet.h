@@ -1,9 +1,6 @@
 #ifndef PANDAAPPLET_H
 #define PANDAAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
 
 #define PANDA_NAME "panda"

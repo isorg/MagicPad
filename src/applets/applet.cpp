@@ -1,5 +1,7 @@
 #include "applet.h"
 
+#include <QtXml>
+
 const QString Applet::TAG = QString("Applet");
 
 /**

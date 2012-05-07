@@ -1,16 +1,24 @@
 #ifndef CONNECTIONDIALOG_H
 #define CONNECTIONDIALOG_H
 
-#include <QtGui>
-#include <QtCore>
+#include <QCheckBox>
+#include <QDialog>
+#include <QGroupBox>
+#include <QLabel>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QScrollArea>
+#include <QVBoxLayout>
 
 #define CONNECTIONDIALOG_SCANNING   "<i>Scanning for MagicPad devices ...</i>"
 #define CONNECTIONDIALOG_FOUND      "<i>(%1) device(s) found.</i>"
 
 class ConnectionDialog : public QDialog
 {
-    Q_OBJECT    
+    Q_OBJECT
+
 public:
+
     ConnectionDialog(QWidget *parent = 0);
 
 signals:

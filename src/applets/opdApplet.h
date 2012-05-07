@@ -1,10 +1,10 @@
 #ifndef OPDAPPLET_H
 #define OPDAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
+
+#include <QPainter>
+#include <QMouseEvent>
 
 #include "filters/calibrationFilter.h"
 
@@ -17,13 +17,16 @@
 class OpdApplet : public Applet
 {
     Q_OBJECT
+
 public:    
+
     static const QString TAG;
 
     OpdApplet(QWidget *parent = 0);
 
 public slots:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+
+    void mousePressEvent(QMouseEvent * event);
 
     void paintEvent(QPaintEvent *);
 

@@ -1,9 +1,6 @@
 #ifndef SURFACEAPPLET_H
 #define SURFACEAPPLET_H
 
-#include <QtCore>
-#include <QtGui>
-
 #include "applet.h"
 
 #include "filters/calibrationFilter.h"

@@ -3,6 +3,9 @@
 
 #include "filter.h"
 
+#include <QStateMachine>
+#include <QTimer>
+
 #define SWAPFILTER_THRESHOLD_LOW 190
 #define SWAPFILTER_THRESHOLD_HIGH 210
 
