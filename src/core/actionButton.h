@@ -6,10 +6,16 @@
 #include <QGraphicsWidget>
 #include <QPainter>
 
+/**
+ *
+ */
 class ButtonShadowEffect : public QGraphicsDropShadowEffect
 {
+
     Q_OBJECT
+
 public:
+
     ButtonShadowEffect(QObject *parent = 0) : QGraphicsDropShadowEffect(parent)
     {
         setBlurRadius(7.0);
@@ -18,10 +24,16 @@ public:
     }
 };
 
+/**
+ *
+ */
 class ActionButton : public QGraphicsWidget
 {
+
     Q_OBJECT
+
 public:
+
     ActionButton(const QPixmap& pix, QGraphicsItem *parent = 0);
 
     QRectF boundingRect() const;

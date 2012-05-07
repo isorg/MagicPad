@@ -16,6 +16,7 @@
  */
 class OpdApplet : public Applet
 {
+
     Q_OBJECT
 
 public:    

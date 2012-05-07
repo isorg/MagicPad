@@ -43,6 +43,10 @@ void OpdApplet::mousePressEvent( QMouseEvent * event )
  */
 void OpdApplet::paintEvent(QPaintEvent *)
 {
+    if( mCal.empty() || mRaw.empty() || mRef.empty() ) {
+        return;
+    }
+
     QPainter painter( this );
     // draw image
     painter.setPen( Qt::NoPen );
@@ -109,4 +113,9 @@ void OpdApplet::reset()
 {
     mCalibrationFilter->reset();
     mImageCounter = 1;
+
+    mCal = cv::Mat();
+    mRef = cv::Mat();
+    mRaw = cv::Mat();
+
 }

@@ -16,6 +16,7 @@ ImagedisplayApplet::ImagedisplayApplet(QWidget *parent) : Applet(parent)
 
     // Filters pipeline
     mCalibrationFilter = new CalibrationFilter();
+    mFrame = cv::Mat();
 }
 
 /**
@@ -23,6 +24,10 @@ ImagedisplayApplet::ImagedisplayApplet(QWidget *parent) : Applet(parent)
  */
 void ImagedisplayApplet::paintEvent(QPaintEvent *)
 {
+    if( mFrame.empty() ) {
+        return;
+    }
+
     QPainter painter( this );
 
     // Placeholder drawing
