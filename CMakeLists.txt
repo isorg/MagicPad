@@ -67,13 +67,6 @@ add_subdirectory("3rdparty/QsLog")
 find_package(OpenCV REQUIRED)
 
 #
-# QWT 3D Plot
-#
-#include_directories("${PROJECT_SOURCE_DIR}/3rdparty/qwtplot3d/include")
-#link_directories("${PROJECT_SOURCE_DIR}/3rdparty/qwtplot3d-build/lib/release")
-#magicpad_install_files("${PROJECT_SOURCE_DIR}/3rdparty/qwtplot3d-build/lib/release/qwtplot3d.dll" ".")
-
-#
 # Plugins
 #
 magicpad_install_files("${PROJECT_SOURCE_DIR}/data/.placeholder" "plugins/.")
@@ -95,7 +88,6 @@ add_executable(MagicPad WIN32
 
 target_link_libraries(MagicPad
     ${QT_LIBRARIES}
-    #qwtplot3d
     ${OpenCV_LIBS}
     ftd2xx
     )

@@ -152,7 +152,13 @@ private:
     QList< AppletInterface* > mApplets;
     QState *rootState;
 
+    // Settings
     QSettings *mSettings;
+    bool mShowLogger;
+    bool mShowBack;
+    bool mShowQuit;
+    bool mShowText;
+
 };
 
 #endif // MAINWINDOW_H

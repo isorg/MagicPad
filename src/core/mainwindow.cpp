@@ -97,24 +97,22 @@ void MainWindow::setupUI()
     actionBar->setZValue( 100 );
     scene->addItem( actionBar );
 
+    // Back button
     ActionButton *backButton = new ActionButton(QPixmap(":image/reverse.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
-    ActionButton *messageButton = new ActionButton(QPixmap(":image/message.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
-    ///ActionButton *connectedButton = new ActionButton(QPixmap(":image/wire_less.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
-    ///ActionButton *parametersButton = new ActionButton(QPixmap(":image/work.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
-    ActionButton *quitButton = new ActionButton(QPixmap(":image/power.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
-
-    // top left button
     backButton->setPos(5, 25);
     connect(backButton, SIGNAL(pressed()), this, SLOT(closeCurrentAppletLater()));
 
-    // bottom left butons
-    ///parametersButton->setPos( 5, mScreen.height()-200 );
-    ///messageButton->setPos( 5, mScreen.height()-150 );
+    // Logger button
+    ActionButton *messageButton = new ActionButton(QPixmap(":image/message.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
     messageButton->setPos( 5, mScreen.height()-140 );
+    if( !mShowLogger ) messageButton->hide();
     connect( messageButton, SIGNAL(pressed()), mLogger, SLOT(exec()) );
-    ///connectedButton->setPos( 5, mScreen.height()-100 );
-    quitButton->setPos(5, mScreen.height()-50 );
 
+
+    // Quit button
+    ActionButton *quitButton = new ActionButton(QPixmap(":image/power.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
+    quitButton->setPos(5, mScreen.height()-50 );
+    if( !mShowQuit ) quitButton->hide();
     connect( quitButton, SIGNAL(pressed()), this, SLOT(close()) );
 
     // === Applets === //
@@ -137,6 +135,7 @@ void MainWindow::setupUI()
     mText->setPos( 50, 50 );
     mText->setTextWidth( 400 );
     mText->setGraphicsEffect( new AppletShadowEffect() );
+    if( !mShowText ) mText->hide();
     scene->addItem( mText );
 
     // === Animation === //
@@ -162,8 +161,12 @@ void MainWindow::setupUI()
 
     appState->assignProperty(mText, "pos", QPointF(50, 150));
     appState->assignProperty(mAppletButtonGrid, "pos", origin - QPointF(mScreen.width(), 10));
-    appState->assignProperty(mAppletRect, "pos", QPointF(500, 10));
-    appState->assignProperty(backButton, "visible", true);
+    if( mShowText ) {
+        appState->assignProperty(mAppletRect, "pos", QPointF(500, 10));
+    } else {
+        appState->assignProperty(mAppletRect, "pos", QPointF(100, 10));
+    }
+    appState->assignProperty(backButton, "visible", true & mShowBack );
 
     // Animations
     // HOME -> APP : app icons out, then text in
@@ -267,7 +270,7 @@ void MainWindow::loadApplets(QGraphicsScene *scene)
     registerApplet( new PurpleApplet( mAppletRect ) );
     registerApplet( new RollingballApplet( mAppletRect ) );
     registerApplet( new SlideshowApplet( mAppletRect ) );
-    //registerApplet( new SurfaceApplet( mAppletRect ) );
+    registerApplet( new SurfaceApplet( mAppletRect ) );
     registerApplet( new SwitchApplet( mAppletRect ) );
     registerApplet( new TwistApplet( mAppletRect ) );
     //registerApplet( new tyuuApplet( mAppletRect ) );
@@ -399,4 +402,14 @@ void MainWindow::loadSettings()
 
     // Access setting value using:
     //mSettings->value("myapplet/autostart", "abc").toString();
+
+    mShowLogger = mSettings->value("show_log", true).toBool();
+    mShowBack = mSettings->value("show_back", true).toBool();
+    mShowQuit = mSettings->value("show_quit", true).toBool();
+    mShowText = mSettings->value("show_description_text", true).toBool();
+
+    /*QLOG_DEBUG() << TAG << "mShowLogger" << mShowLogger;
+    QLOG_DEBUG() << TAG << "mShowBack" << mShowBack;
+    QLOG_DEBUG() << TAG << "mShowQuit" << mShowQuit;
+    QLOG_DEBUG() << TAG << "mShowText" << mShowText;*/
 }
