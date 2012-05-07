@@ -69,9 +69,9 @@ find_package(OpenCV REQUIRED)
 #
 # QWT 3D Plot
 #
-include_directories("${PROJECT_SOURCE_DIR}/3rdparty/qwt3d/include")
-link_directories("${PROJECT_SOURCE_DIR}/3rdparty/qwt3d/lib")
-magicpad_install_files("${PROJECT_SOURCE_DIR}/3rdparty/qwt3d/lib/qwtplot3d.dll" ".")
+#include_directories("${PROJECT_SOURCE_DIR}/3rdparty/qwtplot3d/include")
+#link_directories("${PROJECT_SOURCE_DIR}/3rdparty/qwtplot3d-build/lib/release")
+#magicpad_install_files("${PROJECT_SOURCE_DIR}/3rdparty/qwtplot3d-build/lib/release/qwtplot3d.dll" ".")
 
 #
 # Plugins
@@ -95,7 +95,7 @@ add_executable(MagicPad WIN32
 
 target_link_libraries(MagicPad
     ${QT_LIBRARIES}
-    qwtplot3d
+    #qwtplot3d
     ${OpenCV_LIBS}
     ftd2xx
     )
