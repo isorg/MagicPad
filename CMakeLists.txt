@@ -6,20 +6,17 @@ cmake_minimum_required(VERSION 2.8.7)
 # Project name
 project(MAGICPAD)
 
-#list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/Modules")
-
 # include cmake scripts
 include(CMake/magicpad-macros.cmake)
 include(CMake/magicpad-testing.cmake)
 include(CMake/magicpad-version.cmake)
-#message(STATUS ${MAGICPAD_VERSION_STR})
 
 #
 # DLLs'
 #
 magicpad_install_files(3rdparty/dll/libgcc_s_dw2-1.dll ".")
-magicpad_install_files(3rdparty/dll//libstdc++-6.dll ".")
-magicpad_install_files(3rdparty/dll//mingwm10.dll ".")
+magicpad_install_files(3rdparty/dll/libstdc++-6.dll ".")
+magicpad_install_files(3rdparty/dll/mingwm10.dll ".")
 
 #
 # Find QT
@@ -49,6 +46,11 @@ magicpad_install_files(${QT_DLL_PATH}/phonon4.dll ".")
 magicpad_install_files(${QT_DLL_PATH}/../plugins/phonon_backend/phonon_ds94.dll "phonon_backend/.")
 
 #
+# Fin OpenGL
+#
+find_package(OpenGL REQUIRED)
+
+#
 # Find FTDI library
 #
 include_directories("${PROJECT_SOURCE_DIR}/3rdparty/ftdi")
@@ -62,9 +64,13 @@ include_directories("3rdparty/QsLog")
 add_subdirectory("3rdparty/QsLog")
 
 #
-# Find OpenCV
+# Find OpenCV & GLUT
 #
 find_package(OpenCV REQUIRED)
+#find_package(GLUT REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS})
+
+
 
 #
 # Plugins
@@ -89,6 +95,7 @@ add_executable(MagicPad WIN32
 target_link_libraries(MagicPad
     ${QT_LIBRARIES}
     ${OpenCV_LIBS}
+    ${OPENGL_LIBRARIES} #${GLUT_LIBRARY}
     ftd2xx
     )
 

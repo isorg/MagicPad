@@ -3,9 +3,9 @@
 
 #include "applet.h"
 
-#include <QPainter>
-
 #include "filters/calibrationFilter.h"
+
+#include "widgets/surfaceWidget.h"
 
 #define SURFACE_NAME "surface"
 #define SURFACE_TITLE "Surface"
@@ -28,19 +28,13 @@ public slots:
 
     void setFrame( cv::Mat& frame );
 
-    void paintEvent(QPaintEvent *) {
-        QPainter painter( this );
-        painter.fillRect( rect(), Qt::red );
-    }
-
 private:
-    void allocateData();
-
-    void setupSurface();
 
 private:
 
     CalibrationFilter *mCalibrationFilter;
+
+    SurfaceWidget *mSurfaceWidget;
 };
 
 #endif // SURFACEAPPLET_H
