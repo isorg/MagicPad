@@ -1,6 +1,7 @@
 
 set(SRCS_CORE
     ${CMAKE_CURRENT_SOURCE_DIR}/actionBar.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/descriptionText.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/mainwindow.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/appletButton.cpp

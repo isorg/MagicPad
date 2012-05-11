@@ -1,8 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QGraphicsView>
-#include <QMainWindow>
 #include <QSettings>
 #include <QWidget>
 
@@ -13,16 +11,15 @@
 
 // Core
 #include "actionBar.h"
+#include "actionButton.h"
+#include "appletButton.h"
 #include "connectionDialog.h"
+#include "descriptionText.h"
 #include "loggerDialog.h"
 
 // Com
 #include "com/magicPad.h"
 #include "com/frameProducer.h"
-
-// GUI
-#include "appletButton.h"
-#include "actionButton.h"
 
 // Applets
 #include "applets/templateApplet.h"
@@ -51,50 +48,10 @@
 
 #define APPLICATION_SETTINGS_FILE "config.ini"
 
-class View : public QGraphicsView
-{
-
-     Q_OBJECT
-
-public:
-
-     View(QGraphicsScene *scene) : QGraphicsView(scene)
-     {
-         setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-         setCacheMode(QGraphicsView::CacheBackground);
-
-         // Anti-aliasing
-         setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-
-         // (0,0) in the top left corner
-         setAlignment(Qt::AlignLeft | Qt::AlignTop);
-
-         // background image
-         _bg.load(":image/metal.jpg");
-     }
-
- protected:
-
-     void drawBackground(QPainter *painter, const QRectF &rect)
-     {
-         QRectF r = rect;
-
-         // increase rectangle size to erase antialiasing artifacts
-         r.adjust(-1, -1, 1, 1);
-         painter->setBrush(_bg);
-         painter->drawRect(r);
-     }
-
-     void resizeEvent(QResizeEvent *event)
-     {
-        QGraphicsView::resizeEvent(event);
-        fitInView(sceneRect(), Qt::KeepAspectRatio);
-     }
-
-     QPixmap _bg;
- };
-
-class MainWindow : public QMainWindow
+/**
+ *
+ */
+class MainWindow : public QWidget
 {
 
     Q_OBJECT
@@ -104,8 +61,6 @@ public:
     static const QString TAG;
 
     MainWindow(QWidget *parent = 0);
-
-    //~MainWindow() {}
 
 public slots:
     // TODO: autostart applet if specified in config.ini
@@ -117,15 +72,13 @@ public slots:
 
     void launchApplet(AppletInterface *applet);
 
-    void setAppletText(AppletInterface *applet);
-
     void testevent(cv::Mat img) { qDebug() << __LINE__; }
 
 signals:
     void goApplet();
 
 private:
-    void loadApplets(QGraphicsScene *scene);
+    void loadApplets();
 
     void loadSettings();
 
@@ -141,9 +94,9 @@ private slots:
 
 private:
     // UI
-    QGraphicsWidget *mAppletButtonGrid;
+    QWidget *mAppletButtonGrid;
     QWidget *mAppletRect;
-    QGraphicsTextItem *mText;
+    DescriptionText *mText;
     QRectF mScreen;
     LoggerDialog *mLogger;
 
@@ -158,6 +111,8 @@ private:
     bool mShowBack;
     bool mShowQuit;
     bool mShowText;
+
+    QPixmap _bg;
 
 };
 

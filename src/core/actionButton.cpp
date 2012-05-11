@@ -1,104 +1,23 @@
 #include "actionButton.h"
 
-/**
- *
- */
-ActionButton::ActionButton(const QPixmap& pix, QGraphicsItem *parent) :
-    QGraphicsWidget(parent), mPixmap(pix)
-{
-    // internal config
-    setAcceptHoverEvents(true);
-    setCacheMode(DeviceCoordinateCache);
-
-    // shadow effect
-    setGraphicsEffect(new ButtonShadowEffect);
-}
+#include <QPainter>
 
 /**
  *
  */
-QRectF ActionButton::boundingRect() const
+ActionButton::ActionButton(const QPixmap& pix, QWidget *parent) :
+    QPushButton(parent), mPixmap(pix)
 {
-    return QRectF(0, 0, mPixmap.width(), mPixmap.height());
+    setFixedSize(50, 50);
 }
 
 /**
  *
  */
-QPainterPath ActionButton::shape() const
+void ActionButton::paintEvent(QPaintEvent *)
 {
-    QPainterPath path;
-    path.addEllipse(boundingRect());
-    return path;
+    QPainter painter( this );
+    painter.setRenderHints( QPainter::Antialiasing | QPainter::SmoothPixmapTransform );
+
+    painter.drawPixmap( rect(), mPixmap );
 }
-
-/**
- *
- */
-void ActionButton::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
-{
-    bool pressed = option->state & QStyle::State_Sunken;
-    bool hover = option->state & QStyle::State_MouseOver;
-
-    if(pressed) painter->translate(1, 1);
-
-    // draw icon
-    painter->drawPixmap(0, 0, mPixmap);
-
-    // shadow position
-    QGraphicsDropShadowEffect *shadow = static_cast<QGraphicsDropShadowEffect *>(graphicsEffect());
-    if(shadow != NULL)
-    {
-        if(hover) {
-            shadow->setBlurRadius(20);
-        } else {
-            shadow->setBlurRadius(7);
-        }
-    }
-}
-
-/**
- *
- */
-void ActionButton::mousePressEvent(QGraphicsSceneMouseEvent *)
-{
-    update();
-}
-void ActionButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *)
-{
-    emit pressed();
-    update();
-}
-
-/**
- *
- */
-void ActionButton::hoverEnterEvent(QGraphicsSceneHoverEvent *)
-{
-    update();
-}
-void ActionButton::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
-{
-    update();
-}
-
-/**
- *
- */
-void ActionButton::setPixmap(const QPixmap& pix)
-{
-    mPixmap = pix;
-}
-
-/**
- *
- */
-void ActionButton::setShadowColor(const QColor& color)
-{
-    QGraphicsDropShadowEffect *shadow = static_cast<QGraphicsDropShadowEffect *>(graphicsEffect());
-    if(shadow != NULL)
-    {
-        shadow->setColor(color);
-    }
-}
-

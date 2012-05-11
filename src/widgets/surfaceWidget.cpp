@@ -47,7 +47,7 @@ void SurfaceWidget::resizeGL(int w, int h)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    qDebug() << w << h;
+    //qDebug() << w << h;
 }
 
 /**

@@ -1,48 +1,30 @@
 #ifndef APPLETBUTTON_H
 #define APPLETBUTTON_H
 
-#include <QGraphicsDropShadowEffect>
-#include <QGraphicsWidget>
+#include <QtGui>
 #include <QPainter>
-#include <QStyleOptionGraphicsItem>
+#include <QWidget>
 
 #include "applets/appletInterface.h"
 
-#define APPLETSHADOW_BLUR_RADIUS 15.0
-#define APPLETSHADOW_X_OFFSET 8.0
-#define APPLETSHADOW_Y_OFFSET 8.0
-
-class AppletShadowEffect : public QGraphicsDropShadowEffect
+/**
+ *
+ */
+class AppletButton : public QWidget
 {
-    Q_OBJECT
-public:
-    AppletShadowEffect(QObject *parent = 0) : QGraphicsDropShadowEffect(parent)
-    {
-        setBlurRadius(APPLETSHADOW_BLUR_RADIUS);
-        setColor(Qt::black);
-        setOffset(APPLETSHADOW_X_OFFSET, APPLETSHADOW_Y_OFFSET);
-    }
-};
 
-class AppletButton : public QGraphicsWidget
-{
     Q_OBJECT
-public:
-    AppletButton(AppletInterface *applet, QGraphicsItem *parent = 0);
 
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *);
-    QPainterPath shape() const;
+public:
+
+    AppletButton(AppletInterface *applet, QWidget *parent = 0);
+
+    void mouseReleaseEvent(QMouseEvent *);
+    void paintEvent(QPaintEvent *);
 
 signals:
-    void pressed();
-    void pressed(AppletInterface *applet);
 
-protected:
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *);
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
-    void mousePressEvent(QGraphicsSceneMouseEvent *);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *);
+    void clicked(AppletInterface *applet);
 
 private:
     QPixmap _pix;

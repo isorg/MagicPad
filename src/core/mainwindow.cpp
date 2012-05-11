@@ -5,8 +5,7 @@ const QString MainWindow::TAG = QString("MainWindow");
 /**
  *
  */
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 {
     // === Preferences === //
     loadSettings();
@@ -44,7 +43,10 @@ MainWindow::MainWindow(QWidget *parent)
     // === Main window === //
     setupUI();
 
-    //// connect(mProducer, SIGNAL(newFrame(cv::Mat)), this, SLOT(testevent(cv::Mat)));
+    QPalette p;
+    p = palette();
+    p.setBrush( QPalette::Window, QBrush( QPixmap( ":image/metal.jpg" ) ) );
+    setPalette( p );
 
     mProducer->start();
 }
@@ -55,88 +57,63 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::setupUI()
 {
     // Maximize
-    QMainWindow::setWindowState( Qt::WindowFullScreen );
+    setWindowState( Qt::WindowFullScreen );
 
     // Logger
     mLogger = new LoggerDialog( this );
 
-    // Set the scene size to the size of the desktop minus toolbar
-    QGraphicsScene *scene = new QGraphicsScene();
     mScreen = QApplication::desktop()->screenGeometry();
-    scene->setSceneRect( mScreen );
-    View *view = new View( scene );
 
-    QMainWindow::setCentralWidget(view);
+    //
+    // ActionBar
+    //
+    QVBoxLayout *actionBarLayout = new QVBoxLayout();
 
-    // === Version text === //
-    // The version text appears at the bottom right of the screen.
-    // It shows the program name and version and a link to www.isorg.fr
-    QGraphicsTextItem *versionText = new QGraphicsTextItem;
-    QFont ff = versionText->font();
-    ff.setPointSize( 10 );
-    versionText->setFont( ff );
-    versionText->setDefaultTextColor( Qt::white );
-    versionText->setHtml(QString(
-        "MagicPad v%1 © ISORG 2012\n<a href=\"http://www.isorg.fr\" style=\"color: rgb(255,255,255)\">www.isorg.fr</a>"
-        ).arg(MAGICPAD_VERSION_STR));
-    versionText->setOpenExternalLinks( true );
-    versionText->setTextInteractionFlags( Qt::TextBrowserInteraction );
-    versionText->setGraphicsEffect( new AppletShadowEffect() );
-    versionText->setTextWidth( 200 );
-    versionText->setPos( mScreen.width() - 200, mScreen.height() - 40 );
-    scene->addItem( versionText );
+    ActionButton *backActionButton = new ActionButton( QPixmap(":/image/reverse.png") );
+    ActionButton *messageActionButton = new ActionButton( QPixmap(":/image/message.png") );
+    ActionButton *quitActionButton = new ActionButton( QPixmap(":/image/power.png") );
 
-    // === Action Bar pannel === //
-    // The Action Bar is the left vertical pannel that holds the back,
-    // connect, quit and message buttons. The buttons are objects of
-    // ActionButton type.
-    QGraphicsRectItem *actionBar = new QGraphicsRectItem;
-    actionBar->setRect( 0, 0, 50, mScreen.height() );
-    actionBar->setPen( QPen( Qt::black ) );
-    actionBar->setBrush( Qt::black );
-    actionBar->setZValue( 100 );
-    scene->addItem( actionBar );
+    actionBarLayout->addWidget( backActionButton );
+    actionBarLayout->addStretch( 0 );
+    actionBarLayout->addWidget( messageActionButton );
+    actionBarLayout->addSpacing( 50 );
+    actionBarLayout->addWidget( quitActionButton );
 
-    // Back button
-    ActionButton *backButton = new ActionButton(QPixmap(":image/reverse.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
-    backButton->setPos(5, 25);
-    connect(backButton, SIGNAL(pressed()), this, SLOT(closeCurrentAppletLater()));
+    connect(backActionButton, SIGNAL(pressed()), this, SLOT(closeCurrentAppletLater()));
 
-    // Logger button
-    ActionButton *messageButton = new ActionButton(QPixmap(":image/message.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
-    messageButton->setPos( 5, mScreen.height()-140 );
-    if( !mShowLogger ) messageButton->hide();
-    connect( messageButton, SIGNAL(pressed()), mLogger, SLOT(exec()) );
+    if( !mShowLogger ) {
+        messageActionButton->hide();
+    }
+    connect( messageActionButton, SIGNAL(clicked()), mLogger, SLOT(exec()) );
 
+    if( !mShowQuit ) {
+        quitActionButton->hide();
+    }
+    connect( quitActionButton, SIGNAL(clicked()), this, SLOT(close()) );
 
-    // Quit button
-    ActionButton *quitButton = new ActionButton(QPixmap(":image/power.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
-    quitButton->setPos(5, mScreen.height()-50 );
-    if( !mShowQuit ) quitButton->hide();
-    connect( quitButton, SIGNAL(pressed()), this, SLOT(close()) );
+    //
+    // Left column text
+    //
+    // When an applet is launched a descriptive text drops down on the left
+    // side of the screen. All applets share the same container for their
+    // text: only the text is changed, the style remains.
+    mText = new DescriptionText( this );
+    if( !mShowText ) mText->hide();
+
+    //
+    // Home screen
+    //
+    QHBoxLayout *layout = new QHBoxLayout();
+    layout->addLayout( actionBarLayout );
+    layout->addStretch( 1 );
+    setLayout( layout );
 
     // === Applets === //
     // Applets are the independent demonstrations embedded in the MagicPad
     // software. Each applet as a name an an icon. When the applets are
     // loaded, their icons are displayed in a grid-like layout.
     mCurrentApplet = NULL;
-    loadApplets( scene );
-
-    // === Left column text === //
-    // When an applet is launched a descriptive text drops down on the left
-    // side of the screen. All applets share the same container for their
-    // text: only the text is changed, the style remains.
-    mText = new QGraphicsTextItem;
-    QFont f = mText->font();
-    f.setPointSize( 14 );
-    mText->setFont( f );
-    mText->setDefaultTextColor( Qt::white );
-    mText->setHtml("This is the default text, it is replaced at runtime by the applet descriptive text");
-    mText->setPos( 50, 50 );
-    mText->setTextWidth( 400 );
-    mText->setGraphicsEffect( new AppletShadowEffect() );
-    if( !mShowText ) mText->hide();
-    scene->addItem( mText );
+    loadApplets();
 
     // === Animation === //
     // All animations (=item movement, change of style, ...) are handled by a
@@ -157,7 +134,7 @@ void MainWindow::setupUI()
                    mScreen.center().y() - 180.0*0.5*(mApplets.size()/MAINWINDOW_APPLETGRID_NCOL));
     homeState->assignProperty(mAppletButtonGrid, "pos", origin);
     homeState->assignProperty(mAppletRect, "pos", QPointF(mScreen.width(), 10));
-    homeState->assignProperty(backButton, "visible", false);
+    homeState->assignProperty(backActionButton, "visible", false);
 
     appState->assignProperty(mText, "pos", QPointF(50, 150));
     appState->assignProperty(mAppletButtonGrid, "pos", origin - QPointF(mScreen.width(), 10));
@@ -166,7 +143,7 @@ void MainWindow::setupUI()
     } else {
         appState->assignProperty(mAppletRect, "pos", QPointF(100, 10));
     }
-    appState->assignProperty(backButton, "visible", true & mShowBack );
+    appState->assignProperty(backActionButton, "visible", true & mShowBack );
 
     // Animations
     // HOME -> APP : app icons out, then text in
@@ -218,7 +195,7 @@ void MainWindow::setupUI()
 
     gotoHomeStateAnimation->addAnimation(slideHomeAnimation);
 
-    QAbstractTransition *trans = rootState->addTransition(backButton, SIGNAL(pressed()), homeState);
+    QAbstractTransition *trans = rootState->addTransition(backActionButton, SIGNAL(pressed()), homeState);
     trans->addAnimation(gotoHomeStateAnimation);
 
     trans = rootState->addTransition(this, SIGNAL(goApplet()), appState);
@@ -231,14 +208,14 @@ void MainWindow::setupUI()
 /**
  * Instantiate all applets
  */
-void MainWindow::loadApplets(QGraphicsScene *scene)
+void MainWindow::loadApplets()
 {
     //
     // Applet icon container:
     // This widget hold the applets icon.
-    //
-    mAppletButtonGrid = new QGraphicsWidget();
-    scene->addItem( mAppletButtonGrid );
+    mAppletButtonGrid = new QWidget(this);
+    mAppletButtonGrid->setFixedSize(500, 500);
+    mAppletButtonGrid->setLayout( new QGridLayout() );
 
     //
     // Applet widget container:
@@ -247,7 +224,6 @@ void MainWindow::loadApplets(QGraphicsScene *scene)
     mAppletRect =  new QWidget( this );
     mAppletRect->resize( mScreen.width()-500, mScreen.height()-100 );
     mAppletRect->move( mScreen.center().toPoint() + QPoint(500, 0) );
-    //scene->addItem( mAppletRect );
 
     //
     // Register applets to the applet manager.
@@ -315,22 +291,19 @@ void MainWindow::registerApplet(AppletInterface *applet)
     applet->resize( mAppletRect->size() );
     applet->hide();
 
-    // Connect the frame producer with applet
-    //connect(mProducer, SIGNAL(newFrame(cv::Mat &)), applet, SLOT(setFrame(cv::Mat &)));
-
     // Add applet to the list
     mApplets.push_back( applet );
 
     // Create icon button
-    AppletButton *button = new AppletButton( applet, mAppletButtonGrid );
+    AppletButton *button = new AppletButton( applet, this );
 
     // Position button on the grid    
     int row = (mApplets.size()-1) / MAINWINDOW_APPLETGRID_NCOL;
     int col = (mApplets.size()-1) % MAINWINDOW_APPLETGRID_NCOL;
-    button->setPos(180*col, 180*row);
+    ((QGridLayout *)mAppletButtonGrid->layout())->addWidget( button, row, col );
 
     // Change left column text when applet is selected
-    connect(button, SIGNAL(pressed(AppletInterface*)), this, SLOT(launchApplet(AppletInterface*)));
+    connect(button, SIGNAL(clicked(AppletInterface*)), this, SLOT(launchApplet(AppletInterface*)));
 }
 
 /**
@@ -363,27 +336,16 @@ void MainWindow::launchApplet(AppletInterface *applet)
 {
     mCurrentApplet = applet;
 
-    // change applet text
-    setAppletText( mCurrentApplet );
+    mText->setDescriptionText(
+        applet->descriptionText(),
+        applet->marketingText(),
+        applet->technicalText() );
+
+    emit goApplet();
 
     // show and start
     mCurrentApplet->show();
     mCurrentApplet->start();
-}
-
-/**
- * Change the descriptive text that bounces down when an applet is launched.
- */
-void MainWindow::setAppletText(AppletInterface *applet)
-{
-    QString text =
-        "<ul align=left><li>" + applet->descriptionText() + "</li></ul>"
-        "<ul align=left><li>" + applet->marketingText() + "</li></ul>"
-        "<ul align=left><li>" + applet->technicalText() + "</li></ul>";
-
-    mText->setHtml(text);
-
-    emit goApplet();
 }
 
 /**
