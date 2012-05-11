@@ -11,7 +11,6 @@
 
 // Core
 #include "actionBar.h"
-#include "actionButton.h"
 #include "appletButton.h"
 #include "connectionDialog.h"
 #include "descriptionText.h"

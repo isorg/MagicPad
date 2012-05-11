@@ -17,9 +17,17 @@ public:
 
     void paintEvent(QPaintEvent *);
 
+public slots:
+
+    void hide() { mShow = false; }
+
+    void show() { mShow = true; }
+
 private:
 
     QPixmap mPixmap;
+
+    bool mShow;
 
 };
 

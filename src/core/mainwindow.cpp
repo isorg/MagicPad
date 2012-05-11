@@ -67,29 +67,23 @@ void MainWindow::setupUI()
     //
     // ActionBar
     //
-    QVBoxLayout *actionBarLayout = new QVBoxLayout();
+    ActionBar *actionBar = new ActionBar( this );
 
-    ActionButton *backActionButton = new ActionButton( QPixmap(":/image/reverse.png") );
-    ActionButton *messageActionButton = new ActionButton( QPixmap(":/image/message.png") );
-    ActionButton *quitActionButton = new ActionButton( QPixmap(":/image/power.png") );
+    connect( actionBar, SIGNAL(goBack()), this, SLOT(closeCurrentAppletLater()) );
+    connect( actionBar, SIGNAL(showLogger()), mLogger, SLOT(exec()) );
+    connect( actionBar, SIGNAL(quit()), this, SLOT(close()) );
 
-    actionBarLayout->addWidget( backActionButton );
-    actionBarLayout->addStretch( 0 );
-    actionBarLayout->addWidget( messageActionButton );
-    actionBarLayout->addSpacing( 50 );
-    actionBarLayout->addWidget( quitActionButton );
-
-    connect(backActionButton, SIGNAL(pressed()), this, SLOT(closeCurrentAppletLater()));
+    if( !mShowBack ) {
+        actionBar->hideBack();
+    }
 
     if( !mShowLogger ) {
-        messageActionButton->hide();
+        actionBar->hideMessage();
     }
-    connect( messageActionButton, SIGNAL(clicked()), mLogger, SLOT(exec()) );
 
     if( !mShowQuit ) {
-        quitActionButton->hide();
+        actionBar->hideQuit();
     }
-    connect( quitActionButton, SIGNAL(clicked()), this, SLOT(close()) );
 
     //
     // Left column text
@@ -104,7 +98,8 @@ void MainWindow::setupUI()
     // Home screen
     //
     QHBoxLayout *layout = new QHBoxLayout();
-    layout->addLayout( actionBarLayout );
+    layout->setMargin( 0 );
+    layout->addWidget( actionBar );
     layout->addStretch( 1 );
     setLayout( layout );
 
@@ -124,7 +119,7 @@ void MainWindow::setupUI()
     QState *homeState = new QState(rootState);
     QState *appState = new QState(rootState);
 
-    QStateMachine *states = new QStateMachine;
+    QStateMachine *states = new QStateMachine( this );
     states->addState(rootState);
     states->setInitialState(rootState);
     rootState->setInitialState(homeState);
@@ -134,7 +129,8 @@ void MainWindow::setupUI()
                    mScreen.center().y() - 180.0*0.5*(mApplets.size()/MAINWINDOW_APPLETGRID_NCOL));
     homeState->assignProperty(mAppletButtonGrid, "pos", origin);
     homeState->assignProperty(mAppletRect, "pos", QPointF(mScreen.width(), 10));
-    homeState->assignProperty(backActionButton, "visible", false);
+    //homeState->assignProperty(backActionButton, "visible", false);
+    connect(homeState, SIGNAL(propertiesAssigned()), actionBar, SLOT(hideBack()));
 
     appState->assignProperty(mText, "pos", QPointF(50, 150));
     appState->assignProperty(mAppletButtonGrid, "pos", origin - QPointF(mScreen.width(), 10));
@@ -143,7 +139,9 @@ void MainWindow::setupUI()
     } else {
         appState->assignProperty(mAppletRect, "pos", QPointF(100, 10));
     }
-    appState->assignProperty(backActionButton, "visible", true & mShowBack );
+    if( mShowBack) {
+        connect(homeState, SIGNAL(propertiesAssigned()), actionBar, SLOT(showBack()));
+    }
 
     // Animations
     // HOME -> APP : app icons out, then text in
@@ -195,7 +193,7 @@ void MainWindow::setupUI()
 
     gotoHomeStateAnimation->addAnimation(slideHomeAnimation);
 
-    QAbstractTransition *trans = rootState->addTransition(backActionButton, SIGNAL(pressed()), homeState);
+    QAbstractTransition *trans = rootState->addTransition(actionBar, SIGNAL(goBack()), homeState);
     trans->addAnimation(gotoHomeStateAnimation);
 
     trans = rootState->addTransition(this, SIGNAL(goApplet()), appState);

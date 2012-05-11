@@ -1,6 +1,6 @@
 #include "surfaceWidget.h"
 
-//#include <GL/glut.h>
+#include <GL/GLU.h>
 #include <QtOpenGL>
 #include <QMouseEvent>
 
@@ -26,13 +26,6 @@ void SurfaceWidget::initializeGL()
     glEnable(GL_POLYGON_SMOOTH);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0, 0, 0, 0);
-
-    glEnable(GL_CULL_FACE);
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    static GLfloat lightPosition[4] = { 0.5, 5.0, 7.0, 1.0 };
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 }
 
 /**
@@ -43,11 +36,9 @@ void SurfaceWidget::resizeGL(int w, int h)
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    //gluOrtho2D(0, w, 0, h); // set origin to bottom left corner
+    gluOrtho2D(0, w, 0, h); // set origin to bottom left corner
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-    //qDebug() << w << h;
 }
 
 /**
@@ -77,7 +68,7 @@ void SurfaceWidget::mousePressEvent(QMouseEvent *event)
  */
 void SurfaceWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    QLOG_TRACE() << TAG << event->x() << event->y();
+    //QLOG_TRACE() << TAG << event->x() << event->y();
 }
 
 /**
