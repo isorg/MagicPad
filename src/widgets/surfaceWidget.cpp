@@ -12,14 +12,12 @@ SurfaceWidget::SurfaceWidget(QWidget *parent) : Qwt3D::SurfacePlot(parent)
     m_frameDouble = cv::Mat( 10, 10, CV_64F );
     m_frameFiltered = cv::Mat( 10, 10, CV_64F );
 
-    // Camera translation along x, y, and z-axis
     setShift( 0.35, 0, 0 );
-    setRotation( 60, 0, 60 );
+    setRotation( 60, 0, 80 );
     setUpscale( 5 );
     setCoordinateStyle( Qwt3D::NOCOORD );
     enableMouse( true );
     enableKeyboard( true );
-
     setPlotStyle( Qwt3D::FILLEDMESH );
     setSmoothMesh( true );
 
@@ -30,8 +28,6 @@ SurfaceWidget::SurfaceWidget(QWidget *parent) : Qwt3D::SurfacePlot(parent)
     setLightComponent( GL_DIFFUSE, 0.5 );
     setMaterialComponent( GL_SPECULAR, 0.1 );
     setShininess( 0.1 );
-    //setMaterialComponent( GL_EMISSION, 0.1 );
-    //setBackgroundColor( Qwt3D::RGBA(0.5, 0.5, 0.5) );
 
     // Create color vector
     m_cv.resize( 255 );
