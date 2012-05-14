@@ -9,13 +9,13 @@ SurfaceWidget::SurfaceWidget(QWidget *parent) : Qwt3D::SurfacePlot(parent)
 {
     // Initialisation de l'état initial
     m_tabla = NULL;
-    m_frameDouble = cv::Mat(10, 10, CV_64F);
-    m_frameFiltered = cv::Mat(10, 10, CV_64F);
+    m_frameDouble = cv::Mat( 10, 10, CV_64F );
+    m_frameFiltered = cv::Mat( 10, 10, CV_64F );
 
     // Camera translation along x, y, and z-axis
-    setShift(0.35, 0, 0);
-    setRotation(60, 0, 60);
-    setUpscale(5);
+    setShift( 0.35, 0, 0 );
+    setRotation( 60, 0, 60 );
+    setUpscale( 5 );
     setCoordinateStyle( Qwt3D::NOCOORD );
     enableMouse( true );
     enableKeyboard( true );
@@ -34,23 +34,23 @@ SurfaceWidget::SurfaceWidget(QWidget *parent) : Qwt3D::SurfacePlot(parent)
     //setBackgroundColor( Qwt3D::RGBA(0.5, 0.5, 0.5) );
 
     // Create color vector
-    m_cv.resize(255);
+    m_cv.resize( 255 );
     for(int i=0; i<m_cv.size(); i++)
     {
         QColor c;
         c.setHsv(((255-i)*255.0)/255.0, 255.0, 255.0);
         m_cv[i] = Qwt3D::RGBA(c.red()/255., c.green()/255., c.blue()/255.);
     }
-    Qwt3D::StandardColor *sc = new Qwt3D::StandardColor(this, 255);
-    sc->setColorVector(m_cv);
-    setDataColor(sc);
-    showColorLegend(true);
-    legend()->setLimits(0, 255);
+    Qwt3D::StandardColor *sc = new Qwt3D::StandardColor( this, 255 );
+    sc->setColorVector( m_cv );
+    setDataColor( sc );
+    showColorLegend( true );
+    legend()->setLimits( 0, 255 );
 }
 
 
-/*!
- * \brief Allocate memory to store 'double' version of high resolution frame
+/**
+ * Allocate memory to store 'double' version of high resolution frame
  */
 void SurfaceWidget::allocateData()
 {
@@ -77,6 +77,9 @@ void SurfaceWidget::allocateData()
     this->setScale(1.0, 1.0, (m_resolution+1)/2.0);
 }
 
+/**
+ *
+ */
 void SurfaceWidget::setUpscale(int newRes)
 {
     if(newRes < 0 || newRes > 10) return;
@@ -102,7 +105,7 @@ void SurfaceWidget::setFrame(const cv::Mat &frame)
     //rollingMax->getFrame(m_frameDouble);
 
     // Low pass temporal filter to smooth down movement
-    m_frameFiltered += 0.9*(m_frameDouble-m_frameFiltered);
+    m_frameFiltered += 0.5*(m_frameDouble-m_frameFiltered);
 
     // Increase image resolution
     cv::resize(m_frameFiltered,

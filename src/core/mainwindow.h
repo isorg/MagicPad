@@ -107,9 +107,8 @@ public slots:
 
     void launchApplet(AppletInterface *applet);
 
-    void testevent(cv::Mat img) { qDebug() << __LINE__; }
-
 signals:
+
     void goApplet();
 
 private:
@@ -135,6 +134,7 @@ private:
     QRectF mScreen;
     LoggerDialog *mLogger;
 
+    bool mReadyToLaunchApplet;
     AppletInterface *mCurrentApplet;
     FrameProducer *mProducer;
     QList< AppletInterface* > mApplets;

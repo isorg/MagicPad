@@ -7,9 +7,7 @@
 
 #include <opencv2/opencv.hpp>
 
-#include <qwt3d_surfaceplot.h>
-#include <qwt3d_function.h>
-
+#include "qwt3d_surfaceplot.h"
 
 #define SURFACE_PLOTFACTOR 20 // Maximum of steps on z-axis for 3D surface plot
 

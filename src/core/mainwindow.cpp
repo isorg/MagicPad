@@ -309,6 +309,8 @@ void MainWindow::loadApplets(QGraphicsScene *scene)
     // Connect frame producer
     //
     connect(mProducer, SIGNAL(newFrame(cv::Mat &)), this, SLOT(dispatchFrame(cv::Mat&)));
+
+    mReadyToLaunchApplet = true;
 }
 
 /**
@@ -329,7 +331,7 @@ void MainWindow::registerApplet(AppletInterface *applet)
     // Position button on the grid    
     int row = (mApplets.size()-1) / MAINWINDOW_APPLETGRID_NCOL;
     int col = (mApplets.size()-1) % MAINWINDOW_APPLETGRID_NCOL;
-    button->setPos(180*col, 180*row);
+    button->setPos( 180*col, 180*row );
 
     // Change left column text when applet is selected
     connect(button, SIGNAL(pressed(AppletInterface*)), this, SLOT(launchApplet(AppletInterface*)));
@@ -341,21 +343,24 @@ void MainWindow::registerApplet(AppletInterface *applet)
 void MainWindow::closeCurrentApplet()
 {
     // mCurrentApplet is the current applet
-    if(mCurrentApplet == NULL) {
+    if( mCurrentApplet == NULL ) {
         QLOG_ERROR() << TAG << "mCurrentApplet is NULL !!!";
         return;
     }
 
-    // hide
     mCurrentApplet->hide();
     mCurrentApplet->stop();
     mCurrentApplet = NULL;
+
+    mReadyToLaunchApplet = true;
 }
 
 // Schedule closeCurrentApplet() in 0.75 sec
 void MainWindow::closeCurrentAppletLater()
 {
     QTimer::singleShot( 500, this, SLOT(closeCurrentApplet()) );
+
+    mReadyToLaunchApplet = false;
 }
 
 /**
@@ -363,6 +368,8 @@ void MainWindow::closeCurrentAppletLater()
  */
 void MainWindow::launchApplet(AppletInterface *applet)
 {
+    if( !mReadyToLaunchApplet ) return;
+
     mCurrentApplet = applet;
 
     QString text =
