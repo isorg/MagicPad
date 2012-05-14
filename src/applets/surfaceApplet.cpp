@@ -17,11 +17,10 @@ SurfaceApplet::SurfaceApplet(QWidget *parent) : Applet(parent)
     loadTextFromXml();
 
     // Pipeline
-    mCalibrationFilter = new CalibrationFilter();
+    mCalibrationFilter = new CalibrationFilter( this );
 
     // User interface
     QVBoxLayout *layout = new QVBoxLayout( this );
-
     mSurfaceWidget = new SurfaceWidget( this );
     layout->addWidget( mSurfaceWidget );
 }
@@ -34,4 +33,8 @@ void SurfaceApplet::setFrame( cv::Mat& frame )
     // Filter pipeline
     mCalibrationFilter->setFrame( frame );
     mCalibrationFilter->process();
+
+    mSurfaceWidget->setFrame( mCalibrationFilter->getCalibratedFrame() );
+
+    update();
 }

@@ -10,9 +10,7 @@
 #include "QsLog.h"
 
 // Core
-#include "actionBar.h"
 #include "appletButton.h"
-#include "connectionDialog.h"
 #include "descriptionText.h"
 #include "loggerDialog.h"
 
@@ -50,6 +48,43 @@
 /**
  *
  */
+class View : public QGraphicsView
+{
+
+     Q_OBJECT
+
+public:
+
+     View(QGraphicsScene *scene) : QGraphicsView(scene)
+     {
+         //setViewport( new QGLWidget() );
+
+         //setViewportUpdateMode( QGraphicsView::FullViewportUpdate );
+         //setViewportUpdateMode( QGraphicsView::BoundingRectViewportUpdate );
+
+         // Anti-aliasing
+         setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+
+         // (0,0) in the top left corner
+         setAlignment(Qt::AlignLeft | Qt::AlignTop);
+
+         // background image
+         _bg.load(":image/metal.jpg");
+         setBackgroundBrush( _bg );
+         setCacheMode(QGraphicsView::CacheBackground);
+     }
+
+ protected:
+
+     void resizeEvent(QResizeEvent *event)
+     {
+        QGraphicsView::resizeEvent(event);
+        fitInView(sceneRect(), Qt::KeepAspectRatio);
+     }
+
+     QPixmap _bg;
+ };
+
 class MainWindow : public QWidget
 {
 

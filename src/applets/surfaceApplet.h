@@ -11,7 +11,7 @@
 #define SURFACE_TITLE "Surface"
 
 /**
- *
+ * Surface applet displays a 3D volume that can be compressed
  */
 class SurfaceApplet : public Applet
 {
@@ -27,8 +27,6 @@ public:
 public slots:
 
     void setFrame( cv::Mat& frame );
-
-private:
 
 private:
 

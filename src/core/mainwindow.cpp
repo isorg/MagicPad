@@ -5,7 +5,9 @@ const QString MainWindow::TAG = QString("MainWindow");
 /**
  *
  */
-MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
+MainWindow::MainWindow(QWidget *parent)
+    : QWidget(parent)
+
 {
     // === Preferences === //
     loadSettings();
@@ -64,26 +66,60 @@ void MainWindow::setupUI()
 
     mScreen = QApplication::desktop()->screenGeometry();
 
-    //
-    // ActionBar
-    //
-    ActionBar *actionBar = new ActionBar( this );
+    QGraphicsScene *scene = new QGraphicsScene( this );
+    scene->setSceneRect( mScreen );
+    View *view = new View( scene );
 
-    connect( actionBar, SIGNAL(goBack()), this, SLOT(closeCurrentAppletLater()) );
-    connect( actionBar, SIGNAL(showLogger()), mLogger, SLOT(exec()) );
-    connect( actionBar, SIGNAL(quit()), this, SLOT(close()) );
+    QVBoxLayout *layout = new QVBoxLayout( this );
+    layout->setMargin( 0 );
+    layout->addWidget( view );
 
-    if( !mShowBack ) {
-        actionBar->hideBack();
-    }
+    // === Version text === //
+    // The version text appears at the bottom right of the screen.
+    // It shows the program name and version and a link to www.isorg.fr
+    QGraphicsTextItem *versionText = new QGraphicsTextItem;
+    QFont ff = versionText->font();
+    ff.setPointSize( 10 );
+    versionText->setFont( ff );
+    versionText->setDefaultTextColor( Qt::white );
+    versionText->setHtml(QString(
+        "MagicPad v%1 © ISORG 2012\n<a href=\"http://www.isorg.fr\" style=\"color: rgb(255,255,255)\">www.isorg.fr</a>"
+        ).arg(MAGICPAD_VERSION_STR));
+    versionText->setOpenExternalLinks( true );
+    versionText->setTextInteractionFlags( Qt::TextBrowserInteraction );
+    versionText->setGraphicsEffect( new AppletShadowEffect() );
+    versionText->setTextWidth( 200 );
+    versionText->setPos( mScreen.width() - 200, mScreen.height() - 40 );
+    scene->addItem( versionText );
 
-    if( !mShowLogger ) {
-        actionBar->hideMessage();
-    }
+    // === Action Bar pannel === //
+    // The Action Bar is the left vertical pannel that holds the back,
+    // connect, quit and message buttons. The buttons are objects of
+    // ActionButton type.
+    QGraphicsRectItem *actionBar = new QGraphicsRectItem;
+    actionBar->setRect( 0, 0, 50, mScreen.height() );
+    actionBar->setPen( QPen( Qt::black ) );
+    actionBar->setBrush( Qt::black );
+    actionBar->setZValue( 100 );
+    scene->addItem( actionBar );
 
-    if( !mShowQuit ) {
-        actionBar->hideQuit();
-    }
+    // Back button
+    ActionButton *backButton = new ActionButton(QPixmap(":image/reverse.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
+    backButton->setPos(5, 25);
+    connect(backButton, SIGNAL(pressed()), this, SLOT(closeCurrentAppletLater()));
+
+    // Logger button
+    ActionButton *messageButton = new ActionButton(QPixmap(":image/message.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
+    messageButton->setPos( 5, mScreen.height()-140 );
+    if( !mShowLogger ) messageButton->hide();
+    connect( messageButton, SIGNAL(pressed()), mLogger, SLOT(exec()) );
+
+
+    // Quit button
+    ActionButton *quitButton = new ActionButton(QPixmap(":image/power.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
+    quitButton->setPos(5, mScreen.height()-50 );
+    if( !mShowQuit ) quitButton->hide();
+    connect( quitButton, SIGNAL(pressed()), this, SLOT(close()) );
 
     //
     // Left column text
