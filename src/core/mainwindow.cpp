@@ -92,6 +92,22 @@ void MainWindow::setupUI()
     versionText->setPos( mScreen.width() - 200, mScreen.height() - 40 );
     scene->addItem( versionText );
 
+    // === Left column text === //
+    // When an applet is launched a descriptive text drops down on the left
+    // side of the screen. All applets share the same container for their
+    // text: only the text is changed, the style remains.
+    mText = new QGraphicsTextItem;
+    QFont f = mText->font();
+    f.setPointSize( 14 );
+    mText->setFont( f );
+    mText->setDefaultTextColor( Qt::white );
+    mText->setHtml("This is the default text, it is replaced at runtime by the applet descriptive text");
+    mText->setPos( 50, 50 );
+    mText->setTextWidth( 400 );
+    mText->setGraphicsEffect( new AppletShadowEffect() );
+    if( !mShowText ) mText->hide();
+    scene->addItem( mText );
+
     // === Action Bar pannel === //
     // The Action Bar is the left vertical pannel that holds the back,
     // connect, quit and message buttons. The buttons are objects of
@@ -121,30 +137,12 @@ void MainWindow::setupUI()
     if( !mShowQuit ) quitButton->hide();
     connect( quitButton, SIGNAL(pressed()), this, SLOT(close()) );
 
-    //
-    // Left column text
-    //
-    // When an applet is launched a descriptive text drops down on the left
-    // side of the screen. All applets share the same container for their
-    // text: only the text is changed, the style remains.
-    mText = new DescriptionText( this );
-    if( !mShowText ) mText->hide();
-
-    //
-    // Home screen
-    //
-    QHBoxLayout *layout = new QHBoxLayout();
-    layout->setMargin( 0 );
-    layout->addWidget( actionBar );
-    layout->addStretch( 1 );
-    setLayout( layout );
-
     // === Applets === //
     // Applets are the independent demonstrations embedded in the MagicPad
     // software. Each applet as a name an an icon. When the applets are
     // loaded, their icons are displayed in a grid-like layout.
     mCurrentApplet = NULL;
-    loadApplets();
+    loadApplets( scene );
 
     // === Animation === //
     // All animations (=item movement, change of style, ...) are handled by a
@@ -155,7 +153,7 @@ void MainWindow::setupUI()
     QState *homeState = new QState(rootState);
     QState *appState = new QState(rootState);
 
-    QStateMachine *states = new QStateMachine( this );
+    QStateMachine *states = new QStateMachine;
     states->addState(rootState);
     states->setInitialState(rootState);
     rootState->setInitialState(homeState);
@@ -165,8 +163,7 @@ void MainWindow::setupUI()
                    mScreen.center().y() - 180.0*0.5*(mApplets.size()/MAINWINDOW_APPLETGRID_NCOL));
     homeState->assignProperty(mAppletButtonGrid, "pos", origin);
     homeState->assignProperty(mAppletRect, "pos", QPointF(mScreen.width(), 10));
-    //homeState->assignProperty(backActionButton, "visible", false);
-    connect(homeState, SIGNAL(propertiesAssigned()), actionBar, SLOT(hideBack()));
+    homeState->assignProperty(backButton, "visible", false);
 
     appState->assignProperty(mText, "pos", QPointF(50, 150));
     appState->assignProperty(mAppletButtonGrid, "pos", origin - QPointF(mScreen.width(), 10));
@@ -175,9 +172,7 @@ void MainWindow::setupUI()
     } else {
         appState->assignProperty(mAppletRect, "pos", QPointF(100, 10));
     }
-    if( mShowBack) {
-        connect(homeState, SIGNAL(propertiesAssigned()), actionBar, SLOT(showBack()));
-    }
+    if( mShowBack ) appState->assignProperty(backButton, "visible", true );
 
     // Animations
     // HOME -> APP : app icons out, then text in
@@ -229,7 +224,7 @@ void MainWindow::setupUI()
 
     gotoHomeStateAnimation->addAnimation(slideHomeAnimation);
 
-    QAbstractTransition *trans = rootState->addTransition(actionBar, SIGNAL(goBack()), homeState);
+    QAbstractTransition *trans = rootState->addTransition(backButton, SIGNAL(pressed()), homeState);
     trans->addAnimation(gotoHomeStateAnimation);
 
     trans = rootState->addTransition(this, SIGNAL(goApplet()), appState);
@@ -242,14 +237,14 @@ void MainWindow::setupUI()
 /**
  * Instantiate all applets
  */
-void MainWindow::loadApplets()
+void MainWindow::loadApplets(QGraphicsScene *scene)
 {
     //
     // Applet icon container:
     // This widget hold the applets icon.
-    mAppletButtonGrid = new QWidget(this);
-    mAppletButtonGrid->setFixedSize(500, 500);
-    mAppletButtonGrid->setLayout( new QGridLayout() );
+    //
+    mAppletButtonGrid = new QGraphicsWidget();
+    scene->addItem( mAppletButtonGrid );
 
     //
     // Applet widget container:
@@ -329,15 +324,15 @@ void MainWindow::registerApplet(AppletInterface *applet)
     mApplets.push_back( applet );
 
     // Create icon button
-    AppletButton *button = new AppletButton( applet, this );
+    AppletButton *button = new AppletButton( applet, mAppletButtonGrid );
 
     // Position button on the grid    
     int row = (mApplets.size()-1) / MAINWINDOW_APPLETGRID_NCOL;
     int col = (mApplets.size()-1) % MAINWINDOW_APPLETGRID_NCOL;
-    ((QGridLayout *)mAppletButtonGrid->layout())->addWidget( button, row, col );
+    button->setPos(180*col, 180*row);
 
     // Change left column text when applet is selected
-    connect(button, SIGNAL(clicked(AppletInterface*)), this, SLOT(launchApplet(AppletInterface*)));
+    connect(button, SIGNAL(pressed(AppletInterface*)), this, SLOT(launchApplet(AppletInterface*)));
 }
 
 /**
@@ -370,10 +365,12 @@ void MainWindow::launchApplet(AppletInterface *applet)
 {
     mCurrentApplet = applet;
 
-    mText->setDescriptionText(
-        applet->descriptionText(),
-        applet->marketingText(),
-        applet->technicalText() );
+    QString text =
+            "<ul align=left><li>" + applet->descriptionText() + "</li></ul>"
+            "<ul align=left><li>" + applet->marketingText() + "</li></ul>"
+            "<ul align=left><li>" + applet->technicalText() + "</li></ul>";
+
+    mText->setHtml(text);
 
     emit goApplet();
 
@@ -403,9 +400,4 @@ void MainWindow::loadSettings()
     mShowBack = mSettings->value("show_back", true).toBool();
     mShowQuit = mSettings->value("show_quit", true).toBool();
     mShowText = mSettings->value("show_description_text", true).toBool();
-
-    /*QLOG_DEBUG() << TAG << "mShowLogger" << mShowLogger;
-    QLOG_DEBUG() << TAG << "mShowBack" << mShowBack;
-    QLOG_DEBUG() << TAG << "mShowQuit" << mShowQuit;
-    QLOG_DEBUG() << TAG << "mShowText" << mShowText;*/
 }

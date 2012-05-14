@@ -10,6 +10,7 @@
 #include "QsLog.h"
 
 // Core
+#include "actionButton.h"
 #include "appletButton.h"
 #include "descriptionText.h"
 #include "loggerDialog.h"
@@ -112,7 +113,7 @@ signals:
     void goApplet();
 
 private:
-    void loadApplets();
+    void loadApplets(QGraphicsScene *scene);
 
     void loadSettings();
 
@@ -128,9 +129,9 @@ private slots:
 
 private:
     // UI
-    QWidget *mAppletButtonGrid;
+    QGraphicsWidget *mAppletButtonGrid;
     QWidget *mAppletRect;
-    DescriptionText *mText;
+    QGraphicsTextItem *mText;
     QRectF mScreen;
     LoggerDialog *mLogger;
 
