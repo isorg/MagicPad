@@ -60,8 +60,10 @@ public:
 
      View(QGraphicsScene *scene) : QGraphicsView(scene)
      {
-         setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-         setCacheMode(QGraphicsView::CacheBackground);
+         //setViewport( new QGLWidget() );
+
+         //setViewportUpdateMode( QGraphicsView::FullViewportUpdate );
+         //setViewportUpdateMode( QGraphicsView::BoundingRectViewportUpdate );
 
          // Anti-aliasing
          setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
@@ -71,19 +73,11 @@ public:
 
          // background image
          _bg.load(":image/metal.jpg");
+         setBackgroundBrush( _bg );
+         setCacheMode(QGraphicsView::CacheBackground);
      }
 
  protected:
-
-     void drawBackground(QPainter *painter, const QRectF &rect)
-     {
-         QRectF r = rect;
-
-         // increase rectangle size to erase antialiasing artifacts
-         r.adjust(-1, -1, 1, 1);
-         painter->setBrush(_bg);
-         painter->drawRect(r);
-     }
 
      void resizeEvent(QResizeEvent *event)
      {
@@ -94,7 +88,7 @@ public:
      QPixmap _bg;
  };
 
-class MainWindow : public QMainWindow
+class MainWindow : public QWidget
 {
 
     Q_OBJECT

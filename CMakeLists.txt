@@ -49,6 +49,19 @@ magicpad_install_files(${QT_DLL_PATH}/phonon4.dll ".")
 magicpad_install_files(${QT_DLL_PATH}/../plugins/phonon_backend/phonon_ds94.dll "phonon_backend/.")
 
 #
+# Qwt3D
+#
+magicpad_install_files(3rdparty/qwt3d/lib/qwtplot3d.dll ".")
+include_directories(${PROJECT_SOURCE_DIR}/3rdparty/qwt3d/include)
+link_directories(${PROJECT_SOURCE_DIR}/3rdparty/qwt3d/lib)
+
+#
+# Find OpenGL
+#
+find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS})
+
+#
 # Find FTDI library
 #
 include_directories("${PROJECT_SOURCE_DIR}/3rdparty/ftdi")
@@ -88,6 +101,8 @@ add_executable(MagicPad WIN32
 
 target_link_libraries(MagicPad
     ${QT_LIBRARIES}
+    qwtplot3d
+    ${OPENGL_LIBRARIES}
     ${OpenCV_LIBS}
     ftd2xx
     )

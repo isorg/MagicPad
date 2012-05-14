@@ -6,7 +6,7 @@ const QString MainWindow::TAG = QString("MainWindow");
  *
  */
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QWidget(parent)
 {
     // === Preferences === //
     loadSettings();
@@ -55,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::setupUI()
 {
     // Maximize
-    QMainWindow::setWindowState( Qt::WindowFullScreen );
+    setWindowState( Qt::WindowFullScreen );
 
     // Logger
     mLogger = new LoggerDialog( this );
@@ -66,7 +66,10 @@ void MainWindow::setupUI()
     scene->setSceneRect( mScreen );
     View *view = new View( scene );
 
-    QMainWindow::setCentralWidget(view);
+    QVBoxLayout *layout = new QVBoxLayout( this );
+    layout->setMargin( 0 );
+    layout->addWidget( view );
+    //setCentralWidget(view);
 
     // === Version text === //
     // The version text appears at the bottom right of the screen.

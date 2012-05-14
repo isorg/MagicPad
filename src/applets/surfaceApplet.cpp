@@ -1,5 +1,7 @@
 #include "surfaceApplet.h"
 
+#include <QVBoxLayout>
+
 const QString SurfaceApplet::TAG = QString("SurfaceApplet");
 
 /**
@@ -15,8 +17,14 @@ SurfaceApplet::SurfaceApplet(QWidget *parent) : Applet(parent)
     loadTextFromXml();
 
     // Pipeline
-    mCalibrationFilter = new CalibrationFilter();
+    mCalibrationFilter = new CalibrationFilter( this );
 
+    // User interface
+    QVBoxLayout *layout = new QVBoxLayout( this );
+    layout->setMargin( 0 );
+
+    mSurfaceWidget = new SurfaceWidget( this );
+    layout->addWidget( mSurfaceWidget );
 }
 
 /**
@@ -27,4 +35,8 @@ void SurfaceApplet::setFrame( cv::Mat& frame )
     // Filter pipeline
     mCalibrationFilter->setFrame( frame );
     mCalibrationFilter->process();
+
+    mSurfaceWidget->setFrame( mCalibrationFilter->getCalibratedFrame() );
+
+    update();
 }
