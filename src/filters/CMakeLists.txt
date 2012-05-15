@@ -5,6 +5,7 @@ set(SRCS_FILTER
     ${CMAKE_CURRENT_SOURCE_DIR}/calibrationFilter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/debounceFilter.h # exists as a template
     ${CMAKE_CURRENT_SOURCE_DIR}/delayFilter.h # exists as a template
+    ${CMAKE_CURRENT_SOURCE_DIR}/doubleClickFilter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/fingertipFilter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/joystickFilter.cpp
     #${CMAKE_CURRENT_SOURCE_DIR}/gestureFilter.cpp

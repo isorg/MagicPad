@@ -60,7 +60,7 @@ public:
      {
          //setViewport( new QGLWidget() );
 
-         //setViewportUpdateMode( QGraphicsView::FullViewportUpdate );
+         setViewportUpdateMode( QGraphicsView::FullViewportUpdate );
          //setViewportUpdateMode( QGraphicsView::BoundingRectViewportUpdate );
 
          // Anti-aliasing
@@ -73,6 +73,12 @@ public:
          _bg.load(":image/metal.jpg");
          setBackgroundBrush( _bg );
          setCacheMode(QGraphicsView::CacheBackground);
+
+         // force the background to redraw
+         QTimer *timer = new QTimer( this );
+         timer->setInterval( 200 );
+         connect( timer, SIGNAL( timeout() ), this, SLOT( repaint()) );
+         timer->start();
      }
 
  protected:
