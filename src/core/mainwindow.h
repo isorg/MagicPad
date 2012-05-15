@@ -20,7 +20,7 @@
 #include "com/frameProducer.h"
 
 // Applets
-#include "applets/templateApplet.h"
+//#include "applets/templateApplet.h"
 #include "applets/alphabetApplet.h"
 #include "applets/backlightApplet.h"
 #include "applets/bargraphApplet.h"
@@ -31,7 +31,7 @@
 #include "applets/mapsApplet.h"
 #include "applets/musicApplet.h"
 #include "applets/opdApplet.h"
-#include "applets/pandaApplet.h"
+//#include "applets/pandaApplet.h"
 #include "applets/pictureflowApplet.h"
 #include "applets/purpleApplet.h"
 #include "applets/rollingballApplet.h"
@@ -39,10 +39,12 @@
 #include "applets/surfaceApplet.h"
 #include "applets/switchApplet.h"
 #include "applets/twistApplet.h"
-#include "applets/tyuuApplet.h"
+//#include "applets/tyuuApplet.h"
 #include "applets/vumeterApplet.h"
 
 #define MAINWINDOW_APPLETGRID_NCOL  5
+
+#define MAINWINDOW_TEXT_WIDTH 400
 
 #define APPLICATION_SETTINGS_FILE "config.ini"
 

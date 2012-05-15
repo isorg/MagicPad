@@ -103,7 +103,7 @@ void MainWindow::setupUI()
     mText->setDefaultTextColor( Qt::white );
     mText->setHtml("This is the default text, it is replaced at runtime by the applet descriptive text");
     mText->setPos( 50, 50 );
-    mText->setTextWidth( 400 );
+    mText->setTextWidth( MAINWINDOW_TEXT_WIDTH );
     mText->setGraphicsEffect( new AppletShadowEffect() );
     if( !mShowText ) mText->hide();
     scene->addItem( mText );
@@ -162,15 +162,15 @@ void MainWindow::setupUI()
     QPointF origin(50 + mScreen.center().x() - (MAINWINDOW_APPLETGRID_NCOL*180.0)/2.0,
                    mScreen.center().y() - 180.0*0.5*(mApplets.size()/MAINWINDOW_APPLETGRID_NCOL));
     homeState->assignProperty(mAppletButtonGrid, "pos", origin);
-    homeState->assignProperty(mAppletRect, "pos", QPointF(mScreen.width(), 10));
+    homeState->assignProperty(mAppletRect, "pos", QPointF(mScreen.width(), (mScreen.height()-mAppletRect->height())/2 ));
     homeState->assignProperty(backButton, "visible", false);
 
     appState->assignProperty(mText, "pos", QPointF(50, 150));
     appState->assignProperty(mAppletButtonGrid, "pos", origin - QPointF(mScreen.width(), 10));
     if( mShowText ) {
-        appState->assignProperty(mAppletRect, "pos", QPointF(500, 10));
+        appState->assignProperty( mAppletRect, "pos", QPointF( MAINWINDOW_TEXT_WIDTH + 100, (mScreen.height()-mAppletRect->height())/2 ) );
     } else {
-        appState->assignProperty(mAppletRect, "pos", QPointF(100, 10));
+        appState->assignProperty( mAppletRect, "pos", QPointF( 100 + (mScreen.width() - mAppletRect->width())/2, (mScreen.height()-mAppletRect->height())/2) );
     }
     if( mShowBack ) appState->assignProperty(backButton, "visible", true );
 
@@ -250,9 +250,17 @@ void MainWindow::loadApplets(QGraphicsScene *scene)
     // Applet widget container:
     // This widget holds the applets display area
     //
-    mAppletRect =  new QWidget( this );
-    mAppletRect->resize( mScreen.width()-500, mScreen.height()-100 );
-    mAppletRect->move( mScreen.center().toPoint() + QPoint(500, 0) );
+    mAppletRect = new QWidget( this );
+
+    int sz;
+    if( mShowText ) {
+        sz = mScreen.width() - 510;
+    } else {
+        sz = mScreen.width() - 200;
+
+        sz = qMin( 1.3*(mScreen.height()-50), (double)sz );
+    }
+    mAppletRect->resize( sz, mScreen.height()-50 );
 
     //
     // Register applets to the applet manager.
