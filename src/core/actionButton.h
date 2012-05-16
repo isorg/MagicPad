@@ -52,6 +52,7 @@ public:
     void setShadowColor(const QColor& color);
 
 signals:
+
     void pressed();
 
 private:

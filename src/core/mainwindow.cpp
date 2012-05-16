@@ -123,6 +123,7 @@ void MainWindow::setupUI()
     ActionButton *backButton = new ActionButton(QPixmap(":image/reverse.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
     backButton->setPos(5, 25);
     connect(backButton, SIGNAL(pressed()), this, SLOT(closeCurrentAppletLater()));
+    //connect(this, SIGNAL(emulateBackButton()), this, SLOT(closeCurrentAppletLater()));
 
     // Logger button
     ActionButton *messageButton = new ActionButton(QPixmap(":image/message.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
@@ -352,7 +353,7 @@ void MainWindow::closeCurrentApplet()
 {
     // mCurrentApplet is the current applet
     if( mCurrentApplet == NULL ) {
-        QLOG_ERROR() << TAG << "mCurrentApplet is NULL !!!";
+        //QLOG_ERROR() << TAG << "mCurrentApplet is NULL !!!";
         return;
     }
 

@@ -105,6 +105,14 @@ public:
 
     MainWindow(QWidget *parent = 0);
 
+protected:
+
+    void keyReleaseEvent(QKeyEvent *e) {
+        if( e->key() == Qt::Key_Escape ) {
+            QLOG_TRACE() << TAG << "ESCAPE";
+        }
+    }
+
 public slots:
     // TODO: autostart applet if specified in config.ini
     //void autostart();
@@ -118,6 +126,8 @@ public slots:
 signals:
 
     void goApplet();
+
+    void emulateBackButton();
 
 private:
     void loadApplets(QGraphicsScene *scene);
