@@ -14,9 +14,10 @@ include(CMake/magicpad-version.cmake)
 #
 # DLLs'
 #
-magicpad_install_files(3rdparty/dll/libgcc_s_dw2-1.dll ".")
-magicpad_install_files(3rdparty/dll/libstdc++-6.dll ".")
-magicpad_install_files(3rdparty/dll/mingwm10.dll ".")
+get_filename_component(MINGW_DLL_DIRECTORY ${CMAKE_CXX_COMPILER} PATH)
+magicpad_install_files(${MINGW_DLL_DIRECTORY}/libgcc_s_dw2-1.dll ".")
+magicpad_install_files(${MINGW_DLL_DIRECTORY}/libstdc++-6.dll ".")
+magicpad_install_files(${MINGW_DLL_DIRECTORY}/mingwm10.dll ".")
 
 #
 # Find QT
