@@ -78,8 +78,6 @@ find_package(OpenCV REQUIRED)
 #find_package(GLUT REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
 
-
-
 #
 # Plugins
 #
@@ -89,6 +87,8 @@ set(PLUGIN_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/plugins")
 add_subdirectory(src)
 include_directories(src)
 
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-enable-auto-import")
+
 add_executable(MagicPad WIN32
     ${MAGICPAD_SRCS}
     ${QSLOG_SRCS}
@@ -96,9 +96,6 @@ add_executable(MagicPad WIN32
     ${QtApp_RCC_SRCS}    
     icon.rc
     )
-
-# TODO: fix application manifest
-#set_target_properties(MagicPad PROPERTIES LINK_FLAGS "-D/MANIFESTUAC:level='requireAdministrator'")
 
 target_link_libraries(MagicPad
     ${QT_LIBRARIES}
