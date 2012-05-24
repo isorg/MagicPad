@@ -14,6 +14,8 @@
 
 #define MAGICPAD_BAUDRATE   115200
 
+#define MAGICPAD_OLD_FIRMWARE
+
 /**
  *
  */

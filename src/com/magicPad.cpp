@@ -20,17 +20,19 @@ bool MagicPad::connectDevice(const MagicPadDevice& device)
 
     if(!openComPort(device.comport, mDeviceHandle))
     {
-        qDebug() << TAG << "Could not open COM port " << device.comport << "for device " << device.name;
+        QLOG_WARN() << TAG << "Could not open COM port " << device.comport << "for device " << device.name;
         disconnectDevice();
         return false;
     }
 
+#ifndef MAGICPAD_OLD_FIRMWARE
     if(!checkDevice(mDeviceHandle))
     {
-        qDebug() << TAG << "Check device failed: " << device.comport << device.name;
+        QLOG_WARN() << TAG << "Check device failed: " << device.comport << device.name;
         disconnectDevice();
         return false;
     }
+#endif
 
     return true;
 }
@@ -87,18 +89,18 @@ QList<MagicPadDevice> MagicPad::listDevicesFTDI()
         ftStatus = FT_Open(i, &fthandle);
         if(ftStatus != FT_OK){
             FT_Close(fthandle);
-            qDebug() << TAG << "opening " << i << " failed! with error " << ftStatus;
+            QLOG_TRACE() << TAG << "opening " << i << " failed! with error " << ftStatus;
             continue;
         }
         ftStatus = FT_GetComPortNumber(fthandle, &comport);
         if(ftStatus != FT_OK){
             FT_Close(fthandle);
-            qDebug() << TAG << "get com port failed " << ftStatus;
+            QLOG_WARN() << TAG << "get com port failed " << ftStatus;
             continue;
         }
         if(comport == -1) {
             FT_Close(fthandle);
-            qDebug() << TAG << "no com port installed";
+            QLOG_WARN() << TAG << "no com port installed";
             continue;
         }       
 
@@ -110,20 +112,24 @@ QList<MagicPadDevice> MagicPad::listDevicesFTDI()
         HANDLE h;
         if(!openComPort(comport, h)) {
             CloseHandle(h);
-            qDebug() << TAG << "Could not open COM port" << comport;
+            QLOG_WARN() << TAG << "Could not open COM port" << comport;
             continue;
         }
 
+#ifdef MAGICPAD_OLD_FIRMWARE
+        devicesPortName.append(MagicPadDevice(comport, "MagicPad #?"));
+#else
         if(checkDevice(h))
         {
             QString name = getDeviceName(h);
-            QLOG_INFO() << TAG << "Device id=" << i << "on COM port" << comport << "is a MagicPad";
+            QLOG_INFO() << TAG << "Device id=" << i << "on COM port" << comport << "is" << name;
             devicesPortName.append(MagicPadDevice(comport, name));
         }
         else
         {
             QLOG_INFO() << TAG << "Device id=" << i << "on COM port" << comport << "is NOT a MagicPad";
         }
+#endif
         CloseHandle(h);
     }
 
@@ -158,7 +164,7 @@ bool MagicPad::checkDevice(HANDLE& h)
 
     if(buf[0] != 42) // 42 is the magic number that identifies MagicPads
     {
-        qDebug() << "checkDevice failed: wrong answer:" << (int)buf[0];
+        QLOG_WARN() << TAG << "checkDevice failed: wrong answer:" << (int)buf[0];
         return false;
     }
 
@@ -191,14 +197,14 @@ bool MagicPad::writeDevice(HANDLE& h, const char* data, long len)
     fSuccess = WriteFile(h, data, len, &dwwritten, NULL);
     if(!fSuccess)
     {        
-        qDebug() << "Write Failed " << reportError(GetLastError());
+        QLOG_WARN() << TAG << "Write Failed " << reportError(GetLastError());
         QLOG_ERROR() << TAG << "writeDevice() failed " << h;
         return false;
     }
 
     if( len != dwwritten )
     {
-        qDebug() << dwwritten << " bytes written," << len << "requested";
+        QLOG_WARN() << TAG << dwwritten << " bytes written," << len << "requested";
         return false;
     }
 
@@ -218,13 +224,13 @@ bool MagicPad::readDevice(HANDLE& h, char* data, long len)
 
     if(!fSuccess)
     {
-        qDebug() << "data read = " << data << ", error:" << reportError(GetLastError());
+        QLOG_WARN() << TAG << "data read = " << data << ", error:" << reportError(GetLastError());
         return false;
     }
 
     if( len != dwRead )
     {
-        qDebug() << dwRead << " bytes read," << len << "requested";
+        QLOG_WARN() << TAG << dwRead << " bytes read," << len << "requested";
         return false;
     }
 
@@ -253,7 +259,7 @@ bool MagicPad::openComPort(LONG comport, HANDLE& h)
 
     if(h == INVALID_HANDLE_VALUE)
     {
-        qDebug() << "Help - failed to open " << COMx;
+        QLOG_WARN() << TAG << "Help - failed to open " << COMx;
         return false;
     }
 
@@ -261,7 +267,7 @@ bool MagicPad::openComPort(LONG comport, HANDLE& h)
     fSuccess = GetCommState(h, &dcb);
     if(!fSuccess)
     {
-        qDebug() << "GetCommState Failed" << reportError(GetLastError());
+        QLOG_WARN() << TAG << "GetCommState Failed" << reportError(GetLastError());
         return false;
     }
 
@@ -274,7 +280,7 @@ bool MagicPad::openComPort(LONG comport, HANDLE& h)
     fSuccess = SetCommState(h, &dcb);
     if(!fSuccess)
     {
-        qDebug() << "SetCommState Failed" << reportError(GetLastError());
+        QLOG_WARN() << TAG << "SetCommState Failed" << reportError(GetLastError());
         return false;
     }
 
@@ -286,7 +292,7 @@ bool MagicPad::openComPort(LONG comport, HANDLE& h)
     TimeOut.WriteTotalTimeoutConstant = 50;
     if(!SetCommTimeouts(h, &TimeOut))
     {
-        qDebug() << "SetCommTimeouts Failed: " << reportError(GetLastError());
+        QLOG_WARN() << TAG << "SetCommTimeouts Failed: " << reportError(GetLastError());
         return false;
     }
 
@@ -298,18 +304,36 @@ bool MagicPad::openComPort(LONG comport, HANDLE& h)
  */
 void MagicPad::getDeviceFrame()
 {
-    // send 'FRAME' command
-    if(!writeDevice(mDeviceHandle, "B", 1)) return;
+#ifdef MAGICPAD_OLD_FIRMWARE
+        // OLD FRAME FORMAT
 
-    // read name
-    unsigned char buf[106];
-    if(!readDevice(mDeviceHandle, (char *)buf, 106)) return;
+        // send 'FRAME' command
+        if(!writeDevice(mDeviceHandle, "A", 1)) return;
 
-    unsigned long int timestamp = (buf[1] << 24) + (buf[2] << 16) + (buf[3] << 8) + (buf[4]);
+        // read name
+        unsigned char buf[102];
+        if(!readDevice(mDeviceHandle, (char *)buf, 102)) return;
 
-    MagicPadFrame *frame = new MagicPadFrame(buf+5, timestamp);
+        MagicPadFrame *frame = new MagicPadFrame( buf+1, 1 );
 
-    emit newFrame(frame);
+        emit newFrame(frame);
+#else
+        // NEW FRAME FORMAT
+
+        // send 'FRAME' command
+        if(!writeDevice(mDeviceHandle, "B", 1)) return;
+
+        // read name
+        unsigned char buf[106];
+
+        if(!readDevice(mDeviceHandle, (char *)buf, 106)) return;
+
+        unsigned long int timestamp = (buf[1] << 24) + (buf[2] << 16) + (buf[3] << 8) + (buf[4]);
+
+        MagicPadFrame *frame = new MagicPadFrame(buf+5, timestamp);
+
+        emit newFrame(frame);
+#endif
 }
 
 /**

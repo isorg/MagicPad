@@ -14,8 +14,8 @@ FrameProducer::FrameProducer()
  */
 void FrameProducer::run()
 {
-    QTimer *timer = new QTimer();
-    timer->setInterval(40); // 200ms -> 5Hz for now
+    QTimer *timer = new QTimer( );
+    timer->setInterval(40);
 
     MagicPad *magicPad = new MagicPad();
     if(!magicPad->connectDevice(mDevice))
@@ -54,7 +54,7 @@ void FrameProducer::getNewFrame(MagicPadFrame *frame)
     static unsigned long int prevTime = 0;
     if(frameCnt == 24)
     {
-        double fps = (25 * 1000) / (frame->timestamp - prevTime);
+        //double fps = (25 * 1000) / (frame->timestamp - prevTime);
         //emit framerateChanged( fps );
         frameCnt = 0;
         prevTime = frame->timestamp;

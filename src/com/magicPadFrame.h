@@ -17,7 +17,7 @@ public:
         timestamp = 0;
     }
 
-    MagicPadFrame(unsigned char *data, long unsigned int _timestamp)
+    MagicPadFrame(unsigned char *data, long unsigned int _timestamp = 0)
     {
         img = cv::Mat(10, 10, CV_8U, data);
         timestamp = _timestamp;

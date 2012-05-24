@@ -164,7 +164,6 @@ private:
     bool mShowBack;
     bool mShowQuit;
     bool mShowText;
-    bool mEnableFirwareCheck;
 
     QPixmap _bg;
 
