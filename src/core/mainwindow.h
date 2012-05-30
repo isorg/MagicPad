@@ -107,11 +107,7 @@ public:
 
 protected:
 
-    void keyReleaseEvent(QKeyEvent *e) {
-        if( e->key() == Qt::Key_Escape ) {
-            QLOG_TRACE() << TAG << "ESCAPE";
-        }
-    }
+    void keyPressEvent(QKeyEvent *e);
 
 public slots:
     // TODO: autostart applet if specified in config.ini

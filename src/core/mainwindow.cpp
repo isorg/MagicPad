@@ -16,36 +16,34 @@ MainWindow::MainWindow(QWidget *parent)
     MagicPad *magicPad = new MagicPad();
     mProducer = new FrameProducer();
 
-    //if (mNeedMagicPad) {
-        int force_com_port = mSettings->value("Communication/force_com_port", 0).toInt();
-        if(force_com_port)
+    int force_com_port = mSettings->value("Communication/force_com_port", 0).toInt();
+    if(force_com_port)
+    {
+        MagicPadDevice device(force_com_port, "MagicPad on COM" + QString::number(force_com_port));
+        mProducer->setDevice(device);
+        QLOG_INFO() << TAG << "Forcing MagicPad on COM" << force_com_port;
+    }
+    else
+    {
+        QList<MagicPadDevice> L = magicPad->listDevices();
+        QLOG_INFO() << L.size() << "MagicPad devices found";
+        if(L.size() > 0)
         {
-            MagicPadDevice device(force_com_port, "MagicPad on COM" + QString::number(force_com_port));
-            mProducer->setDevice(device);
-            QLOG_INFO() << TAG << "Forcing MagicPad on COM" << force_com_port;
+            mProducer->setDevice(L.first());
         }
-        else
+        else if (!mCanRunWithoutMagicPad)
         {
-            QList<MagicPadDevice> L = magicPad->listDevices();
-            QLOG_INFO() << L.size() << "MagicPad devices found";
-            if(L.size() > 0)
-            {
-                mProducer->setDevice(L.first());
-            }
-            else if (!mCanRunWithoutMagicPad)
-            {
-                QMessageBox msgBox;
-                msgBox.setText("No MagicPad devices were found.");
-                msgBox.setInformativeText("Make sure that the MagicPad is turned on and the USB cable is plugged in. When using bluetooth, set the COM port number in config.ini");
-                msgBox.setIcon(QMessageBox::Critical);
-                msgBox.exec();
-                exit(0);
-            }
-            else {
-                QMessageBox::warning(this, "No MagicPad devices found", "No MagicPad devices were found, no applet will correctly run.");
-            }
+            QMessageBox msgBox;
+            msgBox.setText("No MagicPad devices were found.");
+            msgBox.setInformativeText("Make sure that the MagicPad is turned on and the USB cable is plugged in. When using bluetooth, set the COM port number in config.ini");
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.exec();
+            exit(0);
         }
-    //}
+        else {
+            QMessageBox::warning(this, "No MagicPad devices found", "No MagicPad devices were found, no applet will correctly run.");
+        }
+    }
 
     // === Main window === //
     setupUI();
@@ -128,7 +126,7 @@ void MainWindow::setupUI()
     ActionButton *backButton = new ActionButton(QPixmap(":image/reverse.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
     backButton->setPos(5, 25);
     connect(backButton, SIGNAL(pressed()), this, SLOT(closeCurrentAppletLater()));
-    //connect(this, SIGNAL(emulateBackButton()), this, SLOT(closeCurrentAppletLater()));
+    connect(this, SIGNAL(emulateBackButton()), this, SLOT(closeCurrentAppletLater()));
 
     // Logger button
     ActionButton *messageButton = new ActionButton(QPixmap(":image/message.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
@@ -231,6 +229,9 @@ void MainWindow::setupUI()
     gotoHomeStateAnimation->addAnimation(slideHomeAnimation);
 
     QAbstractTransition *trans = rootState->addTransition(backButton, SIGNAL(pressed()), homeState);
+    trans->addAnimation(gotoHomeStateAnimation);
+
+    trans = rootState->addTransition(this, SIGNAL(emulateBackButton()), homeState);
     trans->addAnimation(gotoHomeStateAnimation);
 
     trans = rootState->addTransition(this, SIGNAL(goApplet()), appState);
@@ -423,3 +424,13 @@ void MainWindow::loadSettings()
     mShowText = mSettings->value("show_description_text", true).toBool();
     mCanRunWithoutMagicPad = mSettings->value("can_run_without_magic_pad", false).toBool();
 }
+
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+   if (event->key() == Qt::Key_Escape && mCurrentApplet != NULL) {
+       QLOG_TRACE() << TAG << "ESCAPE";
+       emit(emulateBackButton());
+   }
+}
+
