@@ -164,6 +164,7 @@ private:
     bool mShowBack;
     bool mShowQuit;
     bool mShowText;
+    bool mCanRunWithoutMagicPad;
 
     QPixmap _bg;
 

@@ -16,31 +16,36 @@ MainWindow::MainWindow(QWidget *parent)
     MagicPad *magicPad = new MagicPad();
     mProducer = new FrameProducer();
 
-    int force_com_port = mSettings->value("Communication/force_com_port", 0).toInt();
-    if(force_com_port)
-    {
-        MagicPadDevice device(force_com_port, "MagicPad on COM" + QString::number(force_com_port));
-        mProducer->setDevice(device);
-        QLOG_INFO() << TAG << "Forcing MagicPad on COM" << force_com_port;
-    }
-    else
-    {
-        QList<MagicPadDevice> L = magicPad->listDevices();
-        QLOG_INFO() << L.size() << "MagicPad devices found";
-        if(L.size() > 0)
+    //if (mNeedMagicPad) {
+        int force_com_port = mSettings->value("Communication/force_com_port", 0).toInt();
+        if(force_com_port)
         {
-            mProducer->setDevice(L.first());
+            MagicPadDevice device(force_com_port, "MagicPad on COM" + QString::number(force_com_port));
+            mProducer->setDevice(device);
+            QLOG_INFO() << TAG << "Forcing MagicPad on COM" << force_com_port;
         }
         else
         {
-            QMessageBox msgBox;
-            msgBox.setText("No MagicPad devices were found.");
-            msgBox.setInformativeText("Make sure that the MagicPad is turned on and the USB cable is plugged in. When using bluetooth, set the COM port number in config.ini");
-            msgBox.setIcon(QMessageBox::Critical);
-            msgBox.exec();
-            exit(0);
+            QList<MagicPadDevice> L = magicPad->listDevices();
+            QLOG_INFO() << L.size() << "MagicPad devices found";
+            if(L.size() > 0)
+            {
+                mProducer->setDevice(L.first());
+            }
+            else if (!mCanRunWithoutMagicPad)
+            {
+                QMessageBox msgBox;
+                msgBox.setText("No MagicPad devices were found.");
+                msgBox.setInformativeText("Make sure that the MagicPad is turned on and the USB cable is plugged in. When using bluetooth, set the COM port number in config.ini");
+                msgBox.setIcon(QMessageBox::Critical);
+                msgBox.exec();
+                exit(0);
+            }
+            else {
+                QMessageBox::warning(this, "No MagicPad devices found", "No MagicPad devices were found, no applet will correctly run.");
+            }
         }
-    }
+    //}
 
     // === Main window === //
     setupUI();
@@ -416,4 +421,5 @@ void MainWindow::loadSettings()
     mShowBack = mSettings->value("show_back", true).toBool();
     mShowQuit = mSettings->value("show_quit", true).toBool();
     mShowText = mSettings->value("show_description_text", true).toBool();
+    mCanRunWithoutMagicPad = mSettings->value("can_run_without_magic_pad", false).toBool();
 }
