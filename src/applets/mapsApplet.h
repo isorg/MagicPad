@@ -5,6 +5,7 @@
 
 #include <QtWebKit/QtWebKit>
 #include <QHBoxLayout>
+#include <QMessageBox>
 
 #include "filters/calibrationFilter.h"
 #include "filters/joystickFilter.h"
@@ -27,6 +28,9 @@ class MapsApplet : public Applet
     Q_OBJECT
 	
 public:
+    void setCo (bool c) {
+        co = c;
+    }
 
     static const QString TAG;
 
@@ -38,11 +42,16 @@ public slots:
 
     void reset();
 
+    void connexionOk(bool c) {
+        setCo(c);
+    }
+
 private:
     CalibrationFilter *mCalibrationFilter;
     JoystickFilter *mJoystickFilter;
     ObjectDetectionFilter *mObjectDetectionFilter;
     cv::Point2f mPos;
+    bool co;
 
     QWebView *mWebView;
 };

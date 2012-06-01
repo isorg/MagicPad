@@ -22,8 +22,15 @@ MapsApplet::MapsApplet(QWidget *parent) : Applet(parent)
 
     // Build user interface
     mWebView = new QWebView( this );
+    connect(mWebView, SIGNAL(QWebView::loadFinished(bool ok)), this, SLOT(connexionOk(bool c)) );
     mWebView->settings()->setAttribute( QWebSettings::JavascriptEnabled, true );
     mWebView->load( QUrl::fromLocalFile( MAPS_HTML_FILE ) );
+
+    // Connexion test
+    if (co)
+    { QMessageBox::warning(this, "No connexion", "This applicatioin need a network connexion to run."); }
+
+
 
     QHBoxLayout *layout = new QHBoxLayout( this );
     layout->addWidget( mWebView );
@@ -75,3 +82,4 @@ void MapsApplet::reset()
     mPos.x = 0;
     mPos.y = 0;
 }
+
