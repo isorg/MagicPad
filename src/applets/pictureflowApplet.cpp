@@ -38,6 +38,11 @@ PictureFlowApplet::PictureFlowApplet(QWidget *parent) : Applet(parent)
     mPictureFlow->setBackgroundColor( Qt::black );
     //mPictureFlow->setBackgroundColor( Qt::transparent );
     mPictureFlow->setReflectionEffect( PictureFlow::PlainReflection );
+
+    // Gestures
+    GestureType ges[GESTURE_NUMBER];
+    ges[0] = SWAP_LEFT_RIGHT;
+    setGestures(ges);
 }
 
 /**

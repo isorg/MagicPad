@@ -27,6 +27,11 @@ MapsApplet::MapsApplet(QWidget *parent) : Applet(parent)
 
     QHBoxLayout *layout = new QHBoxLayout( this );
     layout->addWidget( mWebView );
+
+    // Gestures
+    GestureType ges[GESTURE_NUMBER];
+    ges[0] = SWAP_ALL;
+    setGestures(ges);
 }
 
 /**

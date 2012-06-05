@@ -2,7 +2,7 @@
 
 #include <QtXml>
 
-#define stringify( name ) # name
+#define stringify( name ) #name
 
 const QString Applet::TAG = QString("Applet");
 
@@ -14,7 +14,7 @@ Applet::Applet(QWidget *parent) :
 {
     mName = "defaultName";
     mTitle = "defaultTitle";
-    mGestures[0] = TWIST;
+    //mGestures[0] = TWIST;
 }
 
 /**
@@ -58,8 +58,6 @@ void Applet::acceptedGestures(QPixmap * ges)
             QLOG_ERROR() << TAG << "Unable to load accepted gestures icon for " + mName + " number " + i;
         }
     }
-    //return p;
-
 }
 
 /**

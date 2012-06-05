@@ -17,6 +17,11 @@ GestureApplet::GestureApplet(QWidget *parent) : Applet(parent)
     // Filter pipeline
     mCalibrationFilter = new CalibrationFilter();
     mRotationFilter = new RotationFilter();
+
+    // Gestures
+    GestureType ges[GESTURE_NUMBER];
+    ges[0] = SWAP_ALL;
+    setGestures(ges);
 }
 
 /**

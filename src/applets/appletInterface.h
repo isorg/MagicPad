@@ -19,6 +19,7 @@ public:
 
     // Type of application gesture
     typedef enum {
+        NONE            = 0,
         TWIST           = 1,
         SWAP_LEFT_RIGHT = 2,
         SWAP_BACK_FORTH = 3,

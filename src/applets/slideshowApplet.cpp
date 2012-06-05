@@ -33,6 +33,11 @@ SlideshowApplet::SlideshowApplet(QWidget *parent) : Applet(parent)
     connect( btn, SIGNAL(clicked()), this, SLOT(openFile()) );
 
     mArrowWidget = new ArrowHintWidget( this );
+
+    // Gestures
+    GestureType ges[GESTURE_NUMBER];
+    ges[0] = SWAP_LEFT_RIGHT;
+    setGestures(ges);
 }
 
 /**
