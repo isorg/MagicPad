@@ -72,6 +72,12 @@
                 <technical>Such applications may require only a few photodiode instead of a complete 10 by 10 optical sensor.</technical>
         </applet>
 
+        <applet name="pong">
+                <description>Innosens has developed this revamped version of the much beloved classic Pong game. Balls have been replaced by light rays and Snell-Descartes optical law has been mixed in. Hand elevation controls the racket position.</description>
+                <marketing>ISORG organic sensors can be used as proximity sensors, adding exciting ability to your product.</marketing>
+                <technical>Such applications may require only a few photodiode instead of a complete  10 by 10 optical sensor.</technical>
+        </applet>
+
         <applet name="purple">
                 <description>Your hand is the device: use the MagicPad as a virtual 3D joystick.</description>
                 <marketing>By sensing the users hand position over the device, ISORG optical sensor can be used to control and manipulate objects in a 3D environment.</marketing>
@@ -112,12 +118,6 @@
                 <description>This applet shows a virtual button that can be twisted like a real one.</description>
                 <marketing>This is the marketing text. twist The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
                 <technical>The three representations (Knob, Oven timer and Optical Flow) are based on the same algorithm: the Farneback dense optical flow. Local (dense) vector motion is computed for every pixel to obtain a two-dimentional vector field. Global field motion can be translated into a rotation measurement.</technical>
-        </applet>
-		
-        <applet name="tyuu">
-                <description>Innosens has developed this revamped version of the much beloved classic Pong game. Balls have been replaced by light rays and Snell-Descartes optical law has been mixed in. Hand elevation controls the racket position.</description>
-                <marketing>???????????????????????????????????????????????????????????? ????????????????????????????????????????????????????????????</marketing>
-                <technical>Such applications may require only a few photodiode instead of a complete  10 by 10 optical sensor.</technical>
         </applet>
 		
         <applet name="vumeter">

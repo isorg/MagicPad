@@ -32,6 +32,7 @@
 #include "applets/musicApplet.h"
 #include "applets/opdApplet.h"
 //#include "applets/pandaApplet.h"
+#include "applets/pongApplet.h"
 #include "applets/pictureflowApplet.h"
 #include "applets/purpleApplet.h"
 #include "applets/rollingballApplet.h"

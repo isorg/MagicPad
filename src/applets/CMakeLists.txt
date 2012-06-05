@@ -1,4 +1,6 @@
 
+file(GLOB PONG_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/pong/*.cpp")
+
 set(SRCS_APPLET
     "${CMAKE_CURRENT_SOURCE_DIR}/alphabetApplet.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/applet.cpp"
@@ -13,6 +15,7 @@ set(SRCS_APPLET
     "${CMAKE_CURRENT_SOURCE_DIR}/opdApplet.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/pandaApplet.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/pictureflowApplet.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/pongApplet.cpp" ${PONG_SOURCES}
     "${CMAKE_CURRENT_SOURCE_DIR}/purpleApplet.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/rollingballApplet.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/slideshowApplet.cpp"

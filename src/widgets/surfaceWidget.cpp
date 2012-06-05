@@ -9,8 +9,8 @@ SurfaceWidget::SurfaceWidget(QWidget *parent) : Qwt3D::SurfacePlot(parent)
 {
     // Initialisation de l'état initial
     m_tabla = NULL;
-    m_frameDouble = cv::Mat( 10, 10, CV_64F );
-    m_frameFiltered = cv::Mat( 10, 10, CV_64F );
+    m_frameDouble = cv::Mat( 10, 10, CV_64F, cv::Scalar::all(0) );
+    m_frameFiltered = cv::Mat( 10, 10, CV_64F, cv::Scalar::all(0) );
 
     setShift( 0.35, 0, 0 );
     setRotation( 60, 0, 80 );

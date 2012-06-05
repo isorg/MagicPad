@@ -18,7 +18,6 @@
         <file>image/icon_backlight.png</file>
         <file>image/icon_imagedisplay.png</file>
         <file>image/icon_rollingball.png</file>
-        <file>image/icon_tyuu.png</file>
         <file>image/icon_bargraph.png</file>
         <file>image/icon_twist.png</file>
         <file>image/icon_slideshow.png</file>
@@ -52,5 +51,9 @@
         <file>image/music/play.png</file>
         <file>image/music/stop.png</file>
         <file>image/isorg.jpg</file>
+        <file>image/pong/prismeV4.png</file>
+        <file>image/pong/raquette2.png</file>
+        <file>image/pong/raquette3.png</file>
+        <file>image/icon_pong.png</file>
     </qresource>
 </RCC>

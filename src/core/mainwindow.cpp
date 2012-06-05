@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
         MagicPadDevice device(force_com_port, "MagicPad on COM" + QString::number(force_com_port));
         mProducer->setDevice(device);
         QLOG_INFO() << TAG << "Forcing MagicPad on COM" << force_com_port;
+        mProducer->start();
     }
     else
     {
@@ -30,18 +31,19 @@ MainWindow::MainWindow(QWidget *parent)
         if(L.size() > 0)
         {
             mProducer->setDevice(L.first());
+            mProducer->start();
         }
         else if (!mCanRunWithoutMagicPad)
         {
             QMessageBox msgBox;
-            msgBox.setText("No MagicPad devices were found.");
+            msgBox.setText("No MagicPad devices found.");
             msgBox.setInformativeText("Make sure that the MagicPad is turned on and the USB cable is plugged in. When using bluetooth, set the COM port number in config.ini");
             msgBox.setIcon(QMessageBox::Critical);
             msgBox.exec();
             exit(0);
         }
         else {
-            QMessageBox::warning(this, "No MagicPad devices found", "No MagicPad devices were found, no applet will correctly run.");
+            QMessageBox::warning(this, "No MagicPad devices found", "No MagicPad devices were found.");
         }
     }
 
@@ -51,9 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     QPalette p;
     p = palette();
     p.setBrush( QPalette::Window, QBrush( QPixmap( ":image/metal.jpg" ) ) );
-    setPalette( p );
-
-    mProducer->start();
+    setPalette( p );    
 }
 
 /**
@@ -287,6 +287,7 @@ void MainWindow::loadApplets(QGraphicsScene *scene)
     registerApplet( new OpdApplet( mAppletRect ) );
     //registerApplet( new pandaApplet( mAppletRect ) );
     registerApplet( new PictureFlowApplet( mAppletRect ) );
+    registerApplet( new PongApplet( mAppletRect ) );
     registerApplet( new PurpleApplet( mAppletRect ) );
     registerApplet( new RollingballApplet( mAppletRect ) );
     registerApplet( new SlideshowApplet( mAppletRect ) );
