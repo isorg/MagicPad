@@ -14,7 +14,21 @@
 class AppletInterface
 {
 
+
 public:
+
+    // Type of application gesture
+    typedef enum {
+        TWIST           = 1,
+        SWAP_LEFT_RIGHT = 2,
+        SWAP_BACK_FORTH = 3,
+        SWAP_ALL        = 4,
+        JOYSTICK        = 5,
+        UP_DOWN         = 6,
+        OBJECT          = 7,
+        PRESS           = 8
+        } GestureType;
+
 
     virtual ~AppletInterface() {}
 
@@ -28,6 +42,12 @@ public:
 
     // Return the applet icon ( use $SOURCES/artwork/icon as a guideline)
     virtual QPixmap icon() = 0;
+
+    // Return the accepted gestures
+    virtual void acceptedGestures(QPixmap * ges) = 0;
+
+    // Set the accepte gestures, to use in constructor
+    virtual void setGestures(GestureType ges[3]) = 0;
 
     // Every applet has three paragraphs that:
     // - describes what the applet does and how to use it

@@ -2,6 +2,8 @@
 
 #include <QtXml>
 
+#define stringify( name ) # name
+
 const QString Applet::TAG = QString("Applet");
 
 /**
@@ -12,6 +14,7 @@ Applet::Applet(QWidget *parent) :
 {
     mName = "defaultName";
     mTitle = "defaultTitle";
+    mGestures[0] = TWIST;
 }
 
 /**
@@ -28,6 +31,52 @@ QPixmap Applet::icon()
     }
 
     return p;
+}
+
+/**
+ * acceptedGestures - return accepted gestures icon in ges
+ */
+void Applet::acceptedGestures(QPixmap * ges)
+{
+    //int size= sizeof mGestures/sizeof(GestureType);
+    for (int i = 0 ; i < GESTURE_NUMBER ; i++) {
+        QString fname;
+        switch (mGestures[i]) {
+        case (UP_DOWN): {
+            fname = ":image/icon_acc_ges_UP_DOWN.png"; break;
+        }case (TWIST): {
+            fname = ":image/icon_acc_ges_TWIST.png"; break;
+        }case (SWAP_LEFT_RIGHT): {
+            fname = ":image/icon_acc_ges_SWAP_LEFT_RIGHT.png"; break;
+        }case (SWAP_BACK_FORTH): {
+            fname = ":image/icon_acc_ges_SWAP_BACK_FORTH.png"; break;
+        }case (SWAP_ALL): {
+            fname = ":image/icon_acc_ges_SWAP_ALL.png"; break;
+        }
+        }
+        if (!ges[i].load (fname) ) {
+            QLOG_ERROR() << TAG << "Unable to load accepted gestures icon for " + mName + " number " + i;
+        }
+    }
+    //return p;
+
+}
+
+/**
+ * setGestures - set the accepted gestures
+ */
+void Applet::setGestures(GestureType ges[]) {
+    // calculate the size
+    int size= sizeof ges/sizeof(GestureType);
+
+    // Check ges has right size
+    if (size > GESTURE_NUMBER ) {
+        QLOG_ERROR() << TAG << "Wrong size for " + mName + " accepted gestures : " + GESTURE_NUMBER + " is maximum";
+        return;
+    }
+    for (int i = 0; i < GESTURE_NUMBER ; i++) {
+        mGestures[i] = ges[i];
+    }
 }
 
 /**

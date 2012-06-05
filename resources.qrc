@@ -52,5 +52,10 @@
         <file>image/music/play.png</file>
         <file>image/music/stop.png</file>
         <file>image/isorg.jpg</file>
+        <file>image/icon_acc_ges_UP_DOWN.png</file>
+        <file>image/icon_acc_ges_SWAP_ALL.png</file>
+        <file>image/icon_acc_ges_SWAP_BACK_FORTH.png</file>
+        <file>image/icon_acc_ges_SWAP_LEFT_RIGHT.png</file>
+        <file>image/icon_acc_ges_TWIST.png</file>
     </qresource>
 </RCC>
