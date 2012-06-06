@@ -14,7 +14,8 @@ Applet::Applet(QWidget *parent) :
 {
     mName = "defaultName";
     mTitle = "defaultTitle";
-    //mGestures[0] = TWIST;
+    for (int i =0; i < GESTURE_NUMBER; i++)
+        mGestures[i] = NONE;
 }
 
 /**
@@ -38,7 +39,6 @@ QPixmap Applet::icon()
  */
 void Applet::acceptedGestures(QPixmap * ges)
 {
-    //int size= sizeof mGestures/sizeof(GestureType);
     for (int i = 0 ; i < GESTURE_NUMBER ; i++) {
         QString fname;
         switch (mGestures[i]) {
@@ -52,10 +52,24 @@ void Applet::acceptedGestures(QPixmap * ges)
             fname = ":image/icon_acc_ges_SWAP_BACK_FORTH.png"; break;
         }case (SWAP_ALL): {
             fname = ":image/icon_acc_ges_SWAP_ALL.png"; break;
+        }case (CLICK): {
+            fname = ":image/icon_acc_ges_CLICK.png"; break;
+        }case (SWITCH): {
+            fname = ":image/icon_acc_ges_SWITCH.png"; break;
+        }case (TOP_RIGHT): {
+            fname = ":image/icon_acc_ges_TOP_RIGHT.png"; break;
+        }case (BOTTOM_RIGHT): {
+            fname = ":image/icon_acc_ges_BOTTOM_RIGHT.png"; break;
+        }case (RIGHT): {
+            fname = ":image/icon_acc_ges_RIGHT.png"; break;
+        }case (LEFT): {
+            fname = ":image/icon_acc_ges_LEFT.png"; break;
+        }case (ALPHABET): {
+            fname = ":image/icon_acc_ges_ALPHABET.png"; break;
         }
         }
-        if (!ges[i].load (fname) ) {
-            QLOG_ERROR() << TAG << "Unable to load accepted gestures icon for " + mName + " number " + i;
+        if (!ges[i].load (fname) && mGestures[i]!= NONE) {
+            QLOG_ERROR() << TAG << "Unable to load accepted gestures icon for " + mName + " number " + QString::number(i);
         }
     }
 }
@@ -64,14 +78,15 @@ void Applet::acceptedGestures(QPixmap * ges)
  * setGestures - set the accepted gestures
  */
 void Applet::setGestures(GestureType ges[]) {
+    /*
     // calculate the size
     int size= sizeof ges/sizeof(GestureType);
 
     // Check ges has right size
     if (size > GESTURE_NUMBER ) {
-        QLOG_ERROR() << TAG << "Wrong size for " + mName + " accepted gestures : " + GESTURE_NUMBER + " is maximum";
+        QLOG_ERROR() << TAG << "Wrong size for " + mName + " accepted gestures : " + QString::number(GESTURE_NUMBER) + " is maximum";
         return;
-    }
+    }*/
     for (int i = 0; i < GESTURE_NUMBER ; i++) {
         mGestures[i] = ges[i];
     }

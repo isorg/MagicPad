@@ -145,7 +145,9 @@ private:
     QGraphicsWidget *mAppletButtonGrid;
     QWidget *mAppletRect;
     QGraphicsTextItem *mText;
-    QGraphicsPixmapItem *mAccGes;
+    QGraphicsPixmapItem *mAccGes0;
+    QGraphicsPixmapItem *mAccGes1;
+    QGraphicsPixmapItem *mAccGes2;
     QGraphicsWidget *group;
     QRectF mScreen;
     LoggerDialog *mLogger;

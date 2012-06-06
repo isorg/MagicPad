@@ -20,11 +20,8 @@ class Applet : public QWidget, public AppletInterface
 public:
 
     //const static char* gestureName[] = {"TWIST"};
-    //const char *fruits_str[]={ "apples","oranges","pears" };
 
     static const QString TAG;
-
-    static const int GESTURE_NUMBER = 3;
 
     Applet(QWidget *parent = 0);
 

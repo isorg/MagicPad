@@ -57,5 +57,12 @@
         <file>image/icon_acc_ges_SWAP_BACK_FORTH.png</file>
         <file>image/icon_acc_ges_SWAP_LEFT_RIGHT.png</file>
         <file>image/icon_acc_ges_TWIST.png</file>
+        <file>image/icon_acc_ges_CLICK.png</file>
+        <file>image/icon_acc_ges_SWITCH.png</file>
+        <file>image/icon_acc_ges_BOTTOM_RIGHT.png</file>
+        <file>image/icon_acc_ges_TOP_RIGHT.png</file>
+        <file>image/icon_acc_ges_LEFT.png</file>
+        <file>image/icon_acc_ges_RIGHT.png</file>
+        <file>image/icon_acc_ges_ALPHABET.png</file>
     </qresource>
 </RCC>

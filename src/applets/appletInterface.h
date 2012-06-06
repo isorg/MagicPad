@@ -17,6 +17,8 @@ class AppletInterface
 
 public:
 
+    static const int GESTURE_NUMBER = 3;
+
     // Type of application gesture
     typedef enum {
         NONE            = 0,
@@ -27,7 +29,14 @@ public:
         JOYSTICK        = 5,
         UP_DOWN         = 6,
         OBJECT          = 7,
-        PRESS           = 8
+        PRESS           = 8,
+        CLICK           = 9,
+        SWITCH          = 10,
+        TOP_RIGHT       = 11,
+        BOTTOM_RIGHT    = 12,
+        RIGHT           = 13,
+        LEFT            = 14,
+        ALPHABET        = 15
         } GestureType;
 
 
@@ -48,7 +57,7 @@ public:
     virtual void acceptedGestures(QPixmap * ges) = 0;
 
     // Set the accepte gestures, to use in constructor
-    virtual void setGestures(GestureType ges[3]) = 0;
+    virtual void setGestures(GestureType ges[GESTURE_NUMBER]) = 0;
 
     // Every applet has three paragraphs that:
     // - describes what the applet does and how to use it

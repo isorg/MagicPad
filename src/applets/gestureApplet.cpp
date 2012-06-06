@@ -21,6 +21,8 @@ GestureApplet::GestureApplet(QWidget *parent) : Applet(parent)
     // Gestures
     GestureType ges[GESTURE_NUMBER];
     ges[0] = SWAP_ALL;
+    ges[1] = TWIST;
+    ges[2] = NONE;
     setGestures(ges);
 }
 

@@ -112,17 +112,25 @@ void MainWindow::setupUI()
     //scene->addItem( mText );
 
     // Create accepted gestures icon
-    mAccGes = new QGraphicsPixmapItem;
-    mAccGes->setPos(50,100);
+    mAccGes0 = new QGraphicsPixmapItem;
+    mAccGes0->setPos(42,mScreen.height()-300);
+    mAccGes0->setScale(0.3);
+
+    mAccGes1 = new QGraphicsPixmapItem;
+    mAccGes1->setPos(182,mScreen.height()-300);
+    mAccGes1->setScale(0.3);
+
+    mAccGes2 = new QGraphicsPixmapItem;
+    mAccGes2->setPos(323,mScreen.height()-300);
+    mAccGes2->setScale(0.3);
 
     // Create group
     group = new QGraphicsWidget;
     scene->addItem(group);
-    //group->addToGroup(mText);
-    //group->addToGroup(mAccGes);
     mText->setParentItem(group);
-    mAccGes->setParentItem(group);
-        //group->addToGroup(mAccGes);
+    mAccGes0->setParentItem(group);
+    mAccGes1->setParentItem(group);
+    mAccGes2->setParentItem(group);
 
     // === Action Bar pannel === //
     // The Action Bar is the left vertical pannel that holds the back,
@@ -175,7 +183,7 @@ void MainWindow::setupUI()
     states->setInitialState(rootState);
     rootState->setInitialState(homeState);
 
-    homeState->assignProperty(group, "pos", QPointF(50, -500));
+    homeState->assignProperty(group, "pos", QPointF(50, -999));
     QPointF origin(50 + mScreen.center().x() - (MAINWINDOW_APPLETGRID_NCOL*180.0)/2.0,
                    mScreen.center().y() - 180.0*0.5*(mApplets.size()/MAINWINDOW_APPLETGRID_NCOL));
     homeState->assignProperty(mAppletButtonGrid, "pos", origin);
@@ -408,12 +416,14 @@ void MainWindow::launchApplet(AppletInterface *applet)
     mText->setHtml(text);
 
     // Accepted gesture
-    //QPixmap* g = applet->acceptedGestures();
-    //mAccGes->setPixmap(g[0]);
     QPixmap ges[3];
     applet->acceptedGestures(ges);
-    mAccGes->setPixmap(ges[0]);
-    //mAccGes->setPixmap(QPixmap (":image/icon_acc_ges_UP_DOWN.png"));
+    //if (ges[0] != GestureType::NONE)
+        mAccGes0->setPixmap(ges[0]);
+    //if (ges[1] != NONE)
+        mAccGes1->setPixmap(ges[1]);
+    //if (ges[2] != NONE)
+        mAccGes2->setPixmap(ges[2]);
 
     emit goApplet();
 

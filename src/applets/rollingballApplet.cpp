@@ -53,7 +53,9 @@ RollingballApplet::RollingballApplet(QWidget *parent) : Applet(parent)
 
     // Gestures
     GestureType ges[GESTURE_NUMBER];
-    ges[0] = SWAP_LEFT_RIGHT;
+    ges[0] = LEFT;
+    ges[1] = RIGHT;
+    ges[2] = NONE;
     setGestures(ges);
 }
 

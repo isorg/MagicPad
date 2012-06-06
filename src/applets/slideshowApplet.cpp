@@ -37,6 +37,8 @@ SlideshowApplet::SlideshowApplet(QWidget *parent) : Applet(parent)
     // Gestures
     GestureType ges[GESTURE_NUMBER];
     ges[0] = SWAP_LEFT_RIGHT;
+    ges[1] = NONE;
+    ges[2] = NONE;
     setGestures(ges);
 }
 
