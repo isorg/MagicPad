@@ -86,11 +86,7 @@ MusicApplet::MusicApplet(QWidget *parent) : Applet(parent)
     mLastValue = 0.0;
 
     // Gestures
-    GestureType ges[GESTURE_NUMBER];
-    ges[0] = UP_DOWN;
-    ges[1] = NONE;
-    ges[2] = NONE;
-    setGestures(ges);
+    setGestures(UP_DOWN);
 }
 
 /**

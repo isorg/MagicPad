@@ -28,11 +28,7 @@ BacklightApplet::BacklightApplet(QWidget *parent) : Applet(parent)
     }
 
     // Gestures
-    GestureType ges[GESTURE_NUMBER];
-    ges[0] = SWAP_ALL;
-    ges[1] = NONE;
-    ges[2] = NONE;
-    setGestures(ges);
+    setGestures(SWAP_ALL);
 }
 
 /**

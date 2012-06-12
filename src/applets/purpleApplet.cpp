@@ -22,11 +22,7 @@ PurpleApplet::PurpleApplet(QWidget *parent) : Applet(parent)
     reset();
 
     // Gestures
-    GestureType ges[GESTURE_NUMBER];
-    ges[0] = SWAP_ALL;
-    ges[1] = NONE;
-    ges[2] = NONE;
-    setGestures(ges);
+    setGestures(SWAP_ALL);
 }
 
 /**

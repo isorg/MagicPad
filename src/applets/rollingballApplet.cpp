@@ -52,11 +52,7 @@ RollingballApplet::RollingballApplet(QWidget *parent) : Applet(parent)
     qsrand( QTime::currentTime().msec() );
 
     // Gestures
-    GestureType ges[GESTURE_NUMBER];
-    ges[0] = LEFT;
-    ges[1] = RIGHT;
-    ges[2] = NONE;
-    setGestures(ges);
+    setGestures(SWAP_LEFT_RIGHT);
 }
 
 /**

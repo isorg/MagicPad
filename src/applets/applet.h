@@ -42,7 +42,7 @@ public:
     // Accepted gestures
     virtual void acceptedGestures(QPixmap * ges);
 
-    virtual void setGestures(GestureType ges[GESTURE_NUMBER]);
+    virtual void setGestures(GestureType ges0, GestureType ges1 =NONE, GestureType ges2 =NONE);
 
 
     void setFrame( cv::Mat& frame ) = 0;
@@ -73,7 +73,7 @@ protected:
 protected:
     QString mName;      // short name: no spaces
     QString mTitle;     // title displayed on home screen
-    GestureType mGestures[GESTURE_NUMBER];  // image showing accepted gestures
+    GestureType mGestures[ APPLET_INTERFACE_GESTURE_NUMBER];  // image showing accepted gestures
 
     // Descriptive text
     QString mDescription;   // Complete description

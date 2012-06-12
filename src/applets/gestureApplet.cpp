@@ -19,11 +19,7 @@ GestureApplet::GestureApplet(QWidget *parent) : Applet(parent)
     mRotationFilter = new RotationFilter();
 
     // Gestures
-    GestureType ges[GESTURE_NUMBER];
-    ges[0] = SWAP_ALL;
-    ges[1] = TWIST;
-    ges[2] = NONE;
-    setGestures(ges);
+    setGestures(SWAP_ALL, TWIST);
 }
 
 /**

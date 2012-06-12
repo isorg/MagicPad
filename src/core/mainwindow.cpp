@@ -113,15 +113,18 @@ void MainWindow::setupUI()
 
     // Create accepted gestures icon
     mAccGes0 = new QGraphicsPixmapItem;
-    mAccGes0->setPos(42,mScreen.height()-300);
+    mAccGes0->setPos(50,mScreen.height()-300);
+    mAccGes0->setPixmap(QPixmap(":image/icon_acc_ges_TWIST.png"));  // initialize the pixmapItem to have the good width for accGesWidth
     mAccGes0->setScale(0.3);
+    int accGesWidth = mAccGes0->boundingRect().width()*0.3; // same scalling that previous line
+    int spacing = 22;   //spacing between pixmapItems
 
     mAccGes1 = new QGraphicsPixmapItem;
-    mAccGes1->setPos(182,mScreen.height()-300);
+    mAccGes1->setPos(50 + accGesWidth + spacing,mScreen.height()-300);
     mAccGes1->setScale(0.3);
 
     mAccGes2 = new QGraphicsPixmapItem;
-    mAccGes2->setPos(323,mScreen.height()-300);
+    mAccGes2->setPos(50 + 2*accGesWidth + 2*spacing,mScreen.height()-300);
     mAccGes2->setScale(0.3);
 
     // Create group
@@ -237,10 +240,17 @@ void MainWindow::setupUI()
     animTextOut->setEasingCurve(QEasingCurve::OutQuad);
     gotoHomeStateAnimation->addAnimation(animTextOut);
 
+    QPauseAnimation *animGridInPause = new QPauseAnimation(200);
+
     QPropertyAnimation *animGridIn = new QPropertyAnimation(mAppletButtonGrid, "pos");
     animGridIn->setDuration(750);
     animGridIn->setEasingCurve(QEasingCurve::OutQuad);
-    slideHomeAnimation->addAnimation(animGridIn);
+
+    QSequentialAnimationGroup *animGridInGroup = new QSequentialAnimationGroup;
+    animGridInGroup->addAnimation(animGridInPause);
+    animGridInGroup->addAnimation(animGridIn);
+
+    slideHomeAnimation->addAnimation(animGridInGroup);
 
     QPropertyAnimation *animAppOut = new QPropertyAnimation(mAppletRect, "pos");
     animAppOut->setDuration(750);

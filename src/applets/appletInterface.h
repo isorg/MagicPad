@@ -11,32 +11,26 @@
  * For more information about Plugins and Interfaces, please check out:
  * - http://qt-project.org/doc/qt-4.8/plugins-howto.html
  */
+
+#define APPLET_INTERFACE_GESTURE_NUMBER   3
+
 class AppletInterface
 {
 
 
 public:
 
-    static const int GESTURE_NUMBER = 3;
-
     // Type of application gesture
     typedef enum {
         NONE            = 0,
-        TWIST           = 1,
-        SWAP_LEFT_RIGHT = 2,
-        SWAP_BACK_FORTH = 3,
-        SWAP_ALL        = 4,
-        JOYSTICK        = 5,
-        UP_DOWN         = 6,
-        OBJECT          = 7,
-        PRESS           = 8,
-        CLICK           = 9,
-        SWITCH          = 10,
-        TOP_RIGHT       = 11,
-        BOTTOM_RIGHT    = 12,
-        RIGHT           = 13,
-        LEFT            = 14,
-        ALPHABET        = 15
+        TWIST,
+        SWAP_LEFT_RIGHT,
+        SWAP_BACK_FORTH,
+        SWAP_ALL,
+        UP_DOWN,
+        TOP_RIGHT,
+        BOTTOM_RIGHT,
+        ALPHABET
         } GestureType;
 
 
@@ -57,7 +51,7 @@ public:
     virtual void acceptedGestures(QPixmap * ges) = 0;
 
     // Set the accepte gestures, to use in constructor
-    virtual void setGestures(GestureType ges[GESTURE_NUMBER]) = 0;
+    virtual void setGestures(GestureType ges0, GestureType ges1 =NONE, GestureType ges2 =NONE) = 0;
 
     // Every applet has three paragraphs that:
     // - describes what the applet does and how to use it

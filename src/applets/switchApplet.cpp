@@ -45,11 +45,7 @@ SwitchApplet::SwitchApplet(QWidget *parent) :
     connect(this, SIGNAL(turnLightOff()), turnOffAnimation, SLOT(start()));
 
     // Gestures
-    GestureType ges[GESTURE_NUMBER];
-    ges[0] = SWITCH;
-    ges[1] = NONE;
-    ges[2] = NONE;
-    setGestures(ges);
+    setGestures(SWAP_LEFT_RIGHT);
 }
 
 /**
