@@ -28,9 +28,6 @@ class MapsApplet : public Applet
     Q_OBJECT
 	
 public:
-    void setCo (bool c) {
-        co = c;
-    }
 
     static const QString TAG;
 
@@ -40,19 +37,19 @@ public slots:
 
     void setFrame( cv::Mat& frame );
 
+    void start();
+
     void reset();
 
-    void connexionOk(bool c) {
-        setCo(c);
-    }
+private:
+
+    bool connexionOk();
 
 private:
     CalibrationFilter *mCalibrationFilter;
     JoystickFilter *mJoystickFilter;
     ObjectDetectionFilter *mObjectDetectionFilter;
     cv::Point2f mPos;
-    bool co;
-
     QWebView *mWebView;
 };
 

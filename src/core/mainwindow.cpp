@@ -411,7 +411,7 @@ void MainWindow::loadSettings()
 
     if( QFile::exists( iniFile ) == false )
     {
-        QLOG_ERROR() << TAG << "INI file not found at:" << iniFile;
+        QLOG_DEBUG() << TAG << "INI file not found at:" << iniFile;
     }
 
     mSettings = new QSettings( iniFile, QSettings::IniFormat );
@@ -434,4 +434,3 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
        emit(emulateBackButton());
    }
 }
-
