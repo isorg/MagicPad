@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
         if(L.size() > 0)
         {
             mProducer->setDevice(L.first());
+            mProducer->start();
+
         }
         else if (!mCanRunWithoutMagicPad)
         {
@@ -53,7 +55,6 @@ MainWindow::MainWindow(QWidget *parent)
     p.setBrush( QPalette::Window, QBrush( QPixmap( ":image/metal.jpg" ) ) );
     setPalette( p );
 
-    mProducer->start();
 }
 
 /**
@@ -399,6 +400,10 @@ void MainWindow::launchApplet(AppletInterface *applet)
     // show and start
     mCurrentApplet->show();
     mCurrentApplet->start();
+
+    if (applet->name() == MAPS_NAME && !connexionOk()) {
+        QMessageBox::warning(this, "No internet connexion", "Sorry, this application require internet connexion.");
+    }
 }
 
 /**
@@ -410,7 +415,7 @@ void MainWindow::loadSettings()
 
     if( QFile::exists( iniFile ) == false )
     {
-        QLOG_ERROR() << TAG << "INI file not found at:" << iniFile;
+        QLOG_DEBUG() << TAG << "INI file not found at:" << iniFile;
     }
 
     mSettings = new QSettings( iniFile, QSettings::IniFormat );
@@ -434,3 +439,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
    }
 }
 
+/**
+  * Check the internet connexion (used for maps)
+  */
+bool MainWindow::connexionOk() {
+    QTcpSocket *socket = new QTcpSocket;
+    //QMessageBox m;
+    socket->connectToHost("www.google.com", 80);
+    return socket->waitForConnected(3000);
+}

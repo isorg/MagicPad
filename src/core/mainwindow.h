@@ -134,6 +134,8 @@ private:
 
     void setupUI();
 
+    bool connexionOk();
+
 private slots:
 
     void dispatchFrame( cv::Mat& frame ) {
