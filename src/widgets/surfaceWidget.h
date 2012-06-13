@@ -1,12 +1,7 @@
 #ifndef SURFACEWIDGET_H
 #define SURFACEWIDGET_H
 
-#include <QsLog.h>
-
-#include <QtOpenGL>
-
 #include <opencv2/opencv.hpp>
-
 #include "qwt3d_surfaceplot.h"
 
 #define SURFACE_PLOTFACTOR 20 // Maximum of steps on z-axis for 3D surface plot

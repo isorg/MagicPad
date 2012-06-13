@@ -98,8 +98,6 @@ void SurfaceWidget::setFrame(const cv::Mat &frame)
     // convert to 'double' data type
     frame.convertTo(m_frameDouble, CV_64F);
 
-    //rollingMax->getFrame(m_frameDouble);
-
     // Low pass temporal filter to smooth down movement
     m_frameFiltered += 0.5*(m_frameDouble-m_frameFiltered);
 

@@ -76,8 +76,8 @@ add_subdirectory("3rdparty/QsLog")
 # Find OpenCV & GLUT
 #
 find_package(OpenCV REQUIRED)
-#find_package(GLUT REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
+
 
 #
 # Plugins
