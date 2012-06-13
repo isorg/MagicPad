@@ -400,10 +400,6 @@ void MainWindow::launchApplet(AppletInterface *applet)
     // show and start
     mCurrentApplet->show();
     mCurrentApplet->start();
-
-    if (applet->name() == MAPS_NAME && !connexionOk()) {
-        QMessageBox::warning(this, "No internet connexion", "Sorry, this application require internet connexion.");
-    }
 }
 
 /**
@@ -437,14 +433,4 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
        QLOG_TRACE() << TAG << "ESCAPE";
        emit(emulateBackButton());
    }
-}
-
-/**
-  * Check the internet connexion (used for maps)
-  */
-bool MainWindow::connexionOk() {
-    QTcpSocket *socket = new QTcpSocket;
-    //QMessageBox m;
-    socket->connectToHost("www.google.com", 80);
-    return socket->waitForConnected(3000);
 }

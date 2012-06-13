@@ -28,9 +28,6 @@ class MapsApplet : public Applet
     Q_OBJECT
 	
 public:
-    void setCo (bool c) {
-        co = c;
-    }
 
     static const QString TAG;
 
@@ -42,10 +39,6 @@ public slots:
 
     void reset();
 
-    void connexionOk(bool c) {
-        setCo(c);
-    }
-
 private:
     CalibrationFilter *mCalibrationFilter;
     JoystickFilter *mJoystickFilter;
@@ -54,6 +47,9 @@ private:
     bool co;
 
     QWebView *mWebView;
+
+    bool connexionOk();
+    virtual  void start();
 };
 
 #endif // MAPSAPPLET_H
