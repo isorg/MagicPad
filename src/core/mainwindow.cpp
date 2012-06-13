@@ -128,6 +128,11 @@ void MainWindow::setupUI()
     connect(backButton, SIGNAL(pressed()), this, SLOT(closeCurrentAppletLater()));
     connect(this, SIGNAL(emulateBackButton()), this, SLOT(closeCurrentAppletLater()));
 
+    // Information button
+    ActionButton *informationButton = new ActionButton(QPixmap(":image/information.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
+    informationButton->setPos(5, mScreen.height()-230);
+    //connect(informationButton, SIGNAL(pressed()), this, SLOT());
+
     // Logger button
     ActionButton *messageButton = new ActionButton(QPixmap(":image/message.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
     messageButton->setPos( 5, mScreen.height()-140 );
@@ -162,21 +167,34 @@ void MainWindow::setupUI()
     states->setInitialState(rootState);
     rootState->setInitialState(homeState);
 
+
+    // Home state
     homeState->assignProperty(mText, "pos", QPointF(50, -500));
     QPointF origin(50 + mScreen.center().x() - (MAINWINDOW_APPLETGRID_NCOL*180.0)/2.0,
                    mScreen.center().y() - 180.0*0.5*(mApplets.size()/MAINWINDOW_APPLETGRID_NCOL));
     homeState->assignProperty(mAppletButtonGrid, "pos", origin);
     homeState->assignProperty(mAppletRect, "pos", QPointF(mScreen.width(), (mScreen.height()-mAppletRect->height())/2 ));
     homeState->assignProperty(backButton, "visible", false);
+    homeState->assignProperty(informationButton, "visible", false);
 
+
+    // App state
     appState->assignProperty(mText, "pos", QPointF(50, 150));
     appState->assignProperty(mAppletButtonGrid, "pos", origin - QPointF(mScreen.width(), 10));
-    if( mShowText ) {
-        appState->assignProperty( mAppletRect, "pos", QPointF( MAINWINDOW_TEXT_WIDTH + 100, (mScreen.height()-mAppletRect->height())/2 ) );
-    } else {
-        appState->assignProperty( mAppletRect, "pos", QPointF( 100 + (mScreen.width() - mAppletRect->width())/2, (mScreen.height()-mAppletRect->height())/2) );
-    }
     if( mShowBack ) appState->assignProperty(backButton, "visible", true );
+    if (mShowInformationButton) appState->assignProperty(informationButton, "visible", true);
+
+    // App state with text
+    QState *appStateWithText = new QState(appState);
+    appStateWithText->assignProperty( mAppletRect, "pos", QPointF( MAINWINDOW_TEXT_WIDTH + 100, (mScreen.height()-mAppletRect->height())/2 ) );
+
+    // App state without text
+    QState *appStateWithoutText = new QState(appState);
+    appStateWithoutText->assignProperty( mAppletRect, "pos", QPointF( 100 + (mScreen.width() - mAppletRect->width())/2, (mScreen.height()-mAppletRect->height())/2) );
+
+    if (mShowText) appState->setInitialState(appStateWithText);
+    else appState->setInitialState(appStateWithoutText);
+
 
     // Animations
     // HOME -> APP : app icons out, then text in
@@ -228,6 +246,26 @@ void MainWindow::setupUI()
 
     gotoHomeStateAnimation->addAnimation(slideHomeAnimation);
 
+
+    // APP without Text -> APP with Text : text in, appletRect shifts on the right
+    QParallelAnimationGroup *animTextInAppletRight = new QParallelAnimationGroup;
+
+    QPropertyAnimaation *textIn =  new QPropertyAnimation(mText, "pos");
+    textIn->setDuration(750);
+    textin->setEasingCurve(QEasingCurve::OutQuad);
+    animTextInAppletRight->addAnimation(textIn);
+
+
+    // APP with Text -> APP without Text : text out, appletRect shifts on the left
+    QParallelAnimationGroup *animTextInAppletRight = new QParallelAnimationGroup;
+
+    QPropertyAnimation *textIn =  new QPropertyAnimation(mText, "pos");
+    textIn->setDuration(750);
+    textin->setEasingCurve(QEasingCurve::OutQuad);
+    animTextInAppletRight->addAnimation(textIn);
+
+
+    // Transitions
     QAbstractTransition *trans = rootState->addTransition(backButton, SIGNAL(pressed()), homeState);
     trans->addAnimation(gotoHomeStateAnimation);
 
@@ -236,6 +274,9 @@ void MainWindow::setupUI()
 
     trans = rootState->addTransition(this, SIGNAL(goApplet()), appState);
     trans->addAnimation(gotoAppStateAnimation);
+
+    trans = appState->addTransiion(informationButton, SIGNAL(pressed()), appStateWithText);
+    trans->addAnimation(......);
 
     // Start state machine
     states->start();
@@ -424,6 +465,7 @@ void MainWindow::loadSettings()
     mShowQuit = mSettings->value("show_quit", true).toBool();
     mShowText = mSettings->value("show_description_text", true).toBool();
     mCanRunWithoutMagicPad = mSettings->value("can_run_without_magic_pad", false).toBool();
+    mShowInformationButton = mSettings->value("show_information_button", true).toBool();
 }
 
 

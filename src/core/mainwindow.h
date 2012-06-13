@@ -150,6 +150,7 @@ private:
     LoggerDialog *mLogger;
 
     bool mReadyToLaunchApplet;
+    bool mDisplayText;
     AppletInterface *mCurrentApplet;
     FrameProducer *mProducer;
     QList< AppletInterface* > mApplets;
@@ -162,6 +163,7 @@ private:
     bool mShowQuit;
     bool mShowText;
     bool mCanRunWithoutMagicPad;
+    bool mShowInformationButton;
 
     QPixmap _bg;
 

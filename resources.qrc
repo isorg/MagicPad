@@ -55,5 +55,6 @@
         <file>image/pong/raquette2.png</file>
         <file>image/pong/raquette3.png</file>
         <file>image/icon_pong.png</file>
+        <file>image/information.png</file>
     </qresource>
 </RCC>
