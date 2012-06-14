@@ -42,8 +42,7 @@ public:
     // Accepted gestures
     virtual void acceptedGestures(QPixmap * ges);
 
-    virtual void setGestures(GestureType ges0, GestureType ges1 =NONE, GestureType ges2 =NONE);
-
+    virtual void setGestures(GestureType ges0, GestureType ges1 = NONE, GestureType ges2 = NONE);
 
     void setFrame( cv::Mat& frame ) = 0;
 

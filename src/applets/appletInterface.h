@@ -51,7 +51,7 @@ public:
     virtual void acceptedGestures(QPixmap * ges) = 0;
 
     // Set the accepte gestures, to use in constructor
-    virtual void setGestures(GestureType ges0, GestureType ges1 =NONE, GestureType ges2 =NONE) = 0;
+    virtual void setGestures(GestureType ges0, GestureType ges1 = NONE, GestureType ges2 = NONE) = 0;
 
     // Every applet has three paragraphs that:
     // - describes what the applet does and how to use it

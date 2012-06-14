@@ -2,8 +2,6 @@
 
 #include <QtXml>
 
-#define stringify( name ) #name
-
 const QString Applet::TAG = QString("Applet");
 
 /**
@@ -39,28 +37,28 @@ QPixmap Applet::icon()
  */
 void Applet::acceptedGestures(QPixmap * ges)
 {
-    for (int i = 0 ; i <  APPLET_INTERFACE_GESTURE_NUMBER ; i++) {
+    for(int i = 0; i < APPLET_INTERFACE_GESTURE_NUMBER; i++) {
         QString fname;
         switch (mGestures[i]) {
-        case (UP_DOWN): {
+        case UP_DOWN:
             fname = ":image/icon_acc_ges_UP_DOWN.png"; break;
-        }case (TWIST): {
+        case TWIST:
             fname = ":image/icon_acc_ges_TWIST.png"; break;
-        }case (SWAP_LEFT_RIGHT): {
+        case SWAP_LEFT_RIGHT:
             fname = ":image/icon_acc_ges_SWAP_LEFT_RIGHT.png"; break;
-        }case (SWAP_BACK_FORTH): {
+        case SWAP_BACK_FORTH:
             fname = ":image/icon_acc_ges_SWAP_BACK_FORTH.png"; break;
-        }case (SWAP_ALL): {
+        case SWAP_ALL:
             fname = ":image/icon_acc_ges_SWAP_ALL.png"; break;
-        }case (TOP_RIGHT): {
+        case TOP_RIGHT:
             fname = ":image/icon_acc_ges_TOP_RIGHT.png"; break;
-        }case (BOTTOM_RIGHT): {
+        case BOTTOM_RIGHT:
             fname = ":image/icon_acc_ges_BOTTOM_RIGHT.png"; break;
-        }case (ALPHABET): {
+        case ALPHABET:
             fname = ":image/icon_acc_ges_ALPHABET.png"; break;
         }
-        }
-        if (!ges[i].load (fname) && mGestures[i]!= NONE) {
+
+        if( !ges[i].load(fname) && mGestures[i]!= NONE ) {
             QLOG_ERROR() << TAG << "Unable to load accepted gestures icon for " + mName + " number " + QString::number(i);
         }
     }

@@ -112,28 +112,24 @@ void MainWindow::setupUI()
     //scene->addItem( mText );
 
     // Create accepted gestures icon
-    mAccGes0 = new QGraphicsPixmapItem;
-    mAccGes0->setPos(50,mScreen.height()-300);
-    mAccGes0->setPixmap(QPixmap(":image/icon_acc_ges_TWIST.png"));  // initialize the pixmapItem to have the good width for accGesWidth
-    mAccGes0->setScale(0.3);
-    int accGesWidth = mAccGes0->boundingRect().width()*0.3; // same scalling that previous line
-    int spacing = 22;   //spacing between pixmapItems
+    int gesSpacing = 22;   // spacing between pixmapItems
+    int gesWidth = QPixmap(":image/icon_acc_ges_TWIST.png").width();
+    int gesIconWidth = (MAINWINDOW_TEXT_WIDTH - 3*gesSpacing) / 3;
+    double gesScale = (double)gesIconWidth / gesWidth;
+    mAcceptedGestures.resize(3);
+    for(int i=0; i<3; i++) {
+        mAcceptedGestures[i] = new QGraphicsPixmapItem;
+        mAcceptedGestures[i]->setPos( 50 + i*gesIconWidth + (i+0.5)*gesSpacing, mScreen.height()-300 );
+        mAcceptedGestures[i]->setScale( gesScale );
+    }
 
-    mAccGes1 = new QGraphicsPixmapItem;
-    mAccGes1->setPos(50 + accGesWidth + spacing,mScreen.height()-300);
-    mAccGes1->setScale(0.3);
-
-    mAccGes2 = new QGraphicsPixmapItem;
-    mAccGes2->setPos(50 + 2*accGesWidth + 2*spacing,mScreen.height()-300);
-    mAccGes2->setScale(0.3);
-
-    // Create group
-    group = new QGraphicsWidget;
-    scene->addItem(group);
-    mText->setParentItem(group);
-    mAccGes0->setParentItem(group);
-    mAccGes1->setParentItem(group);
-    mAccGes2->setParentItem(group);
+    // Create group to hold the description text and the gestures icons
+    mTextAnsGesturesGroup = new QGraphicsWidget;
+    scene->addItem(mTextAnsGesturesGroup);
+    mText->setParentItem(mTextAnsGesturesGroup);
+    foreach(QGraphicsPixmapItem* p, mAcceptedGestures) {
+        p->setParentItem(mTextAnsGesturesGroup);
+    }
 
     // === Action Bar pannel === //
     // The Action Bar is the left vertical pannel that holds the back,
@@ -157,7 +153,6 @@ void MainWindow::setupUI()
     messageButton->setPos( 5, mScreen.height()-140 );
     if( !mShowLogger ) messageButton->hide();
     connect( messageButton, SIGNAL(pressed()), mLogger, SLOT(exec()) );
-
 
     // Quit button
     ActionButton *quitButton = new ActionButton(QPixmap(":image/power.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
@@ -186,14 +181,14 @@ void MainWindow::setupUI()
     states->setInitialState(rootState);
     rootState->setInitialState(homeState);
 
-    homeState->assignProperty(group, "pos", QPointF(50, -999));
+    homeState->assignProperty(mTextAnsGesturesGroup, "pos", QPointF(50, -mScreen.height()));
     QPointF origin(50 + mScreen.center().x() - (MAINWINDOW_APPLETGRID_NCOL*180.0)/2.0,
                    mScreen.center().y() - 180.0*0.5*(mApplets.size()/MAINWINDOW_APPLETGRID_NCOL));
     homeState->assignProperty(mAppletButtonGrid, "pos", origin);
     homeState->assignProperty(mAppletRect, "pos", QPointF(mScreen.width(), (mScreen.height()-mAppletRect->height())/2 ));
     homeState->assignProperty(backButton, "visible", false);
 
-    appState->assignProperty(group, "pos", QPointF(50, 150));
+    appState->assignProperty(mTextAnsGesturesGroup, "pos", QPointF(50, 150));
     appState->assignProperty(mAppletButtonGrid, "pos", origin - QPointF(mScreen.width(), 10));
     if( mShowText ) {
         appState->assignProperty( mAppletRect, "pos", QPointF( MAINWINDOW_TEXT_WIDTH + 100, (mScreen.height()-mAppletRect->height())/2 ) );
@@ -221,7 +216,7 @@ void MainWindow::setupUI()
 
     QPauseAnimation *animTextInPause = new QPauseAnimation(350);
 
-    QPropertyAnimation *animTextIn = new QPropertyAnimation(group, "pos");
+    QPropertyAnimation *animTextIn = new QPropertyAnimation(mTextAnsGesturesGroup, "pos");
     animTextIn->setDuration(750);
     animTextIn->setEasingCurve(QEasingCurve::OutBounce);
 
@@ -235,7 +230,7 @@ void MainWindow::setupUI()
     QParallelAnimationGroup *slideHomeAnimation = new QParallelAnimationGroup;
     QParallelAnimationGroup *gotoHomeStateAnimation = new QParallelAnimationGroup;
 
-    QPropertyAnimation *animTextOut = new QPropertyAnimation(group, "pos");
+    QPropertyAnimation *animTextOut = new QPropertyAnimation(mTextAnsGesturesGroup, "pos");
     animTextOut->setDuration(750);
     animTextOut->setEasingCurve(QEasingCurve::OutQuad);
     gotoHomeStateAnimation->addAnimation(animTextOut);
@@ -308,7 +303,6 @@ void MainWindow::loadApplets(QGraphicsScene *scene)
     //
     registerApplet( new AlphabetApplet( mAppletRect ) );
     registerApplet( new BacklightApplet( mAppletRect ) );
-    //registerApplet( new BargraphApplet( mAppletRect ) );
     registerApplet( new BulbApplet( mAppletRect ) );
     registerApplet( new DjApplet( mAppletRect ) );
     registerApplet( new GestureApplet( mAppletRect ) );
@@ -316,7 +310,6 @@ void MainWindow::loadApplets(QGraphicsScene *scene)
     registerApplet( new MapsApplet( mAppletRect ) );
     registerApplet( new MusicApplet( mAppletRect ) );
     registerApplet( new OpdApplet( mAppletRect ) );
-    //registerApplet( new pandaApplet( mAppletRect ) );
     registerApplet( new PictureFlowApplet( mAppletRect ) );
     registerApplet( new PurpleApplet( mAppletRect ) );
     registerApplet( new RollingballApplet( mAppletRect ) );
@@ -324,7 +317,6 @@ void MainWindow::loadApplets(QGraphicsScene *scene)
     registerApplet( new SurfaceApplet( mAppletRect ) );
     registerApplet( new SwitchApplet( mAppletRect ) );
     registerApplet( new TwistApplet( mAppletRect ) );
-    //registerApplet( new tyuuApplet( mAppletRect ) );
     registerApplet( new VumeterApplet( mAppletRect ) );
 
     //
@@ -427,13 +419,10 @@ void MainWindow::launchApplet(AppletInterface *applet)
 
     // Accepted gesture
     QPixmap ges[3];
-    applet->acceptedGestures(ges);
-    //if (ges[0] != GestureType::NONE)
-        mAccGes0->setPixmap(ges[0]);
-    //if (ges[1] != NONE)
-        mAccGes1->setPixmap(ges[1]);
-    //if (ges[2] != NONE)
-        mAccGes2->setPixmap(ges[2]);
+    applet->acceptedGestures( ges );
+    mAcceptedGestures[0]->setPixmap( ges[0] );
+    mAcceptedGestures[1]->setPixmap( ges[1] );
+    mAcceptedGestures[2]->setPixmap( ges[2] );
 
     emit goApplet();
 
