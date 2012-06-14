@@ -50,6 +50,9 @@ RollingballApplet::RollingballApplet(QWidget *parent) : Applet(parent)
     connect( mTmrCoinCycle, SIGNAL( timeout() ), this, SLOT( addCoin() ) );
 
     qsrand( QTime::currentTime().msec() );
+
+    // Gestures
+    setGestures(SWAP_LEFT_RIGHT);
 }
 
 /**

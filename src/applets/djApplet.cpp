@@ -22,6 +22,9 @@ DjApplet::DjApplet(QWidget *parent) : Applet(parent)
     mAngle = 0.0;
     mSpeed = 0.0;
     mDiskImage = QPixmap(":/image/dj/disk.png");
+
+    // Gestures
+    setGestures(TWIST);
 }
 
 /**

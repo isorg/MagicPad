@@ -8,17 +8,6 @@
 
 #include "appletInterface.h"
 
-// Type of application gesture
-typedef enum {
-    TWIST           = 0x00000001,
-    SWAP_LEFT_RIGHT = 0x00000004,
-    SWAP_BACK_FORTH = 0x00000008,
-    SWAP_ALL        = 0x00000010,
-    JOYSTICK        = 0x00000020,
-    UP_DOWN         = 0x00000040,
-    OBJECT          = 0x00000080,
-    PRESS           = 0x00000100
-    } GestureType;
 
 /**
  *
@@ -29,6 +18,8 @@ class Applet : public QWidget, public AppletInterface
     Q_INTERFACES( AppletInterface )
 
 public:
+
+    //const static char* gestureName[] = {"TWIST"};
 
     static const QString TAG;
 
@@ -47,6 +38,11 @@ public:
     virtual QString marketingText() { return mMarketing; }
 
     virtual QString technicalText() { return mTechnical; }
+
+    // Accepted gestures
+    virtual void acceptedGestures(QPixmap * ges);
+
+    virtual void setGestures(GestureType ges0, GestureType ges1 = NONE, GestureType ges2 = NONE);
 
     void setFrame( cv::Mat& frame ) = 0;
 
@@ -76,6 +72,7 @@ protected:
 protected:
     QString mName;      // short name: no spaces
     QString mTitle;     // title displayed on home screen
+    GestureType mGestures[ APPLET_INTERFACE_GESTURE_NUMBER];  // image showing accepted gestures
 
     // Descriptive text
     QString mDescription;   // Complete description

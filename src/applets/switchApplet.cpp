@@ -43,6 +43,9 @@ SwitchApplet::SwitchApplet(QWidget *parent) :
     turnOffAnimation->setStartValue(1.0);
     turnOffAnimation->setEndValue(0.0);
     connect(this, SIGNAL(turnLightOff()), turnOffAnimation, SLOT(start()));
+
+    // Gestures
+    setGestures(SWAP_LEFT_RIGHT);
 }
 
 /**

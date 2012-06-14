@@ -23,6 +23,9 @@ SurfaceApplet::SurfaceApplet(QWidget *parent) : Applet(parent)
     QVBoxLayout *layout = new QVBoxLayout( this );
     mSurfaceWidget = new SurfaceWidget( this );
     layout->addWidget( mSurfaceWidget );
+
+    // Gestures
+    setGestures(SWAP_ALL);
 }
 
 /**

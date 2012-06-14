@@ -84,6 +84,9 @@ MusicApplet::MusicApplet(QWidget *parent) : Applet(parent)
     connect(mObjectDetectionFilter, SIGNAL(objectLeaves()), this, SLOT(resurect()));
 
     mLastValue = 0.0;
+
+    // Gestures
+    setGestures(UP_DOWN);
 }
 
 /**

@@ -59,6 +59,10 @@ BulbApplet::BulbApplet(QWidget *parent) : Applet(parent)
     mLightState = 0;
     mLightValue = 50;
     setLight(mLightValue);
+
+    // Gestures
+    setGestures(SWAP_LEFT_RIGHT, TOP_RIGHT, BOTTOM_RIGHT);
+
 }
 
 /**

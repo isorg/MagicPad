@@ -26,6 +26,9 @@ BacklightApplet::BacklightApplet(QWidget *parent) : Applet(parent)
     {
         QLOG_ERROR() << TAG << "Unable to load" << BACKLIGHT_BACKGROUND_IMAGE;
     }
+
+    // Gestures
+    setGestures(SWAP_ALL);
 }
 
 /**

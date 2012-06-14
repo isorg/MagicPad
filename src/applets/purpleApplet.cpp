@@ -20,6 +20,9 @@ PurpleApplet::PurpleApplet(QWidget *parent) : Applet(parent)
     mJoystickFilter = new JoystickFilter();
     mPidFilter = new PidFilter<cv::Point2f>();
     reset();
+
+    // Gestures
+    setGestures(SWAP_ALL);
 }
 
 /**

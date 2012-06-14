@@ -26,6 +26,9 @@ VumeterApplet::VumeterApplet(QWidget *parent) : Applet(parent)
 
     // When an object leaves the MagicPad set the vumeter to the (n-10)th sample
     connect(mObjectDetectionFilter, SIGNAL(objectLeaves()), this, SLOT(resurect()));
+
+    // Gestures
+    setGestures(UP_DOWN);
 }
 
 /**

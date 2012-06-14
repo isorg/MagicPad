@@ -17,6 +17,9 @@ ImagedisplayApplet::ImagedisplayApplet(QWidget *parent) : Applet(parent)
     // Filters pipeline
     mCalibrationFilter = new CalibrationFilter();
     mFrame = cv::Mat();
+
+    // Gestures
+    setGestures(SWAP_ALL);
 }
 
 /**

@@ -11,10 +11,28 @@
  * For more information about Plugins and Interfaces, please check out:
  * - http://qt-project.org/doc/qt-4.8/plugins-howto.html
  */
+
+#define APPLET_INTERFACE_GESTURE_NUMBER   3
+
 class AppletInterface
 {
 
+
 public:
+
+    // Type of application gesture
+    typedef enum {
+        NONE            = 0,
+        TWIST,
+        SWAP_LEFT_RIGHT,
+        SWAP_BACK_FORTH,
+        SWAP_ALL,
+        UP_DOWN,
+        TOP_RIGHT,
+        BOTTOM_RIGHT,
+        ALPHABET
+        } GestureType;
+
 
     virtual ~AppletInterface() {}
 
@@ -28,6 +46,12 @@ public:
 
     // Return the applet icon ( use $SOURCES/artwork/icon as a guideline)
     virtual QPixmap icon() = 0;
+
+    // Return the accepted gestures
+    virtual void acceptedGestures(QPixmap * ges) = 0;
+
+    // Set the accepte gestures, to use in constructor
+    virtual void setGestures(GestureType ges0, GestureType ges1 = NONE, GestureType ges2 = NONE) = 0;
 
     // Every applet has three paragraphs that:
     // - describes what the applet does and how to use it

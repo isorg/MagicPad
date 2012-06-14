@@ -3,6 +3,7 @@ file(GLOB PONG_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/pong/*.cpp")
 
 set(SRCS_APPLET
     "${CMAKE_CURRENT_SOURCE_DIR}/alphabetApplet.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/appletInterface.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/applet.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/backlightApplet.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/bargraphApplet.cpp"

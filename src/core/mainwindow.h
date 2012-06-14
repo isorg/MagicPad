@@ -20,7 +20,6 @@
 #include "com/frameProducer.h"
 
 // Applets
-//#include "applets/templateApplet.h"
 #include "applets/alphabetApplet.h"
 #include "applets/backlightApplet.h"
 #include "applets/bargraphApplet.h"
@@ -31,7 +30,6 @@
 #include "applets/mapsApplet.h"
 #include "applets/musicApplet.h"
 #include "applets/opdApplet.h"
-//#include "applets/pandaApplet.h"
 #include "applets/pongApplet.h"
 #include "applets/pictureflowApplet.h"
 #include "applets/purpleApplet.h"
@@ -40,7 +38,6 @@
 #include "applets/surfaceApplet.h"
 #include "applets/switchApplet.h"
 #include "applets/twistApplet.h"
-//#include "applets/tyuuApplet.h"
 #include "applets/vumeterApplet.h"
 
 #define MAINWINDOW_APPLETGRID_NCOL  5
@@ -146,6 +143,8 @@ private:
     QGraphicsWidget *mAppletButtonGrid;
     QWidget *mAppletRect;
     QGraphicsTextItem *mText;
+    QVector<QGraphicsPixmapItem*> mAcceptedGestures;
+    QGraphicsWidget *mTextAnsGesturesGroup;
     QRectF mScreen;
     LoggerDialog *mLogger;
 

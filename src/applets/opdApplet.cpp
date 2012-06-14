@@ -18,6 +18,9 @@ OpdApplet::OpdApplet(QWidget *parent) : Applet(parent)
     mCalibrationFilter = new CalibrationFilter();
 
     reset();
+
+    // Gestures
+    setGestures(SWAP_ALL);
 }
 
 /**

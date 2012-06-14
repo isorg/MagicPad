@@ -95,6 +95,9 @@ TwistApplet::TwistApplet(QWidget *parent) : Applet(parent)
     connect( btnFlow, SIGNAL(clicked()), mOpticalFlow, SLOT(show()) );
     connect( btnFlow, SIGNAL(clicked()), mOvenTimer, SLOT(hide()) );
     connect( btnFlow, SIGNAL(clicked()), mKnob, SLOT(hide()) );
+
+    // Gestures
+    setGestures(TWIST);
 }
 
 /**

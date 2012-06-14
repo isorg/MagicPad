@@ -166,6 +166,9 @@ AlphabetApplet::AlphabetApplet(QWidget *parent) : Applet(parent)
     mStartTimer->start( 200 );
 
     states.start();
+
+    // Gestures
+    setGestures(ALPHABET);
 }
 
 /**

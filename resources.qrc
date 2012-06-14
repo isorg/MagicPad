@@ -55,5 +55,13 @@
         <file>image/pong/raquette2.png</file>
         <file>image/pong/raquette3.png</file>
         <file>image/icon_pong.png</file>
+        <file>image/icon_acc_ges_UP_DOWN.png</file>
+        <file>image/icon_acc_ges_SWAP_ALL.png</file>
+        <file>image/icon_acc_ges_SWAP_BACK_FORTH.png</file>
+        <file>image/icon_acc_ges_SWAP_LEFT_RIGHT.png</file>
+        <file>image/icon_acc_ges_TWIST.png</file>
+        <file>image/icon_acc_ges_BOTTOM_RIGHT.png</file>
+        <file>image/icon_acc_ges_TOP_RIGHT.png</file>
+        <file>image/icon_acc_ges_ALPHABET.png</file>
     </qresource>
 </RCC>
