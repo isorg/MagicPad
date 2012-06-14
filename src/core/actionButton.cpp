@@ -67,6 +67,11 @@ void ActionButton::mousePressEvent(QGraphicsSceneMouseEvent *)
 void ActionButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *)
 {
     emit pressed();
+    if (!mState) emit pressedON();
+    else emit pressedOFF();
+
+    this->setState(!mState);
+
     update();
 }
 
@@ -88,6 +93,14 @@ void ActionButton::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 void ActionButton::setPixmap(const QPixmap& pix)
 {
     mPixmap = pix;
+}
+
+/**
+ *
+ */
+void ActionButton::setState(const bool& s)
+{
+    mState = s;
 }
 
 /**

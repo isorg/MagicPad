@@ -131,7 +131,8 @@ void MainWindow::setupUI()
     // Information button
     ActionButton *informationButton = new ActionButton(QPixmap(":image/information.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
     informationButton->setPos(5, mScreen.height()-230);
-    //connect(informationButton, SIGNAL(pressed()), this, SLOT());
+    informationButton->setState(mShowText);
+    connect(informationButton, SIGNAL(pressed()), this, SLOT(changeText()));
 
     // Logger button
     ActionButton *messageButton = new ActionButton(QPixmap(":image/message.png").scaled(40, 40, Qt::IgnoreAspectRatio, Qt::SmoothTransformation), actionBar);
@@ -161,6 +162,9 @@ void MainWindow::setupUI()
     rootState = new QState;
     QState *homeState = new QState(rootState);
     QState *appState = new QState(rootState);
+    QState *appStateWithText = new QState(appState);
+    QState *appStateWithoutText = new QState(appState);
+
 
     QStateMachine *states = new QStateMachine;
     states->addState(rootState);
@@ -179,18 +183,18 @@ void MainWindow::setupUI()
 
 
     // App state
-    appState->assignProperty(mText, "pos", QPointF(50, 150));
     appState->assignProperty(mAppletButtonGrid, "pos", origin - QPointF(mScreen.width(), 10));
+    appState->assignProperty(mText, "pos", QPointF(50, 150));
     if( mShowBack ) appState->assignProperty(backButton, "visible", true );
     if (mShowInformationButton) appState->assignProperty(informationButton, "visible", true);
 
     // App state with text
-    QState *appStateWithText = new QState(appState);
     appStateWithText->assignProperty( mAppletRect, "pos", QPointF( MAINWINDOW_TEXT_WIDTH + 100, (mScreen.height()-mAppletRect->height())/2 ) );
+    appStateWithText->assignProperty(mText, "visible", true);
 
     // App state without text
-    QState *appStateWithoutText = new QState(appState);
     appStateWithoutText->assignProperty( mAppletRect, "pos", QPointF( 100 + (mScreen.width() - mAppletRect->width())/2, (mScreen.height()-mAppletRect->height())/2) );
+    appStateWithoutText->assignProperty(mText, "visible", false);
 
     if (mShowText) appState->setInitialState(appStateWithText);
     else appState->setInitialState(appStateWithoutText);
@@ -200,18 +204,6 @@ void MainWindow::setupUI()
     // HOME -> APP : app icons out, then text in
     QParallelAnimationGroup *slideAppletAnimation = new QParallelAnimationGroup;
     QParallelAnimationGroup *gotoAppStateAnimation = new QParallelAnimationGroup;
-
-    QPropertyAnimation *animGridOut = new QPropertyAnimation(mAppletButtonGrid, "pos");
-    animGridOut->setDuration(750);
-    animGridOut->setEasingCurve(QEasingCurve::OutQuad);
-    slideAppletAnimation->addAnimation(animGridOut);
-
-    QPropertyAnimation *animAppIn = new QPropertyAnimation(mAppletRect, "pos");
-    animAppIn->setDuration(750);
-    animAppIn->setEasingCurve(QEasingCurve::OutQuad);
-    slideAppletAnimation->addAnimation(animAppIn);
-
-    gotoAppStateAnimation->addAnimation(slideAppletAnimation);
 
     QPauseAnimation *animTextInPause = new QPauseAnimation(350);
 
@@ -223,7 +215,19 @@ void MainWindow::setupUI()
     animTextInGroup->addAnimation(animTextInPause);
     animTextInGroup->addAnimation(animTextIn);
 
+    QPropertyAnimation *animGridOut = new QPropertyAnimation(mAppletButtonGrid, "pos");
+    animGridOut->setDuration(750);
+    animGridOut->setEasingCurve(QEasingCurve::OutQuad);
+    slideAppletAnimation->addAnimation(animGridOut);
+
+    QPropertyAnimation *animAppIn = new QPropertyAnimation(mAppletRect, "pos");
+    animAppIn->setDuration(750);
+    animAppIn->setEasingCurve(QEasingCurve::OutQuad);
+    slideAppletAnimation->addAnimation(animAppIn);
+
     gotoAppStateAnimation->addAnimation(animTextInGroup);
+    gotoAppStateAnimation->addAnimation(slideAppletAnimation);
+
 
     // APP -> HOME : app icons in, then text out
     QParallelAnimationGroup *slideHomeAnimation = new QParallelAnimationGroup;
@@ -250,19 +254,31 @@ void MainWindow::setupUI()
     // APP without Text -> APP with Text : text in, appletRect shifts on the right
     QParallelAnimationGroup *animTextInAppletRight = new QParallelAnimationGroup;
 
-    QPropertyAnimaation *textIn =  new QPropertyAnimation(mText, "pos");
+    /*QPropertyAnimation *textIn = new QPropertyAnimation(mText, "pos");
     textIn->setDuration(750);
-    textin->setEasingCurve(QEasingCurve::OutQuad);
-    animTextInAppletRight->addAnimation(textIn);
+    textIn->setEasingCurve(QEasingCurve::OutBounce);*/
+
+    QPropertyAnimation *animAppletRight = new QPropertyAnimation;
+    animAppletRight->setDuration(750);
+    animAppletRight->setEasingCurve(QEasingCurve::OutBounce);
+
+    //animTextInAppletRight->addAnimation(textIn);
+    animTextInAppletRight->addAnimation(animAppletRight);
 
 
     // APP with Text -> APP without Text : text out, appletRect shifts on the left
-    QParallelAnimationGroup *animTextInAppletRight = new QParallelAnimationGroup;
+    QParallelAnimationGroup *animTextOutAppletLeft = new QParallelAnimationGroup;
 
-    QPropertyAnimation *textIn =  new QPropertyAnimation(mText, "pos");
-    textIn->setDuration(750);
-    textin->setEasingCurve(QEasingCurve::OutQuad);
-    animTextInAppletRight->addAnimation(textIn);
+    /*QPropertyAnimation *textOut =  new QPropertyAnimation(mText, "pos");
+    textOut->setDuration(750);
+    textOut->setEasingCurve(QEasingCurve::OutQuad);*/
+
+    QPropertyAnimation *animAppletLeft = new QPropertyAnimation;
+    animAppletLeft->setDuration(750);
+    animAppletLeft->setEasingCurve(QEasingCurve::OutBounce);
+
+    //animTextOutAppletLeft->addAnimation(textOut);
+    animTextOutAppletLeft->addAnimation(animAppletLeft);
 
 
     // Transitions
@@ -275,8 +291,19 @@ void MainWindow::setupUI()
     trans = rootState->addTransition(this, SIGNAL(goApplet()), appState);
     trans->addAnimation(gotoAppStateAnimation);
 
-    trans = appState->addTransiion(informationButton, SIGNAL(pressed()), appStateWithText);
-    trans->addAnimation(......);
+    trans = rootState->addTransition(this, SIGNAL(goAppletWithText()), appStateWithText);
+    trans->addAnimation(gotoAppStateAnimation);
+
+    trans = rootState->addTransition(this, SIGNAL(goAppletWithoutText()), appStateWithoutText);
+    trans->addAnimation(gotoAppStateAnimation);
+
+    trans = appState->addTransition(informationButton, SIGNAL(pressedOFF()), appStateWithoutText);
+    trans->addAnimation(animTextOutAppletLeft);
+
+    trans = appState->addTransition(informationButton, SIGNAL(pressedON()), appStateWithText);
+    trans->addAnimation(animTextInAppletRight);
+
+
 
     // Start state machine
     states->start();
@@ -437,6 +464,8 @@ void MainWindow::launchApplet(AppletInterface *applet)
     mText->setHtml(text);
 
     emit goApplet();
+    if (mDisplayText) emit goAppletWithText();
+    else emit goAppletWithoutText();
 
     // show and start
     mCurrentApplet->show();
@@ -466,9 +495,12 @@ void MainWindow::loadSettings()
     mShowText = mSettings->value("show_description_text", true).toBool();
     mCanRunWithoutMagicPad = mSettings->value("can_run_without_magic_pad", false).toBool();
     mShowInformationButton = mSettings->value("show_information_button", true).toBool();
+    mDisplayText = mShowText;
 }
 
-
+/**
+ *
+ */
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
    if (event->key() == Qt::Key_Escape && mCurrentApplet != NULL) {
@@ -477,3 +509,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
    }
 }
 
+/**
+ *
+ */
+void MainWindow::changeText() {
+       mDisplayText = ! mDisplayText;
+       if (mDisplayText == true)
+           mSettings->setValue("show_description_text", 1);
+       else
+           mSettings->setValue("show_description_text", 0);
+   }

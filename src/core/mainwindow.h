@@ -123,6 +123,8 @@ public slots:
 signals:
 
     void goApplet();
+    void goAppletWithText();
+    void goAppletWithoutText();
 
     void emulateBackButton();
 
@@ -140,6 +142,8 @@ private slots:
     void dispatchFrame( cv::Mat& frame ) {
         if( mCurrentApplet ) mCurrentApplet->setFrame( frame );
     }
+
+    void changeText();
 
 private:
     // UI

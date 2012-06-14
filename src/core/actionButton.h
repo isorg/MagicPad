@@ -49,14 +49,19 @@ public:
 
     void setPixmap(const QPixmap& pix);
 
+    void setState(const bool& s);
+
     void setShadowColor(const QColor& color);
 
 signals:
 
     void pressed();
+    void pressedON();
+    void pressedOFF();
 
 private:
     QPixmap mPixmap;
+    bool mState;
 
 };
 
