@@ -108,7 +108,6 @@ void MainWindow::setupUI()
     mText->setPos( 50, 50 );
     mText->setTextWidth( MAINWINDOW_TEXT_WIDTH );
     mText->setGraphicsEffect( new AppletShadowEffect() );
-    if( !mShowText ) mText->hide();
     scene->addItem( mText );
 
     // === Action Bar pannel === //
@@ -190,15 +189,14 @@ void MainWindow::setupUI()
 
     // App state with text
     appStateWithText->assignProperty( mAppletRect, "pos", QPointF( MAINWINDOW_TEXT_WIDTH + 100, (mScreen.height()-mAppletRect->height())/2 ) );
-    appStateWithText->assignProperty(mText, "visible", true);
+    appStateWithText->assignProperty( mText, "visible", true);
 
     // App state without text
     appStateWithoutText->assignProperty( mAppletRect, "pos", QPointF( 100 + (mScreen.width() - mAppletRect->width())/2, (mScreen.height()-mAppletRect->height())/2) );
-    appStateWithoutText->assignProperty(mText, "visible", false);
+    appStateWithoutText->assignProperty( mText, "visible", false);
 
     if (mShowText) appState->setInitialState(appStateWithText);
     else appState->setInitialState(appStateWithoutText);
-
 
     // Animations
     // HOME -> APP : app icons out, then text in
@@ -251,34 +249,30 @@ void MainWindow::setupUI()
     gotoHomeStateAnimation->addAnimation(slideHomeAnimation);
 
 
-    // APP without Text -> APP with Text : text in, appletRect shifts on the right
-    QParallelAnimationGroup *animTextInAppletRight = new QParallelAnimationGroup;
+    // APP without Text -> APP with Text : text appears, appletRect shifts on the right
+    QParallelAnimationGroup *animTextAppear = new QParallelAnimationGroup;
 
-    /*QPropertyAnimation *textIn = new QPropertyAnimation(mText, "pos");
-    textIn->setDuration(750);
-    textIn->setEasingCurve(QEasingCurve::OutBounce);*/
+    QPropertyAnimation *textAppear = new QPropertyAnimation(mText, "opacity");
+    textAppear->setDuration(750);
+    textAppear->setStartValue(0.0);
+    textAppear->setEndValue(1.0);
 
-    QPropertyAnimation *animAppletRight = new QPropertyAnimation;
-    animAppletRight->setDuration(750);
-    animAppletRight->setEasingCurve(QEasingCurve::OutBounce);
+    QPropertyAnimation *animAppletToRight = new QPropertyAnimation(mAppletRect, "pos");
+    animAppletToRight->setDuration(500);
+    animAppletToRight->setEasingCurve(QEasingCurve::OutQuad);
 
-    //animTextInAppletRight->addAnimation(textIn);
-    animTextInAppletRight->addAnimation(animAppletRight);
+    animTextAppear->addAnimation(textAppear);
+    animTextAppear->addAnimation(animAppletToRight);
 
 
-    // APP with Text -> APP without Text : text out, appletRect shifts on the left
-    QParallelAnimationGroup *animTextOutAppletLeft = new QParallelAnimationGroup;
+    // APP with Text -> APP without Text : text disappears, appletRect shifts on the left
+    QParallelAnimationGroup *animTextDisappear = new QParallelAnimationGroup;
 
-    /*QPropertyAnimation *textOut =  new QPropertyAnimation(mText, "pos");
-    textOut->setDuration(750);
-    textOut->setEasingCurve(QEasingCurve::OutQuad);*/
+    QPropertyAnimation *animAppletToLeft = new QPropertyAnimation(mAppletRect, "pos");
+    animAppletToLeft->setDuration(500);
+    animAppletToLeft->setEasingCurve(QEasingCurve::OutQuad);
 
-    QPropertyAnimation *animAppletLeft = new QPropertyAnimation;
-    animAppletLeft->setDuration(750);
-    animAppletLeft->setEasingCurve(QEasingCurve::OutBounce);
-
-    //animTextOutAppletLeft->addAnimation(textOut);
-    animTextOutAppletLeft->addAnimation(animAppletLeft);
+    animTextDisappear->addAnimation(animAppletToLeft);
 
 
     // Transitions
@@ -291,19 +285,17 @@ void MainWindow::setupUI()
     trans = rootState->addTransition(this, SIGNAL(goApplet()), appState);
     trans->addAnimation(gotoAppStateAnimation);
 
-    trans = rootState->addTransition(this, SIGNAL(goAppletWithText()), appStateWithText);
+    trans = appState->addTransition(this, SIGNAL(goAppletWithText()), appStateWithText);
     trans->addAnimation(gotoAppStateAnimation);
 
-    trans = rootState->addTransition(this, SIGNAL(goAppletWithoutText()), appStateWithoutText);
+    trans = appState->addTransition(this, SIGNAL(goAppletWithoutText()), appStateWithoutText);
     trans->addAnimation(gotoAppStateAnimation);
 
     trans = appState->addTransition(informationButton, SIGNAL(pressedOFF()), appStateWithoutText);
-    trans->addAnimation(animTextOutAppletLeft);
+    trans->addAnimation(animTextDisappear);
 
     trans = appState->addTransition(informationButton, SIGNAL(pressedON()), appStateWithText);
-    trans->addAnimation(animTextInAppletRight);
-
-
+    trans->addAnimation(animTextAppear);
 
     // Start state machine
     states->start();
@@ -464,7 +456,7 @@ void MainWindow::launchApplet(AppletInterface *applet)
     mText->setHtml(text);
 
     emit goApplet();
-    if (mDisplayText) emit goAppletWithText();
+    if (mShowText) emit goAppletWithText();
     else emit goAppletWithoutText();
 
     // show and start
@@ -495,7 +487,6 @@ void MainWindow::loadSettings()
     mShowText = mSettings->value("show_description_text", true).toBool();
     mCanRunWithoutMagicPad = mSettings->value("can_run_without_magic_pad", false).toBool();
     mShowInformationButton = mSettings->value("show_information_button", true).toBool();
-    mDisplayText = mShowText;
 }
 
 /**
@@ -513,9 +504,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
  *
  */
 void MainWindow::changeText() {
-       mDisplayText = ! mDisplayText;
-       if (mDisplayText == true)
-           mSettings->setValue("show_description_text", 1);
-       else
-           mSettings->setValue("show_description_text", 0);
-   }
+   mShowText = !mShowText;
+   mSettings->setValue("show_description_text", mShowText);
+}

@@ -154,7 +154,6 @@ private:
     LoggerDialog *mLogger;
 
     bool mReadyToLaunchApplet;
-    bool mDisplayText;
     AppletInterface *mCurrentApplet;
     FrameProducer *mProducer;
     QList< AppletInterface* > mApplets;
