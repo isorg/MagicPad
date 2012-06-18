@@ -19,7 +19,8 @@ public:
     ButtonShadowEffect(QObject *parent = 0) : QGraphicsDropShadowEffect(parent)
     {
         setBlurRadius(7.0);
-        setColor(Qt::lightGray);
+        //setColor(Qt::lightGray);
+        setColor(Qt::white);
         setOffset(0, 0);
     }
 };
@@ -49,14 +50,22 @@ public:
 
     void setPixmap(const QPixmap& pix);
 
+    void setCheckable(bool checkable);
+
+    void setState(const bool& s);
+
     void setShadowColor(const QColor& color);
 
 signals:
 
     void pressed();
+    void pressedON();
+    void pressedOFF();
 
 private:
     QPixmap mPixmap;
+    bool mState;
+    bool mCheckable;
 
 };
 

@@ -90,6 +90,7 @@ include_directories(src)
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-enable-auto-import")
 
+#set(CMAKE_EXE_LINKER_FLAGS "-static")
 add_executable(MagicPad WIN32
     ${MAGICPAD_SRCS}
     ${QSLOG_SRCS}

@@ -63,5 +63,6 @@
         <file>image/icon_acc_ges_BOTTOM_RIGHT.png</file>
         <file>image/icon_acc_ges_TOP_RIGHT.png</file>
         <file>image/icon_acc_ges_ALPHABET.png</file>
+        <file>image/information.png</file>
     </qresource>
 </RCC>

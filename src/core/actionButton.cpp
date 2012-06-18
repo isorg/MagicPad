@@ -12,6 +12,9 @@ ActionButton::ActionButton(const QPixmap& pix, QGraphicsItem *parent) :
 
     // shadow effect
     setGraphicsEffect(new ButtonShadowEffect);
+
+    mState = true;
+    mCheckable = false;
 }
 
 /**
@@ -49,10 +52,17 @@ void ActionButton::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     QGraphicsDropShadowEffect *shadow = static_cast<QGraphicsDropShadowEffect *>(graphicsEffect());
     if(shadow != NULL)
     {
-        if(hover) {
-            shadow->setBlurRadius(20);
-        } else {
-            shadow->setBlurRadius(7);
+        if( mCheckable )
+        {
+            shadow->setBlurRadius( mState ? 20 : 7 );
+        }
+        else
+        {
+            if(hover) {
+                shadow->setBlurRadius(20);
+            } else {
+                shadow->setBlurRadius(7);
+            }
         }
     }
 }
@@ -67,6 +77,11 @@ void ActionButton::mousePressEvent(QGraphicsSceneMouseEvent *)
 void ActionButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *)
 {
     emit pressed();
+    if (!mState) emit pressedON();
+    else emit pressedOFF();
+
+    this->setState(!mState);
+
     update();
 }
 
@@ -85,9 +100,25 @@ void ActionButton::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 /**
  *
  */
+void ActionButton::setCheckable(bool checkable)
+{
+    mCheckable = checkable;
+}
+
+/**
+ *
+ */
 void ActionButton::setPixmap(const QPixmap& pix)
 {
     mPixmap = pix;
+}
+
+/**
+ *
+ */
+void ActionButton::setState(const bool& s)
+{
+    mState = s;
 }
 
 /**

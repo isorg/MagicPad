@@ -108,8 +108,6 @@ protected:
     void keyPressEvent(QKeyEvent *e);
 
 public slots:
-    // TODO: autostart applet if specified in config.ini
-    //void autostart();
 
     void closeCurrentApplet();
 
@@ -117,9 +115,13 @@ public slots:
 
     void launchApplet(AppletInterface *applet);
 
+    void resizeApplets();
+
 signals:
 
     void goApplet();
+    void goAppletWithText();
+    void goAppletWithoutText();
 
     void emulateBackButton();
 
@@ -138,8 +140,10 @@ private slots:
         if( mCurrentApplet ) mCurrentApplet->setFrame( frame );
     }
 
+    void changeText();
+
 private:
-    // UI
+    // User interface:
     QGraphicsWidget *mAppletButtonGrid;
     QWidget *mAppletRect;
     QGraphicsTextItem *mText;
@@ -147,6 +151,7 @@ private:
     QGraphicsWidget *mTextAnsGesturesGroup;
     QRectF mScreen;
     LoggerDialog *mLogger;
+    int mDescriptionTextWidth;
 
     bool mReadyToLaunchApplet;
     AppletInterface *mCurrentApplet;
@@ -161,6 +166,7 @@ private:
     bool mShowQuit;
     bool mShowText;
     bool mCanRunWithoutMagicPad;
+    bool mShowInformationButton;
 
     QPixmap _bg;
 
