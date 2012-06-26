@@ -78,7 +78,6 @@ add_subdirectory("3rdparty/QsLog")
 find_package(OpenCV REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
 
-
 #
 # Plugins
 #

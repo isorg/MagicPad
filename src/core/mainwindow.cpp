@@ -401,7 +401,7 @@ void MainWindow::loadApplets(QGraphicsScene *scene)
         if( plugin )
         {
             AppletInterface *papplet = qobject_cast<AppletInterface *>(plugin);
-            if (papplet)
+            if( papplet )
             {
                 QLOG_INFO() << TAG << "Plugin" << papplet->title() << "loaded successfully";
                 papplet->setParent( mAppletRect );
