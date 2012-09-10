@@ -77,6 +77,10 @@ add_subdirectory("3rdparty/QsLog")
 #
 find_package(OpenCV REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
+if(NOT(OpenCV_VERSION STREQUAL "2.4.0"))
+  message("Your OpenCV version : " ${OpenCV_VERSION})
+  message("The requiered version : 2.4.0")
+endif(NOT(OpenCV_VERSION STREQUAL "2.4.0"))
 
 #
 # Plugins

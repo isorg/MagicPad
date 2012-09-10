@@ -50,8 +50,11 @@ int main(int argc, char *argv[])
 
     // Print program info: Version, Start time, ...
     QLOG_INFO() << "------------------------------------------------------------";
-    QLOG_INFO() << QDateTime::currentDateTime().toString("yyyy-MM-dd @ hh:mm:ss")
-                << "- MagicPad v" << MAGICPAD_VERSION_STR;
+    QLOG_INFO() << QDateTime::currentDateTime().toString("yyyy-MM-dd @ hh:mm:ss");
+
+    QLOG_INFO() << "MagicPad version : " << MAGICPAD_VERSION_STR;
+    QLOG_INFO() << "QT version : " << QT_VERSION_STR;
+    QLOG_INFO() << "OpenCV version : " << OPENCV_VERSION;
 
     splash.showMessage( "Building main application" );
     MainWindow w;

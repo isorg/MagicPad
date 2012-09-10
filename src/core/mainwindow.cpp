@@ -378,7 +378,7 @@ void MainWindow::loadApplets(QGraphicsScene *scene)
     registerApplet( new MusicApplet( mAppletRect ) );
     registerApplet( new OpdApplet( mAppletRect ) );
     registerApplet( new PictureFlowApplet( mAppletRect ) );
-    registerApplet( new PongApplet( mAppletRect ) );
+    //registerApplet( new PongApplet( mAppletRect ) );
     registerApplet( new PurpleApplet( mAppletRect ) );
     registerApplet( new RollingballApplet( mAppletRect ) );
     registerApplet( new SlideshowApplet( mAppletRect ) );
