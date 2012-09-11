@@ -67,7 +67,6 @@ void MainWindow::setupUI()
     mLogger = new LoggerDialog( this );
 
     mScreen = QApplication::desktop()->screenGeometry();
-    QLOG_DEBUG() << TAG << mScreen;
 
     QGraphicsScene *scene = new QGraphicsScene( this );
     scene->setSceneRect( mScreen );

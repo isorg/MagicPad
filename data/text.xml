@@ -31,15 +31,17 @@
         </applet>
 
         <applet name="gesture">
-                <description>Draw shapes using the tip of your finger. Pre-registered shapes can be detected demonstrating the gesture recognition capabilities of the MagicPad.</description>
+                <!-- <description>Draw shapes using the tip of your finger. Pre-registered shapes can be detected demonstrating the gesture recognition capabilities of the MagicPad.</description> -->
+                <description>Draw shapes using the tip of your finger. </description>
                 <marketing>Typical application includes innovative user interfaces, security and authentication systems, games and entertainement. </marketing>
-                <technical>Motion calculation is based on Farneback dense optical flow algorithm. Motion direction is sampled and compared against a dictionary.</technical>
+                <!--<technical>Motion calculation is based on Farneback dense optical flow algorithm. Motion direction is sampled and compared against a dictionary.</technical>-->
+                <technical>Motion calculation is based on Farneback dense optical flow algorithm.</technical>
         </applet>
 		
         <applet name="imagedisplay">
                 <description>Display raw image from the sensor. Every single sensors of the MagicPad are mapped to a pixel of this image. Bright pixels means that sensor receive more light.</description>
-                <marketing>This is the marketing text imagedisplay. The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
-                <technical>ISORG organic photodiodes are light sensitive from 400nm (blue) to 850nm (near infrared). Sensor framerate is fixed at 20 frames per second but can go as high as 1000fps for specific application. The organic photodiode rise time is less than 1µs.</technical>
+                <marketing></marketing>
+                <technical>ISORG organic photodiodes are light sensitive from 400nm (blue) to 850nm (near infrared). Sensor framerate is fixed at 20 frames per second but can go as high as 1000fps for specific application. The organic photodiode rise time is less than 1us.</technical>
         </applet>
 		
         <applet name="maps">
@@ -116,7 +118,7 @@
 		
         <applet name="twist">
                 <description>This applet shows a virtual button that can be twisted like a real one.</description>
-                <marketing>This is the marketing text. twist The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
+                <marketing></marketing>
                 <technical>The three representations (Knob, Oven timer and Optical Flow) are based on the same algorithm: the Farneback dense optical flow. Local (dense) vector motion is computed for every pixel to obtain a two-dimentional vector field. Global field motion can be translated into a rotation measurement.</technical>
         </applet>
 		
