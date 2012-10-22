@@ -13,9 +13,9 @@
         </applet>
 		
         <applet name="bargraph">
-                <description>This is the bargraph description text. The description text briefly descibes the applets and how to use it.</description>
-                <marketing>This is the marketing text bargraph. The marketing text list all advantages of ISORG solution when compared to competitors.</marketing>
-                <technical>This is the technical text bargraph. The technical text explain some details about the applet and usefull information about the sensors.</technical>
+                <description>This applet plots a 3D bargraph representing the light intensity over the MagicPad. Each bar correspond to a pixel.</description>
+                <marketing>ISORG optical sensor enables a broad new range of 3D interactive user interfaces by adding a 3rd dimension. MagicPad sensor provides unique interface for gaming, automotive and consumer electronic.</marketing>
+                <technical>The sensor can use ambiant light or can be coupled with an infrared emitter to increase robusteness. </technical>
         </applet>
 
         <applet name="bulb">

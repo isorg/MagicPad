@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     else
     {
         QList<MagicPadDevice> L = magicPad->listDevices();
-        QLOG_INFO() << L.size() << "MagicPad devices found";
+        QLOG_INFO() << L.size() << "MagicPad device(s) found";
         if(L.size() > 0)
         {
             mProducer->setDevice(L.first());
@@ -369,6 +369,7 @@ void MainWindow::loadApplets(QGraphicsScene *scene)
     //
     registerApplet( new AlphabetApplet( mAppletRect ) );
     registerApplet( new BacklightApplet( mAppletRect ) );
+    registerApplet( new BargraphApplet( mAppletRect ) );
     registerApplet( new BulbApplet( mAppletRect ) );
     registerApplet( new DjApplet( mAppletRect ) );
     registerApplet( new GestureApplet( mAppletRect ) );
