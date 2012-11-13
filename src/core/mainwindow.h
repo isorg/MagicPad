@@ -107,6 +107,22 @@ protected:
 
     void keyPressEvent(QKeyEvent *e);
 
+    void resizeEvent(QResizeEvent *event)
+    {
+        int sz;
+        if( mShowText ) {
+            sz = width() - 510;
+        } else {
+            sz = width() - 200;
+            sz = qMin( 1.3*(height()-50), (double)sz );
+        }
+        mAppletRect->resize( sz, height()-50 );
+
+        if(mCurrentApplet)
+            mCurrentApplet->resize( mAppletRect->size() );
+    }
+
+
 public slots:
 
     void closeCurrentApplet();
