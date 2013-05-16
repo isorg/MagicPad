@@ -16,7 +16,8 @@
 #include "loggerDialog.h"
 
 // Com
-#include "com/magicPad.h"
+#include "com/magicPadDevice.h"
+#include "com/m64BirDevice.h"
 #include "com/frameProducer.h"
 
 // Applets

@@ -67,6 +67,13 @@ link_directories("${PROJECT_SOURCE_DIR}/3rdparty/ftdi/i386")
 magicpad_install_files("${PROJECT_SOURCE_DIR}/3rdparty/ftdi/i386/ftd2xx.dll" ".")
 
 #
+# Find libusb
+#
+include_directories("${CMAKE_SOURCE_DIR}/LibUSB-Win32/include")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/CMake)
+find_package(LibUSB REQUIRED)
+
+#
 # QsLog library
 #
 include_directories("3rdparty/QsLog")
@@ -77,10 +84,10 @@ add_subdirectory("3rdparty/QsLog")
 #
 find_package(OpenCV REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
-if(NOT(OpenCV_VERSION STREQUAL "2.4.0"))
+if(NOT(OpenCV_VERSION STREQUAL "2.4.4"))
   message("Your OpenCV version : " ${OpenCV_VERSION})
-  message("The requiered version : 2.4.0")
-endif(NOT(OpenCV_VERSION STREQUAL "2.4.0"))
+  message("The requiered version : 2.4.4")
+endif(NOT(OpenCV_VERSION STREQUAL "2.4.4"))
 
 #
 # Plugins
@@ -109,6 +116,7 @@ target_link_libraries(MagicPad
     ${OpenCV_LIBS}
     ${OPENGL_LIBRARIES} #${GLUT_LIBRARY}
     ftd2xx
+    ${LIBUSB_LIBRARIES}
     )
 
 install(TARGETS MagicPad DESTINATION ".")

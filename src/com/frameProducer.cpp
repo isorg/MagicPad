@@ -4,9 +4,8 @@
  * Constructor
  */
 FrameProducer::FrameProducer()
-    : mDevice(0, "")
 {
-
+    mDevice = NULL;
 }
 
 /**
@@ -14,17 +13,23 @@ FrameProducer::FrameProducer()
  */
 void FrameProducer::run()
 {
-    QTimer *timer = new QTimer( );
-    timer->setInterval(40);
-
-    MagicPad *magicPad = new MagicPad();
-    if(!magicPad->connectDevice(mDevice))
+    if( mDevice == NULL )
     {
-        QLOG_ERROR() << "Unable to connect to MagicPad on COM port" << mDevice.comport;
+        QLOG_ERROR() << "No device defined";
+        return;
     }
 
-    connect(timer, SIGNAL(timeout()), magicPad, SLOT(getDeviceFrame()));
-    connect(magicPad, SIGNAL(newFrame(MagicPadFrame*)), this, SLOT(getNewFrame(MagicPadFrame*)));
+    // Set framerate
+    QTimer *timer = new QTimer( );
+    timer->setInterval( mDevice->maxFramerate() );
+
+    if( ! mDevice->connectDevice() )
+    {
+        QLOG_ERROR() << "Unable to connect to a GenericDevice";
+    }
+
+    connect( timer, SIGNAL( timeout() ), mDevice, SLOT( getDeviceFrame() ) );
+    connect( mDevice, SIGNAL( newFrame( cv::Mat& ) ) , this, SLOT( getNewFrame( cv::Mat& ) ) );
 
     timer->start();
 
@@ -35,7 +40,7 @@ void FrameProducer::run()
 /**
  * Set the magicPad device
  */
-void FrameProducer::setDevice(MagicPadDevice& device)
+void FrameProducer::setDevice( GenericDevice* device )
 {
     mDevice = device;
 }
@@ -43,24 +48,7 @@ void FrameProducer::setDevice(MagicPadDevice& device)
 /**
  *
  */
-void FrameProducer::getNewFrame(MagicPadFrame *frame)
+void FrameProducer::getNewFrame( cv::Mat& frame )
 {
-    // send new frame to listener
-    //emit newFrame( frame->img, frame->timestamp );
-    emit newFrame( frame->img );
-
-    // compute producer framerate
-    static int frameCnt = 0;
-    static unsigned long int prevTime = 0;
-    if(frameCnt == 24)
-    {
-        //double fps = (25 * 1000) / (frame->timestamp - prevTime);
-        //emit framerateChanged( fps );
-        frameCnt = 0;
-        prevTime = frame->timestamp;
-    }
-    else
-    {
-        frameCnt++;
-    }
+    emit newFrame( frame );
 }

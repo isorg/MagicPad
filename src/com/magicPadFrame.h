@@ -5,6 +5,11 @@
 
 #include <QtCore>
 
+typedef enum {
+    MAGICPAD,
+    M64BIR
+} OriginDevice ;
+
 /**
  *
  */
@@ -15,6 +20,7 @@ public:
     {
         img = cv::Mat(10, 10, CV_8U);
         timestamp = 0;
+        origin = MAGICPAD;
     }
 
     MagicPadFrame(unsigned char *data, long unsigned int _timestamp = 0)
@@ -31,6 +37,9 @@ public:
 
     cv::Mat img;
     long unsigned int timestamp;
+    OriginDevice origin;
+
+
 };
 
 #endif // MAGICPADFRAME_H

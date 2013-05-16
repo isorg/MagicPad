@@ -2,8 +2,8 @@
 #define FRAMEPRODUCER_H
 
 #include <QThread>
-
-#include "com/magicPad.h"
+#include <opencv2/opencv.hpp>
+#include "com/genericDevice.h"
 
 /**
  *
@@ -19,25 +19,19 @@ public:
 
     void run();
 
-    void setDevice(MagicPadDevice& device);
+    void setDevice( GenericDevice* device );
 
 signals:
 
-    void newFrame(const cv::Mat & frame, long unsigned int timestamp);
-    //void newFrame(cv::Mat frame);
-    void newFrame( cv::Mat & frame );
+    void newFrame( cv::Mat& frame );
 
 public slots:
 
-    void getNewFrame(MagicPadFrame *frame);
+    void getNewFrame( cv::Mat& frame );
 
 private:
 
-    MagicPadDevice mDevice;
-
-    bool mFirstFrame;
-
-    cv::Mat mReferenceFrame;
+    GenericDevice *mDevice;
 };
 
 #endif // FRAMEPRODUCER_H
